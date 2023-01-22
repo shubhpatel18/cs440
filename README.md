@@ -6,32 +6,85 @@ This repository contains the CS 440 Tau Team Application Artifact.
 
 ## Database
 
-This project uses PostgreSQL and pgAdmin4.
+This project uses `PostgreSQL` and `pgAdmin4`.
 
 ### Installation
 
 ```bash
-./install.bash
+./postgres_install.bash
 ```
 
-You will be prompted for an email address and password for pgAdmin4, save these.
+You will be prompted for an email address and password for `pgAdmin4`, save these.
 
-### Configuration
+### User Configuration
 
-Access the postgres command line.
+1. Access the `postgres` command line.
 
-```bash
-sudo -u postgres psql postgres
-```
+	```bash
+	sudo -u postgres psql postgres
+	```
 
-Change the password.
+2. Set a password for the postgres superuser. This is required to use `pgAdmin4`.
 
-```postgres
-alter user postgres with password '<YOUR_PASSWORD_HERE>';
-```
+	```postgres
+	ALTER USER postgres WITH PASSWORD '<POSTGRES_PASSWORD_HERE>';
+	```
 
-Duplicate `database_secrets_template.toml` as `database_secrets.toml`, and fill in your password.
+3. Create a new user for this project.
 
-### Management (via pgAdmin4)
+	```postgres
+	CREATE USER tau WITH PASSWORD '<TAU_PASSWORD_HERE>';
+	```
 
-Navigate to `http://localhost/pgadmin4` in a browser. Login using the credentials you configured earlier.
+	Duplicate `server/resources/config_template.yaml` as `server/resources/config.yaml`,
+	and fill in your password.
+
+4. Enable password authentication for the new user.
+
+	```bash
+	sudo vim /etc/postgresql/14/main/pg_hba.conf
+	```
+
+	At the bottom of the file, below
+
+	```conf
+	# TYPE  DATABASE        USER            ADDRESS                 METHOD
+	```
+
+	add
+
+	```conf
+	# CS 440 Team Tau User
+	local   all             tau                                     password
+	```
+
+### Database Configuration
+
+1. Establish an admin server connection.
+
+	1. Navigate to `http://localhost/pgadmin4` in a browser. Login using the credentials
+	you configured earlier.
+	2. Right click on `servers` in the left pane. Click `Register > Server`.
+	3. Under `General`, set the name to `postgres`.
+	4. Under `Connection`, set `Hostname/address`:`localhost`, `Username`:`postgres`,
+	`Password`:`<POSTGRES_PASSWORD_HERE>`.
+	5. Click `Save`.
+
+2. Set up the project database.
+
+	1. Open the `Severs` dropdown menu and click on `postgres` under `Databases`.
+	2. In the menu bar, click `Tools > Query Tool`.
+	3. Copy `databases/create_db.sql` into the `Query` box, and click the "play" icon.
+	4. Right click `Databases` and select `Refresh`. The `tau` database should appear.
+	5. Click the `tau` database. Once again, in the menu bar, click `Tools > Query Tool`.
+	6. Copy `databases/create_table_players.sql` into the `Query` box, and click the "play" icon.
+	7. Copy `databases/create_table_colleges.sql` into the `Query` box, and click the "play" icon.
+	8. Copy `databases/create_table_users.sql` into the `Query` box, and click the "play" icon.
+	9. Copy `databases/create_table_user_teams.sql` into the `Query` box, and click the "play" icon.
+
+3. Upload the `players` and `colleges` tables' data.
+
+	1. In the menu bar, click `Tools > Storage Manager`. Click the three dots in the top
+	right, then select `Upload`.
+	2. Drag and drop all of the files matching `database/data/*.csv`.
+	3. ???

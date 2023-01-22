@@ -1,1 +1,12 @@
-database_secrets.toml
+# environment
+venv
+
+# confidential
+server/resources/config.yaml
+
+# temporary
+__pycache__
+server/data_logs
+
+# vscode
+.markdownlint.json

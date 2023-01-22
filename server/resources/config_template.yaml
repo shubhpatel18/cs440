@@ -1,0 +1,7 @@
+database:
+  dbname: tau
+  username: tau
+  password: 
+  
+collegefootballstats:
+  apikey:
