@@ -69,7 +69,7 @@ class CFBDCollector:
 		players_data = defaultdict(_player_dict)
 
 		# populate roster information from each team
-		for id, college in colleges:
+		for college, id in colleges.items():
 			for player in self.scraper.get_team_roster(college, year):
 				# make sure the minimum identification information is present in the data
 				if player.first_name and player.last_name and player.position:
@@ -80,7 +80,7 @@ class CFBDCollector:
 					players_data[player.id]['injury_status'] = 'Healthy'
 
 		# populate player stats
-		for _, college in colleges:
+		for college, _ in colleges.items():
 			for player in self.scraper.get_player_stats(college, year, start_week, end_week):
 				stat = f'{player.category}{player.stat_type}'
 
@@ -97,3 +97,17 @@ class CFBDCollector:
 						print(player)  # print the data of players who are not in the roster
 
 		return players_data
+
+	def get_conference_data(self, year, conference, college_to_id):
+		conference_data = []
+		for college in self.scraper.get_team_records(year, conference):
+			college_data = {
+				'college_id': college_to_id[college.team],
+				'college_name': college.team,
+				'wins': college.total.wins,
+				'ties': college.total.ties,
+				'losses': college.total.losses,
+			}
+			conference_data.append(college_data)
+
+		return conference_data

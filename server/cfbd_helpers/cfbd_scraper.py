@@ -9,6 +9,7 @@ class CFBDScraper:
 
 		self.teams_api = cfbd.TeamsApi(cfbd.ApiClient(configuration))
 		self.players_api = cfbd.PlayersApi(cfbd.ApiClient(configuration))
+		self.games_api = cfbd.GamesApi(cfbd.ApiClient(configuration))
 
 	def get_team_roster(self, team, year):
 		try:
@@ -31,3 +32,13 @@ class CFBDScraper:
 			return response
 		except ApiException as e:
 			print("Exception when calling PlayersApi->get_player_season_stats: %s\n" % e)
+
+	def get_team_records(self, year, conference):
+		try:
+			response = self.games_api.get_team_records(
+				year=year,
+				# team=None,
+				conference=conference)
+			return response
+		except ApiException as e:
+			print("Exception when calling GamesApi->get_team_records: %s\n" % e)
