@@ -57,6 +57,8 @@ def main():
 
 		publish_players_data(db_name, db_username, db_password, players_data, week)
 
+		# TODO get the college wins/ties/losses
+
 ### helper functions #########################################################
 
 def get_players_data(apikey, colleges, year, week):

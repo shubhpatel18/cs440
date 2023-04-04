@@ -1,8 +1,11 @@
 CREATE TABLE IF NOT EXISTS public.colleges
 (
-	name character varying(50) COLLATE pg_catalog."default" NOT NULL,
-	id integer NOT NULL,
-	CONSTRAINT colleges_pkey PRIMARY KEY (id)
+	college_id serial,
+	college_name character varying(50) NOT NULL,
+	wins integer NOT NULL DEFAULT 0,
+	ties integer NOT NULL DEFAULT 0,
+	losses integer NOT NULL DEFAULT 0,
+	CONSTRAINT colleges_pkey PRIMARY KEY (college_id)
 )
 
 TABLESPACE pg_default;

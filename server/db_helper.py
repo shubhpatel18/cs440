@@ -1,21 +1,21 @@
 ### publish player data ######################################################
 
 _players_columns = [
-	('id', 						'%s'),
-	('name', 					'%s'),
-	('position', 				'%s'),
-	('college_id', 				'%s'),
-	('total_yards', 			'%s'),
-	('touchdowns', 				'%s'),
-	('turnovers_lost', 			'%s'),
-	('receptions', 				'%s'),
-	('sacks', 					'%s'),
-	('tackles_for_loss', 		'%s'),
-	('interceptions', 			'%s'),
-	('fumbles_recovered', 		'%s'),
-	('punting_yards', 			'%s'),
-	('field_goal_percentage', 	'%s'),
-	('injury_status', 			'%s'),
+	('player_id', 			'%s'),
+	('player_name', 		'%s'),
+	('position', 			'%s'),
+	('receptions', 			'%s'),
+	('total_yards', 		'%s'),
+	('touchdowns', 			'%s'),
+	('turnovers_lost', 		'%s'),
+	('sacks', 				'%s'),
+	('tackles_for_loss', 	'%s'),
+	('interceptions', 		'%s'),
+	('fumbles_recovered', 	'%s'),
+	('punting_yards', 		'%s'),
+	('fg_percentage', 		'%s'),
+	('injury_status', 		'%s'),
+	('college_id', 			'%s'),
 ]
 
 # unpack _players_columns into the components of the insert statement
@@ -28,11 +28,10 @@ def publish_player_data(cursor, data, week):
 		data['id'],
 		data['name'],
 		data['position'],
-		data['college_id'],
+		data['receptions'],
 		data['total_yards'],
 		data['touchdowns'],
 		data['turnovers_lost'],
-		data['receptions'],
 		data['sacks'],
 		data['tackles_for_loss'],
 		data['interceptions'],
@@ -40,6 +39,7 @@ def publish_player_data(cursor, data, week):
 		data['punting_yards'],
 		data['fg_percentage'],
 		data['injury_status'],
+		data['college_id'],
 	]
 
 	# insert the data into the database
@@ -66,18 +66,18 @@ def main():
 		'id': 1,
 		'name': 'Brock Purdy',
 		'position': 'QB',
-		'college_id': 1,
+		'receptions': 1,
 		'total_yards': 2500,
 		'touchdowns': 16,
 		'turnovers_lost': 4,
-		'receptions': 1,
 		'sacks': 0,
 		'tackles_for_loss': 0,
 		'interceptions': 0,
 		'fumbles_recovered': 0,
 		'punting_yards': 0,
 		'fg_percentage': 0,
-		'injury_status': 'Healthy'
+		'injury_status': 'Healthy',
+		'college_id': 1,
 	}
 	week = 1
 

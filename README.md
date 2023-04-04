@@ -36,8 +36,10 @@ You will be prompted for an email address and password for `pgAdmin4`, save thes
 	CREATE USER tau WITH PASSWORD '<TAU_PASSWORD_HERE>';
 	```
 
+	You can now exit the `postgres` command line.
+
 	Duplicate `server/resources/config_template.yaml` as `server/resources/config.yaml`,
-	and fill in your password.
+	and fill in your password. Do not commit this file to the repo.
 
 4. Enable password authentication for the new user.
 
@@ -80,7 +82,7 @@ You will be prompted for an email address and password for `pgAdmin4`, save thes
 	6. Copy `databases/create_table_players.sql` into the `Query` box, and click the "play" icon.
 	7. Copy `databases/create_table_colleges.sql` into the `Query` box, and click the "play" icon.
 	8. Copy `databases/create_table_users.sql` into the `Query` box, and click the "play" icon.
-	9. Copy `databases/create_table_user_teams.sql` into the `Query` box, and click the "play" icon.
+	9. Copy `databases/create_table_fantasy_teams.sql` into the `Query` box, and click the "play" icon.
 
 3. Upload the `players` and `colleges` tables' data.
 
