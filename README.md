@@ -86,7 +86,7 @@ You will be prompted for an email address and password for `pgAdmin4`, save thes
 
 3. Upload the `players` and `colleges` tables' data.
 
-	1. In the menu bar, click `Tools > Storage Manager`. Click the three dots in the top
-	right, then select `Upload`.
-	2. Drag and drop all of the files matching `database/data/*.csv`.
-	3. ???
+	1. Go to `https://collegefootballdata.com/key` and get an API key.
+	2. Add your api key to your `server/resources/config.yaml`.
+	3. Run `server/db_populator.py`.
+	4. Check that the data is in your database, or if you got an errors.
