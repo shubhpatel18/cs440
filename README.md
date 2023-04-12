@@ -14,6 +14,10 @@ This project uses `PostgreSQL` and `pgAdmin4`.
 ./postgres_install.bash
 ```
 
+```bash
+pip install -r requirements.txt
+```
+
 You will be prompted for an email address and password for `pgAdmin4`, save these.
 
 ### User Configuration
