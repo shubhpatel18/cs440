@@ -48,7 +48,7 @@ You will be prompted for an email address and password for `pgAdmin4`, save thes
 4. Enable password authentication for the new user.
 
 	```bash
-	sudo vim /etc/postgresql/14/main/pg_hba.conf
+	sudo vim /etc/postgresql/*/main/pg_hba.conf
 	```
 
 	At the bottom of the file, below
