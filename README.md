@@ -84,7 +84,7 @@ sudo systemctl restart postgresql.service
 
 2. Set up the project database.
 
-	1. Open the `Severs` dropdown menu and click on `postgres` under `Databases`.
+	1. Open the `Severs` dropdown menu and click on `postgres > Databases > postgres`.
 	2. In the menu bar, click `Tools > Query Tool`.
 	3. Copy `databases/create_db.sql` into the `Query` box, and click the "play" icon.
 	4. Right click `Databases` and select `Refresh`. The `tau` database should appear.
