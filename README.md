@@ -97,6 +97,6 @@ sudo systemctl restart postgresql.service
 3. Upload the `players` and `colleges` tables' data.
 
 	1. Go to `https://collegefootballdata.com/key` and get an API key.
-	2. Add your api key to your `server/resources/config.yaml`.
+	2. Add your API key to your `server/resources/config.yaml`.
 	3. Run `server/db_populator.py`.
 	4. Check that the data is in your database, or if you got an errors.
