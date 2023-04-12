@@ -64,6 +64,12 @@ You will be prompted for an email address and password for `pgAdmin4`, save thes
 	local   all             tau                                     password
 	```
 
+5. Restart `postgressql`.
+
+```bash
+sudo systemctl restart postgresql.service
+```
+
 ### Database Configuration
 
 1. Establish an admin server connection.
