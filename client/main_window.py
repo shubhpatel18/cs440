@@ -9,6 +9,9 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from ui_python.main_window_widget import Ui_MainWindow
+from ui_python.login_dialog import Ui_LoginDialog
+
+# from login import LoginDialog
 
 class MainWindow(QMainWindow):
     def __init__(self, title: str="Team Tau Fantasy Football", *args, **kwargs) -> None:
@@ -21,6 +24,9 @@ class MainWindow(QMainWindow):
         self.main_window = Ui_MainWindow()
         self.main_window.setupUi(self)
 
+        self.login_button = self.main_window.login_button
+        self.login_button.clicked.connect(self.open_login)
+
         self.shortcut_fullscreen = QShortcut(QKeySequence('F11'), self)
         self.shortcut_fullscreen.activated.connect(self.toggle_fullscreen)
 
@@ -29,6 +35,11 @@ class MainWindow(QMainWindow):
 
         self.shortcut_quit = QShortcut(QKeySequence('Ctrl+Q'), self)
         self.shortcut_quit.activated.connect(self.sigHandler)
+
+    def open_login(self):
+        login_dialog_box = LoginDialog()
+
+        login_dialog_box.exec()
 
     def toggle_fullscreen(self):
         if self.isFullScreen():
@@ -59,6 +70,13 @@ class AppRunner():
         timer.timeout.connect(lambda: None)
 
         sys.exit(app.exec_())
+
+class LoginDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+
+        self.login_dialog = Ui_LoginDialog()
+        self.login_dialog.setupUi(self)
 
 if __name__ == '__main__':
     app = AppRunner(MainWindow)
