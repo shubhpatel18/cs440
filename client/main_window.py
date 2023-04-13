@@ -8,6 +8,8 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
+from ui_python.main_window_widget import Ui_MainWindow
+
 class MainWindow(QMainWindow):
     def __init__(self, title: str="Team Tau Fantasy Football", *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -16,11 +18,8 @@ class MainWindow(QMainWindow):
         # self.setWindowIcon(QIcon(str(icon_path)))
         self.setWindowTitle(title)
 
-        self.layout = QVBoxLayout()
-
-        self.main_widget = QWidget()
-        self.main_widget.setLayout(self.layout)
-        self.setCentralWidget(self.main_widget)
+        self.main_window = Ui_MainWindow()
+        self.main_window.setupUi(self)
 
         self.shortcut_fullscreen = QShortcut(QKeySequence('F11'), self)
         self.shortcut_fullscreen.activated.connect(self.toggle_fullscreen)
