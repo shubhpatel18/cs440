@@ -5,3 +5,7 @@ database:
   
 collegefootballstats:
   apikey:
+
+server:
+  address: http://localhost
+  port: 44080
