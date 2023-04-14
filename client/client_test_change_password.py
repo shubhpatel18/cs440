@@ -18,7 +18,7 @@ def main():
 	url = f'http://{server_address}:{server_port}/change_password'
 	post_data = {
 		'username':'test',
-		'old_password':'old_password',
+		'old_password':'password',
 		'new_password':'new_password',
 	}
 
