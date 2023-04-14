@@ -6,7 +6,7 @@ import yaml
 
 from config_reader import read_config
 from cfbd_helpers.cfbd_collector import CFBDCollector
-from db_helper import publish_player_data, publish_college_data
+from db_populator_helper import publish_player_data, publish_college_data
 
 def main():
 	dir_path = os.path.dirname(os.path.realpath(__file__))
