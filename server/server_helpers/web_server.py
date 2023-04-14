@@ -126,15 +126,16 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 
 	def _post_signup(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
 		username = post_dict.get('username', None)
+		name = post_dict.get('name', None)
 		password = post_dict.get('password', None)
-		if not (username and password):
+		if not (username and name and password):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'signup_successful': False,
 				'username_taken': False,
 				'valid_request': False,
 			}
 
-		signup_successful, username_taken, error = self.db_helper.signup(username, password)
+		signup_successful, username_taken, error = self.db_helper.signup(username, name, password)
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		elif username_taken: return_code = HTTPReturnCode.BAD_REQUEST
 		else: return_code = HTTPReturnCode.OK

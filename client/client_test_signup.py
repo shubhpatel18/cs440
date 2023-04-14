@@ -18,6 +18,7 @@ def main():
 	url = f'http://{server_address}:{server_port}/signup'
 	post_data = {
 		'username':'test',
+		'name':'Test',
 		'password':'password',
 	}
 
