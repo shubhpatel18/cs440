@@ -1,3 +1,4 @@
+cfbd
+requests
 psycopg
 pyyaml
-cfbd

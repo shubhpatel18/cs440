@@ -11,8 +11,20 @@ class TauDBHelper:
 		self.db_password = db_password
 
 	def check_login(self, username, password) -> Tuple[bool, bool]:
-		# TODO
-		login_successful = True
+		hashed_password = hashlib.md5(password.encode()).hexdigest()
+
+		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
+			with conn.cursor() as curs:
+				# check if username is taken
+				curs.execute("SELECT * FROM users WHERE username=%s and password=%s", (username, hashed_password))
+				if curs.rowcount:
+					# username exists
+					login_successful = True
+
+				# user does not exist
+				else:
+					login_successful = False
+
 		error = False
 		return login_successful, error
 
