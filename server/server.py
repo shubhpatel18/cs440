@@ -22,7 +22,7 @@ def main():
 
 	db_helper = TauDBHelper(db_name, db_username, db_password)
 	httpd = TauHTTPServer(server_address, int(server_port), db_helper)
-	
+
 	print(f'Starting httpd on port {server_port}...')
 	httpd.serve_forever()
 

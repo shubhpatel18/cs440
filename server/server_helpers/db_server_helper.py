@@ -22,13 +22,11 @@ class TauDBHelper:
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if username is taken
-				curs.execute("SELECT * FROM users")
+				curs.execute("SELECT * FROM users WHERE username=%s", [username])
 				if curs.rowcount:
 					# username taken
 					signup_successful = False
 					username_taken = True
-					error = False
-					return signup_successful, username_taken, error
 
 				# sign up user
 				else:
@@ -37,8 +35,10 @@ class TauDBHelper:
 					)
 					signup_successful = True
 					username_taken = False
-					error = False
+					
 			conn.commit()  # commit changes after data has been processed
+
+		error = False
 		return signup_successful, username_taken, error
 
 	def change_password(self, username, old_password, new_password) -> Tuple[bool, bool]:
