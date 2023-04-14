@@ -89,23 +89,20 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 	### post #################################################################
 
 	def do_POST(self):
-		content_length = int(self.headers['Content-Length'])
-		post_data = self.rfile.read(content_length)
+		if self.headers['Content-Type'] != 'application/json':
+			self._set_headers(HTTPReturnCode.BAD_REQUEST)
+			self.wfile.write(json.dumps({'valid_request': 'false'}).encode())
+			return
 
-		self._set_response()
-		self.wfile.write("POST request for {}".format(self.path).encode('utf-8'))
-
-		# content_type, param_dict = cgi.parse_header(self.headers.getheader('content-type'))
-
-		# # TODO: refuse to receive non-json content
-		# if content_type != 'application/json':
-		# 	self._set_headers(HTTPReturnCode.BAD_REQUEST)
-		# 	return
-
-		# read the message and convert it into a python dictionary
-		length = int(self.headers.getheader('content-length'))
+		# read the json data and convert it into a dictionary
+		length = int(self.headers['Content-Length'])
 		post_data = self.rfile.read(length)
-		post_dict = json.loads(post_data)
+		try:
+			post_dict = json.loads(post_data)
+		except json.JSONDecodeError:
+			self._set_headers(HTTPReturnCode.BAD_REQUEST)
+			self.wfile.write(json.dumps({'valid_request': 'false'}).encode())
+			return
 
 		path, param_dict, error = self._parse_path()
 		if path == '/example': post_handler = self._post_example
