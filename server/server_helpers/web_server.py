@@ -31,18 +31,21 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.send_header('Content-type', 'application/json')
 		self.end_headers()
 
-	def _path(self) -> Tuple[str, Dict[str, str]]:
-		path_split = self.path.split('?')
-		path = path_split[0]
-		param_dict = {}
-		if len(path_split) > 1:
-			param_str = path_split[1]
-			param_pairs = param_str.split(',')
-			for pair in param_pairs:
-				k, v = pair.split('=')
-				param_dict[k] = v
-		print(path)
-		return path, param_dict
+	def _parse_path(self) -> Tuple[str, Dict[str, str], bool]:
+		try:
+			path_split = self.path.split('?')
+			path = path_split[0]
+			param_dict = {}
+			if len(path_split) > 1:
+				param_str = path_split[1]
+				param_pairs = param_str.split('&')
+				for pair in param_pairs:
+					k, v = pair.split('=')
+					param_dict[k] = v
+			print(path)
+			return path, param_dict, False
+		except ValueError as e:
+			return '', {}, True
 
 	def do_HEAD(self):
 		self._set_headers()
@@ -50,7 +53,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 	### get ##################################################################
 
 	def do_GET(self):
-		path, param_dict = self._path()
+		path, param_dict, error = self._parse_path()
 		if path == '/example': get_handler = self._get_example
 		elif path == '/login': get_handler = self._get_login
 		else: get_handler = self._get_default
@@ -104,7 +107,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		post_data = self.rfile.read(length)
 		post_dict = json.loads(post_data)
 
-		path, param_dict = self._path()
+		path, param_dict, error = self._parse_path()
 		if path == '/example': post_handler = self._post_example
 		elif path == '/signup': post_handler = self._post_signup
 		elif path == '/change_password': post_handler = self._post_change_password
