@@ -9,9 +9,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from ui_python.main_window_widget import Ui_MainWindow
-from ui_python.login_dialog import Ui_LoginDialog
-
-# from login import LoginDialog
+from login import LoginDialog
 
 class MainWindow(QMainWindow):
     def __init__(self, title: str="Team Tau Fantasy Football", *args, **kwargs) -> None:
@@ -70,13 +68,6 @@ class AppRunner():
         timer.timeout.connect(lambda: None)
 
         sys.exit(app.exec_())
-
-class LoginDialog(QDialog):
-    def __init__(self):
-        super().__init__()
-
-        self.login_dialog = Ui_LoginDialog()
-        self.login_dialog.setupUi(self)
 
 if __name__ == '__main__':
     app = AppRunner(MainWindow)
