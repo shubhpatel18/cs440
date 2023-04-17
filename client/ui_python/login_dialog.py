@@ -60,6 +60,7 @@ class Ui_LoginDialog(object):
         self.gridLayout.addWidget(self.username_edit, 0, 1, 1, 1)
         self.password_edit = QtWidgets.QLineEdit(LoginDialog)
         self.password_edit.setObjectName("password_edit")
+        self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.gridLayout.addWidget(self.password_edit, 1, 1, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
         self.buttonBox = QtWidgets.QDialogButtonBox(LoginDialog)
