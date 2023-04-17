@@ -7,5 +7,5 @@ collegefootballstats:
   apikey:
 
 server:
-  address: http://localhost
+  address: localhost
   port: 44080
