@@ -6,11 +6,14 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from ui_python.login_dialog import Ui_LoginDialog
+from link import Link
 from config_reader import read_config
 
 class LoginDialog(QDialog):
-    def __init__(self):
+    def __init__(self, link: Link):
         super().__init__()
+
+        self.link = link
 
         self.verified = False
 
@@ -43,4 +46,5 @@ class LoginDialog(QDialog):
 
         if data['login_successful'] == True:
             self.verified = True
+            self.link.username = username
             print("Login verified")

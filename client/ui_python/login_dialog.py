@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_LoginDialog(object):
     def setupUi(self, LoginDialog):
         LoginDialog.setObjectName("LoginDialog")
-        LoginDialog.resize(390, 330)
+        LoginDialog.resize(666, 529)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -60,7 +60,6 @@ class Ui_LoginDialog(object):
         self.gridLayout.addWidget(self.username_edit, 0, 1, 1, 1)
         self.password_edit = QtWidgets.QLineEdit(LoginDialog)
         self.password_edit.setObjectName("password_edit")
-        self.password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.gridLayout.addWidget(self.password_edit, 1, 1, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
         self.buttonBox = QtWidgets.QDialogButtonBox(LoginDialog)

@@ -11,14 +11,17 @@ from PyQt5.QtWidgets import *
 from ui_python.main_window_widget import Ui_MainWindow
 from login import LoginDialog
 from signup import SignupDialog
+from link import Link
 
 class MainWindow(QMainWindow):
-    def __init__(self, title: str="Team Tau Fantasy Football", *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+
+        self.link = Link()
 
         # icon_path = Path(__file__).parent.resolve / "filepath/filename"
         # self.setWindowIcon(QIcon(str(icon_path)))
-        self.setWindowTitle(title)
+        self.setWindowTitle("Team Tau Fantasy Football")
 
         self.main_window = Ui_MainWindow()
         self.main_window.setupUi(self)
@@ -38,13 +41,19 @@ class MainWindow(QMainWindow):
         self.shortcut_quit = QShortcut(QKeySequence('Ctrl+Q'), self)
         self.shortcut_quit.activated.connect(self.sigHandler)
 
+        self.error_label = self.main_window.error_label
+
     def open_login(self):
-        login_dialog_box = LoginDialog()
+        login_dialog_box = LoginDialog(self.link)
 
         login_dialog_box.exec()
+
+        if login_dialog_box.verified == False:
+            self.error_label.setText("Login Failed. Please try again.")
+            self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
         
     def open_signup(self):
-        signup_dialog_box = SignupDialog()
+        signup_dialog_box = SignupDialog(self.link)
         
         signup_dialog_box.exec()
 
