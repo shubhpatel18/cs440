@@ -9,6 +9,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from ui_python.main_window_widget import Ui_MainWindow
+from ui_python.another_window_widget import Ui_AnotherWindow
 from login import LoginDialog
 from signup import SignupDialog
 from link import Link
@@ -51,6 +52,9 @@ class MainWindow(QMainWindow):
         if login_dialog_box.verified == False:
             self.error_label.setText("Login Failed. Please try again.")
             self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
+            return
+        
+        self.showAnotherWindow()
         
     def open_signup(self):
         signup_dialog_box = SignupDialog(self.link)
@@ -68,6 +72,24 @@ class MainWindow(QMainWindow):
 
     def sigHandler(*args):
         QApplication.quit()
+
+    def showAnotherWindow(self):
+        self.close()
+        self.open = AnotherWindow(self.link)
+        self.open.setWindowTitle("Team Tau Fantasy Football")
+        self.open.show()
+
+class AnotherWindow(QMainWindow):
+    def __init__(self, link: Link, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+        self.link = Link()
+
+        # icon_path = Path(__file__).parent.resolve / "filepath/filename"
+        # self.setWindowIcon(QIcon(str(icon_path)))
+
+        self.main_window = Ui_AnotherWindow()
+        self.main_window.setupUi(self)
 
 class AppRunner():
     def __init__(self, WindowType: QMainWindow):

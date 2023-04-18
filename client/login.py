@@ -47,4 +47,3 @@ class LoginDialog(QDialog):
         if data['login_successful'] == True:
             self.verified = True
             self.link.username = username
-            print("Login verified")
