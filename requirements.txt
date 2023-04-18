@@ -2,3 +2,4 @@ cfbd
 requests
 psycopg
 pyyaml
+pyqt5
