@@ -61,12 +61,16 @@ class MainWindow(QMainWindow):
         
         signup_dialog_box.exec()
         
-        if signup_dialog_box.valid == False:
-            self.error_label.setText("Invalid sign up request. Please try again.")
+        if signup_dialog_box.success == True:
+            self.showAnotherWindow()
+        elif signup_dialog_box.cancel == True:
+            return
+        elif signup_dialog_box.username_taken == True:
+            self.error_label.setText("Username already taken. Please try a different username.")
             self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
             return
-        elif signup_dialog_box.unique_username == False:
-            self.error_label.setText("Username already taken. Please try a different username.")
+        elif signup_dialog_box.valid == False:
+            self.error_label.setText("Invalid sign up request. Please try again.")
             self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
             return
         elif signup_dialog_box.success == False:
@@ -74,7 +78,6 @@ class MainWindow(QMainWindow):
             self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
             return
         
-        self.showAnotherWindow()
 
     def toggle_fullscreen(self):
         if self.isFullScreen():

@@ -15,8 +15,9 @@ class SignupDialog(QDialog):
 
         self.link = link
         
+        self.cancel = False
         self.valid = False
-        self.unique_username = False
+        self.username_taken = True
         self.success = False
 
         self.signup_dialog = Ui_SignupDialog()
@@ -24,6 +25,9 @@ class SignupDialog(QDialog):
         
         self.ok_button = self.signup_dialog.buttonBox
         self.ok_button.accepted.connect(lambda: self.configure_credentials(self.signup_dialog.username_edit.text(), self.signup_dialog.name_edit.text(), self.signup_dialog.password_edit.text()))
+       
+        self.cancel_button = self.signup_dialog.buttonBox
+        self.cancel_button.rejected.connect(lambda: self.cancel_signup())
         
     def configure_credentials(self, username, name, password):
         dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -47,8 +51,12 @@ class SignupDialog(QDialog):
         r = requests.post(url=url, json=post_data)
         data = r.json()
         
-        if data['signup_successful'] == True:
-            self.valid = True
-            self.unique_username = True
-            self.success = True
+        self.success = data['signup_successful']
+        self.username_taken = data['username_taken']
+        self.valid = data['valid_request']
+        
+        if self.success:
             self.link.username = username
+            
+    def cancel_signup(self):
+        self.cancel = True
