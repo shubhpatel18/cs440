@@ -60,6 +60,13 @@ class MainWindow(QMainWindow):
         signup_dialog_box = SignupDialog(self.link)
         
         signup_dialog_box.exec()
+        
+        if signup_dialog_box.success == False:
+            self.error_label.setText("Sign up Failed. Please try again.")
+            self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
+            return
+        
+        self.showAnotherWindow()
 
     def toggle_fullscreen(self):
         if self.isFullScreen():
