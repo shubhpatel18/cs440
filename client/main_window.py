@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
         login_dialog_box.exec()
 
         if login_dialog_box.verified == False:
-            self.error_label.setText("Login Failed. Please try again.")
+            self.error_label.setText("Login failed. Please try again.")
             self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
             return
         
@@ -61,8 +61,12 @@ class MainWindow(QMainWindow):
         
         signup_dialog_box.exec()
         
-        if signup_dialog_box.success == False:
-            self.error_label.setText("Sign up Failed. Please try again.")
+        if signup_dialog_box.unique_username == False:
+            self.error_label.setText("Username already taken. Please try a different username.")
+            self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
+            return
+        elif signup_dialog_box.success == False:
+            self.error_label.setText("Sign up failed. Please try again.")
             self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
             return
         

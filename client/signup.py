@@ -15,6 +15,7 @@ class SignupDialog(QDialog):
 
         self.link = link
         
+        self.unique_username = False
         self.success = False
 
         self.signup_dialog = Ui_SignupDialog()
@@ -47,4 +48,5 @@ class SignupDialog(QDialog):
         
         if data['signup_successful'] == True:
             self.success = True
+            self.unique_username = True
             self.link.username = username
