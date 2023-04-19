@@ -57,13 +57,16 @@ class Ui_ChangePasswordDialog(object):
         sizePolicy.setHeightForWidth(self.current_password_edit.sizePolicy().hasHeightForWidth())
         self.current_password_edit.setSizePolicy(sizePolicy)
         self.current_password_edit.setObjectName("current_password_edit")
+        self.current_password_edit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.gridLayout.addWidget(self.current_password_edit, 0, 2, 1, 1)
-        self.new_password_edit_2 = QtWidgets.QLineEdit(ChangePasswordDialog)
-        self.new_password_edit_2.setObjectName("new_password_edit_2")
-        self.gridLayout.addWidget(self.new_password_edit_2, 2, 2, 1, 1)
         self.new_password_edit_1 = QtWidgets.QLineEdit(ChangePasswordDialog)
         self.new_password_edit_1.setObjectName("new_password_edit_1")
+        self.new_password_edit_1.setEchoMode(QtWidgets.QLineEdit.Password)
         self.gridLayout.addWidget(self.new_password_edit_1, 1, 2, 1, 1)
+        self.new_password_edit_2 = QtWidgets.QLineEdit(ChangePasswordDialog)
+        self.new_password_edit_2.setObjectName("new_password_edit_2")
+        self.new_password_edit_2.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.gridLayout.addWidget(self.new_password_edit_2, 2, 2, 1, 1)
         self.new_password_label_1 = QtWidgets.QLabel(ChangePasswordDialog)
         self.new_password_label_1.setObjectName("new_password_label_1")
         self.gridLayout.addWidget(self.new_password_label_1, 1, 0, 1, 1, QtCore.Qt.AlignRight)
@@ -83,7 +86,7 @@ class Ui_ChangePasswordDialog(object):
 
     def retranslateUi(self, ChangePasswordDialog):
         _translate = QtCore.QCoreApplication.translate
-        ChangePasswordDialog.setWindowTitle(_translate("ChangePasswordDialog", "Sign In"))
+        ChangePasswordDialog.setWindowTitle(_translate("ChangePasswordDialog", "Change Password"))
         self.label_3.setText(_translate("ChangePasswordDialog", "Change Password"))
         self.current_password_label.setText(_translate("ChangePasswordDialog", "Current Password:"))
         self.new_password_label_2.setText(_translate("ChangePasswordDialog", "Verify New Password:"))
