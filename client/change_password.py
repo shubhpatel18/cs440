@@ -31,28 +31,17 @@ class ChangePasswordDialog(QDialog):
 
 
     def change_password(self, username, current_password, new_password, new_password_verify):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-
-        ### read config ##########################################################
-
-        config_file_path = os.path.join(dir_path, 'resources', 'config.yaml')
-        config = read_config(config_file_path)
-        server_address = config['server']['address']
-        server_port = config['server']['port']
-
-        ### change password #####################################################
-
         if new_password != new_password_verify:
-            cancel_password_change()
+            self.cancel_password_change()
 
-        url = f'http://{server_address}:{server_port}/change_password'
+        url = f'{self.link.server_address}:{self.link.server_port}/change_password'
         post_data = {
             'username':username,
             'old_password':current_password,
             'new_password':new_password,
         }
 
-        r = requests.post(url=url, json=post_data)
+        r = requests.post(url=url, json=post_data, verify=self.link.server_cert)
         data = r.json()
         print(data)
 
@@ -64,5 +53,3 @@ class ChangePasswordDialog(QDialog):
 
     def cancel_password_change(self):
         self.cancel = True
-
-            
