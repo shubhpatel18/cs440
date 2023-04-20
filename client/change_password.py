@@ -33,7 +33,7 @@ class ChangePasswordDialog(QDialog):
     def change_password(self, username, current_password, new_password, new_password_verify):
         dir_path = os.path.dirname(os.path.realpath(__file__))
 
-	    ### read config ##########################################################
+        ### read config ##########################################################
 
         config_file_path = os.path.join(dir_path, 'resources', 'config.yaml')
         config = read_config(config_file_path)
@@ -43,26 +43,26 @@ class ChangePasswordDialog(QDialog):
         ### change password #####################################################
 
         if new_password != new_password_verify:
-        	cancel_password_change()
+            cancel_password_change()
 
-		url = f'http://{server_address}:{server_port}/change_password'
-		post_data = {
-			'username':username,
-			'old_password':current_password,
-			'new_password':new_password,
-		}
+        url = f'http://{server_address}:{server_port}/change_password'
+        post_data = {
+            'username':username,
+            'old_password':current_password,
+            'new_password':new_password,
+        }
 
-		r = requests.post(url=url, json=post_data)
-		data = r.json()
+        r = requests.post(url=url, json=post_data)
+        data = r.json()
+        print(data)
 
-		if data['valid_request'] = True:
-			self.valid = True
+        if data['valid_request'] == True:
+            self.valid = True
 
-		if data['password_change_successful'] = True:
-			self.success = True
-
+        if data['password_change_successful'] == True:
+            self.success = True
 
     def cancel_password_change(self):
-    	self.cancel = True
+        self.cancel = True
 
             
