@@ -24,24 +24,13 @@ class LoginDialog(QDialog):
         self.ok_button.accepted.connect(lambda: self.verify_credentials(self.login_dialog.username_edit.text(), self.login_dialog.password_edit.text()))
 
     def verify_credentials(self, username, password):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-
-	    ### read config ##########################################################
-
-        config_file_path = os.path.join(dir_path, 'resources', 'config.yaml')
-        config = read_config(config_file_path)
-        server_address = config['server']['address']
-        server_port = config['server']['port']
-
-        ### test login ###########################################################
-
-        url = f'http://{server_address}:{server_port}/login'
+        url = f'{self.link.server_address}:{self.link.server_port}/login'
         params = {
-		    'username': username,
-		    'password': password,
-	    }
+            'username': username,
+            'password': password,
+        }
 
-        r = requests.get(url=url, params=params)
+        r = requests.get(url=url, params=params, verify=self.link.server_cert)
         data = r.json()
 
         if data['login_successful'] == True:

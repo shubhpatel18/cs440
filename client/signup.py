@@ -30,25 +30,14 @@ class SignupDialog(QDialog):
         self.cancel_button.rejected.connect(lambda: self.cancel_signup())
         
     def configure_credentials(self, username, name, password):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-
-	    ### read config ##########################################################
-     
-        config_file_path = os.path.join(dir_path, 'resources', 'config.yaml')
-        config = read_config(config_file_path)
-        server_address = config['server']['address']
-        server_port = config['server']['port']
-
-	    ### test sign up ###########################################################
-
-        url = f'http://{server_address}:{server_port}/signup'
+        url = f'{self.link.server_address}:{self.link.server_port}/signup'
         post_data = {
-		    'username': username,
-		    'name': name,
-		    'password': password,
-	    }
+            'username': username,
+            'name': name,
+            'password': password,
+        }
 
-        r = requests.post(url=url, json=post_data)
+        r = requests.post(url=url, json=post_data, verify=self.link.server_cert)
         data = r.json()
         
         self.success = data['signup_successful']

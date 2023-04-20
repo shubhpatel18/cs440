@@ -2,7 +2,6 @@
 
 import sys
 import signal
-from pathlib import Path
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -77,7 +76,6 @@ class MainWindow(QMainWindow):
             self.error_label.setText("Sign up failed. Please try again.")
             self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
             return
-        
 
     def toggle_fullscreen(self):
         if self.isFullScreen():
