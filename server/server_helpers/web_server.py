@@ -57,9 +57,11 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 
 	# this function must be named this to override parent class
 	def do_GET(self):
-		path, param_dict, error = self._parse_path()
-		if path == '/example': get_handler = self._get_example
-		elif path == '/login': get_handler = self._get_login
+		base_path, param_dict, error = self._parse_path()
+		if base_path == '/example': get_handler = self._get_example
+		elif base_path == '/login': get_handler = self._get_login
+		elif base_path == '/fantasy_team': get_handler = self._get_fantasy_team
+		elif base_path == '/available_players': get_handler = self._get_available_players
 		else: get_handler = self._get_default
 		return_code, json_response = get_handler(param_dict)
 
@@ -90,6 +92,14 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			'valid_request': True,
 		}
 
+	def _get_fantasy_team(self, param_dict: Dict) -> Tuple[int, Dict]:
+		# TODO Kate
+		return HTTPReturnCode.OK, {'valid_request': False}
+
+	def _get_available_players(self, param_dict: Dict) -> Tuple[int, Dict]:
+		# TODO Shubh
+		return HTTPReturnCode.OK, {'valid_request': False}
+
 	### post #################################################################
 
 	# this function must be named this to override parent class
@@ -109,10 +119,12 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			self.wfile.write(json.dumps({'valid_request': 'false'}).encode())
 			return
 
-		path, param_dict, error = self._parse_path()
-		if path == '/example': post_handler = self._post_example
-		elif path == '/signup': post_handler = self._post_signup
-		elif path == '/change_password': post_handler = self._post_change_password
+		base_path, param_dict, error = self._parse_path()
+		if base_path == '/example': post_handler = self._post_example
+		elif base_path == '/signup': post_handler = self._post_signup
+		elif base_path == '/change_password': post_handler = self._post_change_password
+		elif base_path == '/create_fantasy_team': post_handler = self._post_create_fantasy_team
+		elif base_path == '/add_player': post_handler = self._post_add_player
 		else: post_handler = self._post_default
 		return_code, json_response = post_handler(param_dict, post_dict)
 
@@ -167,3 +179,11 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			'password_change_successful': password_change_successful,
 			'valid_request': True,
 		}
+
+	def _post_create_fantasy_team(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
+		# TODO: Shubh
+		return HTTPReturnCode.OK, {'valid_request': 'false'}
+
+	def _post_add_player(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
+		# TODO: Shubh
+		return HTTPReturnCode.OK, {'valid_request': 'false'}

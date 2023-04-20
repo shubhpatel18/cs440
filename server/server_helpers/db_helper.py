@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Dict, Tuple, List 
 
 import hashlib
 
@@ -70,3 +70,27 @@ class TauDBHelper:
 
 		error = False
 		return password_change_successful, error
+
+	def create_fantasy_team(self, team_name: str, user: str) -> Tuple[bool, bool]:
+		# TODO: Shubh
+		create_team_successful = False
+		error = True
+		return create_team_successful, error
+
+	def view_fantasy_team(self, user: str) -> Tuple[List[Dict], bool]:
+		# TODO: Kate
+		fantasy_team = []
+		error = True
+		return fantasy_team, error
+
+	def add_player_to_fantasy_team(self, player_name: str) -> Tuple[bool, bool]:
+		# TODO: Shubh
+		add_player_successful = False
+		error = True
+		return add_player_successful, error
+
+	def get_players_available_user(self, user: str, week: int) -> Tuple[List[Dict], bool]:
+		# TODO: Shubh
+		available_players = []
+		error = True
+		return available_players, error
