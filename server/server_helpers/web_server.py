@@ -1,3 +1,5 @@
+#!python3.8
+
 import json
 from enum import IntEnum
 from typing import Tuple, Dict

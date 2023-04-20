@@ -20,6 +20,38 @@ pip install -r requirements.txt
 
 You will be prompted for an email address and password for `pgAdmin4`, save these.
 
+## Server
+
+```bash
+
+python3 server/server.py
+```
+
+Enter the password for your certificate (generated in the steps below) when prompted.
+
+### Certificate
+
+From the root directory of the project
+
+```bash
+openssl req -x509 -newkey rsa:2048 -addext "subjectAltName = DNS:localhost" -keyout server/resources/key.pem -out server/resources/cert.pem -days 365
+cp server/resources/cert.pem client/resources/cert.pem
+```
+
+Follow the prompts and put in whatever inputs you want. Example inputs shown below.
+
+**Note that the PEM key must be 4-1024 characters.**.
+
+```plaintext
+Country Name (2 letter code) [AU]:US
+State or Province Name (full name) [Some-State]:West Virginia
+Locality Name (eg, city) []:Morgantown
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Roster Rookies 
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:tau
+Email Address []:tau@tau.com
+```
+
 ### User Configuration
 
 1. Access the `postgres` command line.

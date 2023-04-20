@@ -1,3 +1,5 @@
+#!python3.8
+
 ### publish player data ######################################################
 
 _players_columns = [

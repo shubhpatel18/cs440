@@ -1,3 +1,5 @@
+#!python3.8
+
 from main_window import AppRunner, MainWindow
 
 class FantasyWindow(MainWindow):

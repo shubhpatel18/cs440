@@ -4,6 +4,8 @@ import hashlib
 
 import psycopg
 
+#!python3.8
+
 class TauDBHelper:
 	def __init__(self, db_name: str, db_username: str, db_password: str) -> None:
 		self.db_name = db_name

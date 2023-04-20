@@ -1,3 +1,5 @@
+#!python3.8
+
 import cfbd
 from cfbd.rest import ApiException
 

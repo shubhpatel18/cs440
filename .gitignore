@@ -3,6 +3,8 @@ venv
 
 # confidential
 server/resources/config.yaml
+server/resources/cert.pem
+server/resources/key.pem
 
 # temporary
 __pycache__

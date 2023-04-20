@@ -1,3 +1,5 @@
+#!python3.8
+
 from collections import defaultdict
 
 from cfbd_helpers import CFBDScraper
