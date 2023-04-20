@@ -4,7 +4,7 @@ from typing import Tuple, Dict
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from server_helpers.db_server_helper import TauDBHelper
+from server_helpers.db_helper import TauDBHelper
 
 class HTTPReturnCode(IntEnum):
 	OK = 200
@@ -47,11 +47,13 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		except ValueError as e:
 			return '', {}, True
 
+	# this function must be named this to override parent class
 	def do_HEAD(self):
 		self._set_headers()
 
 	### get ##################################################################
 
+	# this function must be named this to override parent class
 	def do_GET(self):
 		path, param_dict, error = self._parse_path()
 		if path == '/example': get_handler = self._get_example
@@ -88,6 +90,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 
 	### post #################################################################
 
+	# this function must be named this to override parent class
 	def do_POST(self):
 		if self.headers['Content-Type'] != 'application/json':
 			self._set_headers(HTTPReturnCode.BAD_REQUEST)

@@ -3,7 +3,7 @@ import os
 from config_reader import read_config
 
 from server_helpers.web_server import TauHTTPServer
-from server_helpers.db_server_helper import TauDBHelper
+from server_helpers.db_helper import TauDBHelper
 
 def main():
 	dir_path = os.path.dirname(os.path.realpath(__file__))
