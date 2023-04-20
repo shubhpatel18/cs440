@@ -24,6 +24,19 @@
        <attribute name="title">
         <string>Profile</string>
        </attribute>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>588</x>
+          <y>10</y>
+          <width>141</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Change Password</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

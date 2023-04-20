@@ -18,6 +18,8 @@ class ChangePasswordDialog(QDialog):
         self.link = link
 
         self.cancel = False
+        self.valid = False
+        self.success = False
 
         self.change_password_dialog = Ui_ChangePasswordDialog()
         self.change_password_dialog.setupUi(self)
@@ -52,6 +54,12 @@ class ChangePasswordDialog(QDialog):
 
 		r = requests.post(url=url, json=post_data)
 		data = r.json()
+
+		if data['valid_request'] = True:
+			self.valid = True
+
+		if data['password_change_successful'] = True:
+			self.success = True
 
 
     def cancel_password_change(self):
