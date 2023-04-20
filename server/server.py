@@ -22,6 +22,7 @@ def main():
 	server_port = config['server']['port']
 	server_cert_rel_path = config['server']['certfile']
 	server_key_rel_path = config['server']['keyfile']
+	server_password = config['server']['cert_password']
 
 	file_path = os.path.dirname(__file__)
 	server_cert = os.path.join(file_path, server_cert_rel_path)
@@ -30,7 +31,7 @@ def main():
 	### web server ###########################################################
 
 	ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-	ssl_context.load_cert_chain(server_cert, server_key)
+	ssl_context.load_cert_chain(server_cert, server_key, server_password)
 
 	db_helper = TauDBHelper(db_name, db_username, db_password)
 	httpd = TauHTTPServer(server_address, int(server_port), db_helper)

@@ -11,3 +11,4 @@ server:
   port: 44080
   certfile: /server/resources/cert.pem
   keyfile: /server/resources/key.pem
+  cert_password: 
