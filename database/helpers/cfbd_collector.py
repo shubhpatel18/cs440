@@ -95,8 +95,7 @@ class CFBDCollector:
 						players_data[player.player_id][player_stat] += player.stat
 					# Team stats are expected not to be in the roster
 					elif player.player != ' Team':
-						print(f'year: {year}, start_week: {start_week}, end_week: {end_week}')
-						print(player)  # print the data of players who are not in the roster
+						print(f'Bad data for player: {player.player} for year: {year}, start_week: {start_week}, end_week: {end_week}')
 
 		return players_data
 

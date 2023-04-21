@@ -3,7 +3,6 @@
 ### publish player data ######################################################
 
 _players_columns = [
-	('player_id', 			'%s'),
 	('player_name', 		'%s'),
 	('position', 			'%s'),
 	('receptions', 			'%s'),
@@ -18,6 +17,8 @@ _players_columns = [
 	('fg_percentage', 		'%s'),
 	('injury_status', 		'%s'),
 	('college_id', 			'%s'),
+	('year', 				'%s'),
+	('week', 				'%s'),
 ]
 
 # unpack _players_columns into the components of the insert statement
@@ -25,9 +26,8 @@ _players_column_names, _players_column_data_types, = zip(*_players_columns)
 _players_column_names_str = ', '.join(_players_column_names)
 _players_data_types_str = ', '.join(_players_column_data_types)
 
-def publish_player_data(cursor, data, week):
+def publish_player_data(cursor, data, year, week):
 	values = [
-		data['id'],
 		data['name'],
 		data['position'],
 		data['receptions'],
@@ -42,10 +42,12 @@ def publish_player_data(cursor, data, week):
 		data['fg_percentage'],
 		data['injury_status'],
 		data['college_id'],
+		year,
+		week
 	]
 
 	# insert the data into the database
-	cursor.execute(f'INSERT INTO players_2022_w{week} ({_players_column_names_str}) VALUES ({_players_data_types_str})', values)
+	cursor.execute(f'INSERT INTO players ({_players_column_names_str}) VALUES ({_players_data_types_str})', values)
 
 ### publish college data #####################################################
 
@@ -79,7 +81,7 @@ def publish_college_data(cursor, data):
 def main():
 	import os
 	import psycopg
-	from config_reader import read_config
+	from common.config_reader import read_config
 
 	dir_path = os.path.dirname(os.path.realpath(__file__))
 	config_file_path = os.path.join(dir_path, 'resources', 'config.yaml')

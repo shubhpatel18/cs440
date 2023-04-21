@@ -38,6 +38,7 @@ def main():
 		'Texas Tech': 9,
 		'West Virginia': 10,
 	}
+	college_names = ', '.join(colleges.keys())
 	weeks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
 	formatted_time_str = dt.now().strftime('%Y_%m_%d-T%H_%M_%S')
@@ -53,12 +54,14 @@ def main():
 
 	# get data for each week, publish, and log
 	for week in weeks:
+		print(f'Collecting {year} week {week} data for {college_names}')
 		players_data = get_players_data(apikey, colleges, year, week)
 
+		print(f'Publishing {year} week {week} data for {college_names}')
 		players_log_file_name = players_log_file_name_fmt.format(week=week)
 		players_log_file_path = os.path.join(data_logs_folder_path, players_log_file_name)
 		write_players_data(players_data, players_log_file_path)
-		publish_players_data(db_name, db_username, db_password, players_data, week)
+		publish_players_data(db_name, db_username, db_password, players_data, year, week)
 
 	# get college data
 	colleges_data = get_conference_data(apikey, year, conference, colleges)
@@ -80,12 +83,12 @@ def write_players_data(players_data, file_path):
 	with open(file_path, 'w') as file:
 		file.write(formatted_data)
 
-def publish_players_data(db_name, db_username, db_password, players_data, week):
+def publish_players_data(db_name, db_username, db_password, players_data, year, week):
 	with psycopg.connect(f'dbname={db_name} user={db_username} password={db_password}') as conn:
 		with conn.pipeline():
 			with conn.cursor() as cursor:
 				for player_data in players_data.values():
-					publish_player_data(cursor, player_data, week)
+					publish_player_data(cursor, player_data, year, week)
 		conn.commit()  # commit changes after all data has been processed
 
 def get_conference_data(apikey, year, conference, college_to_id):
