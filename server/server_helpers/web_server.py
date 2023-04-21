@@ -97,8 +97,22 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		return HTTPReturnCode.OK, {'valid_request': False}
 
 	def _get_available_players(self, param_dict: Dict) -> Tuple[int, Dict]:
-		# TODO Shubh
-		return HTTPReturnCode.OK, {'valid_request': False}
+		username = param_dict.get('username', None)
+		year = param_dict.get('year', None)
+		week = param_dict.get('week', None)
+		if not (username and year and week):
+			return HTTPReturnCode.BAD_REQUEST, {
+				'available_players': [],
+				'valid_request': False,
+			}
+
+		available_players, error = self.db_helper.get_players_available_to_user(username, year, week)
+		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
+		else: return_code = HTTPReturnCode.OK
+		return return_code, {
+			'available_players': available_players,
+			'valid_request': True,
+		}
 
 	### post #################################################################
 
@@ -181,9 +195,35 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _post_create_fantasy_team(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		# TODO: Shubh
-		return HTTPReturnCode.OK, {'valid_request': 'false'}
+		team_name = post_dict.get('team_name', None)
+		username = post_dict.get('username', None)
+		if not (team_name and username):
+			return HTTPReturnCode.BAD_REQUEST, {
+				'create_team_successful': False,
+				'valid_request': False,
+			}
+
+		create_team_successful, error = self.db_helper.create_fantasy_team(team_name, username)
+		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
+		else: return_code = HTTPReturnCode.OK
+		return return_code, {
+			'create_team_successful': create_team_successful,
+			'valid_request': True,
+		}
 
 	def _post_add_player(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		# TODO: Shubh
-		return HTTPReturnCode.OK, {'valid_request': 'false'}
+		player_name = post_dict.get('player_name', None)
+		team_name = post_dict.get('team_name', None)
+		if not (player_name and team_name):
+			return HTTPReturnCode.BAD_REQUEST, {
+				'add_player_successful': False,
+				'valid_request': False,
+			}
+
+		add_player_successful, error = self.db_helper.add_player_to_fantasy_team(player_name, team_name)
+		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
+		else: return_code = HTTPReturnCode.OK
+		return return_code, {
+			'add_player_successful': add_player_successful,
+			'valid_request': True,
+		}

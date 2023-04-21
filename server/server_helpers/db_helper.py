@@ -71,7 +71,7 @@ class TauDBHelper:
 		error = False
 		return password_change_successful, error
 
-	def create_fantasy_team(self, team_name: str, user: str) -> Tuple[bool, bool]:
+	def create_fantasy_team(self, team_name: str, username: str) -> Tuple[bool, bool]:
 		# TODO: Shubh
 		create_team_successful = False
 		error = True
