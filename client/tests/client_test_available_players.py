@@ -23,7 +23,7 @@ def main():
 
 	url = f'{server_address}:{server_port}/available_players'
 	post_data = {
-		'username': 'test',
+		'team_name': 'Test Team',
 		'year': 2022,
 		'week': 5
 	}

@@ -21,7 +21,7 @@ def main():
 
 	### test login ###########################################################
 
-	url = f'{server_address}:{server_port}/fantasy_team'
+	url = f'{server_address}:{server_port}/fantasy_teams'
 	params = {
 		'username': 'test'
 	}

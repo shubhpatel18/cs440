@@ -60,7 +60,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		base_path, param_dict, error = self._parse_path()
 		if base_path == '/example': get_handler = self._get_example
 		elif base_path == '/login': get_handler = self._get_login
-		elif base_path == '/fantasy_team': get_handler = self._get_fantasy_team
+		elif base_path == '/fantasy_teams': get_handler = self._get_fantasy_teams
 		elif base_path == '/available_players': get_handler = self._get_available_players
 		else: get_handler = self._get_default
 		return_code, json_response = get_handler(param_dict)
@@ -92,7 +92,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			'valid_request': True,
 		}
 
-	def _get_fantasy_team(self, param_dict: Dict) -> Tuple[int, Dict]:
+	def _get_fantasy_teams(self, param_dict: Dict) -> Tuple[int, Dict]:
 		# TODO Kate
 		return HTTPReturnCode.OK, {'valid_request': False}
 

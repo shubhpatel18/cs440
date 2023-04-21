@@ -21,7 +21,7 @@ class TauDBHelper:
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if credentials are correct
-				curs.execute("SELECT * FROM users WHERE username=%s and password=%s", (username, hashed_password))
+				curs.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, hashed_password))
 				login_successful = curs.rowcount > 0
 
 		error = False
@@ -59,10 +59,10 @@ class TauDBHelper:
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if credentials are correct
-				curs.execute("SELECT * FROM users WHERE username=%s and password=%s", (username, hashed_old_password))
+				curs.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, hashed_old_password))
 				if curs.rowcount:
 					# credentials correct
-					curs.execute("UPDATE users SET password=%s WHERE username=%s and password=%s;",
+					curs.execute("UPDATE users SET password=%s WHERE username=%s AND password=%s;",
 						(hashed_new_password, username, hashed_old_password)
 					)
 					password_change_successful = True
@@ -71,10 +71,12 @@ class TauDBHelper:
 				else:
 					password_change_successful = False
 
+			conn.commit()  # commit changes after data has been processed
+
 		error = False
 		return password_change_successful, error
 
-	def create_fantasy_team(self, team_name: str, username: str) -> Tuple[bool, bool]:
+	def create_fantasy_team(self, team_name: str, username: str) -> Tuple[bool, bool, bool]:
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if user exists, and get id
@@ -94,14 +96,17 @@ class TauDBHelper:
 					create_team_successful = False
 					user_exists = False
 
+			conn.commit()  # commit changes after data has been processed
+
 		error = False
 		return create_team_successful, user_exists, error
 
-	def view_fantasy_team(self, username: str) -> Tuple[List[Dict], bool]:
+	def view_fantasy_teams(self, username: str) -> Tuple[Dict[Dict[Dict]], bool]:
 		# TODO: Kate
-		fantasy_team = []
+		# position info for each team associated with a user
+		fantasy_teams = {}
 		error = True
-		return fantasy_team, error
+		return fantasy_teams, error
 
 	def add_player_to_fantasy_team(self, player_name: str, team_name: str) -> Tuple[bool, bool]:
 		# TODO: Shubh
