@@ -1,5 +1,6 @@
 #!python3.8
 
+import json
 import os
 import requests
 
@@ -22,15 +23,15 @@ def main():
 	### test login ###########################################################
 
 	url = f'{server_address}:{server_port}/available_players'
-	post_data = {
+	params = {
 		'team_name': 'Test Team',
 		'year': 2022,
 		'week': 5
 	}
 
-	r = requests.post(url=url, json=post_data, verify=server_cert)
+	r = requests.get(url=url, params=params, verify=server_cert)
 	data = r.json()
-	print(data)
+	print(json.dumps(data, indent=4))
 
 if __name__ == '__main__':
 	main()

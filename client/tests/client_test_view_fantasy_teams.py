@@ -1,5 +1,6 @@
 #!python3.8
 
+import json
 import os
 import requests
 
@@ -28,7 +29,7 @@ def main():
 
 	r = requests.get(url=url, params=params, verify=server_cert)
 	data = r.json()
-	print(data)
+	print(json.dumps(data, indent=4))
 
 if __name__ == '__main__':
 	main()
