@@ -119,7 +119,8 @@ cp server/resources/cert.pem client/resources/cert.pem
 
 Follow the prompts and put in whatever inputs you want. Example inputs shown below.
 
-**Note that the PEM key must be 4-1024 characters.**. Add the PEM key to `server/resources/config.yaml`
+**Note that the PEM key must be 4-1024 characters.**.
+Add the PEM key(cert password) to `server/resources/config.yaml`
 
 ```plaintext
 Country Name (2 letter code) [AU]:US

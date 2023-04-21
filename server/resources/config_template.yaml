@@ -6,6 +6,6 @@ database:
 server:
   address: localhost
   port: 44080
-  certfile: /server/resources/cert.pem
-  keyfile: /server/resources/key.pem
+  certfile: resources/cert.pem
+  keyfile: resources/key.pem
   cert_password: 
