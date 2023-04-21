@@ -4,8 +4,9 @@ venv
 # confidential
 database/resources/config.yaml
 server/resources/config.yaml
-server/resources/cert.pem
 server/resources/key.pem
+server/resources/cert.pem
+client/resources/cert.pem
 
 # generated
 __pycache__
