@@ -16,43 +16,40 @@ class TauDBHelper:
 		self.db_password = db_password
 
 	def check_login(self, username, password) -> Tuple[bool, bool]:
+		"""returns login_successful, error"""
+
 		hashed_password = hashlib.md5(password.encode()).hexdigest()
 
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if credentials are correct
-				curs.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, hashed_password))
-				login_successful = curs.rowcount > 0
-
-		error = False
-		return login_successful, error
+				curs.execute("SELECT * FROM users WHERE username=%s AND password=%s",
+					(username, hashed_password))
+				credentials_correct = curs.rowcount > 0
+				return credentials_correct, False
 
 	def signup(self, username, name, password) -> Tuple[bool, bool, bool]:
+		"""returns signup_successful, username_taken, error"""
+
 		hashed_password = hashlib.md5(password.encode()).hexdigest()
 
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if username is taken
 				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
-				if curs.rowcount:
-					# username taken
-					signup_successful = False
-					username_taken = True
+				username_taken = curs.rowcount > 0
+				if username_taken:
+					return False, True, False
 
 				# sign up user
-				else:
-					curs.execute("INSERT INTO users (username, name, password) VALUES (%s, %s, %s);",
-						(username, name, hashed_password)
-					)
-					signup_successful = True
-					username_taken = False
-
-			conn.commit()  # commit changes after data has been processed
-
-		error = False
-		return signup_successful, username_taken, error
+				curs.execute("INSERT INTO users (username, name, password) VALUES (%s, %s, %s);",
+					(username, name, hashed_password))
+				conn.commit()
+				return True, False, False
 
 	def change_password(self, username, old_password, new_password) -> Tuple[bool, bool]:
+		"""returns password_change_successful, error"""
+
 		hashed_old_password = hashlib.md5(old_password.encode()).hexdigest()
 		hashed_new_password = hashlib.md5(new_password.encode()).hexdigest()
 
@@ -60,46 +57,42 @@ class TauDBHelper:
 			with conn.cursor() as curs:
 				# check if credentials are correct
 				curs.execute("SELECT * FROM users WHERE username=%s AND password=%s", (username, hashed_old_password))
-				if curs.rowcount:
-					# credentials correct
-					curs.execute("UPDATE users SET password=%s WHERE username=%s AND password=%s;",
-						(hashed_new_password, username, hashed_old_password)
-					)
-					password_change_successful = True
+				credentials_correct = curs.rowcount > 0
+				if not credentials_correct:
+					return False, False
 
-				# credentials incorrect
-				else:
-					password_change_successful = False
-
-			conn.commit()  # commit changes after data has been processed
-
-		error = False
-		return password_change_successful, error
+				# update password
+				curs.execute("UPDATE users SET password=%s WHERE username=%s AND password=%s;",
+					(hashed_new_password, username, hashed_old_password))
+				conn.commit()
+				return True, False
 
 	def create_fantasy_team(self, team_name: str, username: str) -> Tuple[bool, bool, bool]:
+		"""returns create_team_successful, user_exists, user_already_using_team_name, error"""
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
-				# check if user exists, and get id
+				# check if user exists
 				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
-				if curs.rowcount:
-					# user exists
-					row = curs.fetchone()
-					user_id = int(row[0])
-					curs.execute("INSERT INTO fantasy_teams (team_name, user_id) VALUES (%s, %s);",
-						(team_name, user_id)
-					)
-					create_team_successful = True
-					user_exists = True
+				user_exists = curs.rowcount > 0
+				if not user_exists:
+					return False, False, False, False
 
-				# user does not exist
-				else:
-					create_team_successful = False
-					user_exists = False
+				# get user id
+				user_info = curs.fetchone()
+				user_id = int(user_info[0])
 
-			conn.commit()  # commit changes after data has been processed
+				# check if team name already being used by user
+				curs.execute("SELECT * FROM fantasy_teams WHERE team_name=%s AND user_id=%s",
+					(team_name, user_id))
+				team_name_taken = curs.rowcount > 0
+				if team_name_taken:
+					return False, True, True, False
 
-		error = False
-		return create_team_successful, user_exists, error
+				# create team
+				curs.execute("INSERT INTO fantasy_teams (team_name, user_id) VALUES (%s, %s);",
+					(team_name, user_id))
+				conn.commit()
+				return True, True, False, False
 
 	def view_fantasy_teams(self, username: str) -> Tuple[Dict[str, Dict[str, List]], bool]:
 		# TODO: Kate
