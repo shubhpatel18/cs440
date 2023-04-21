@@ -6,7 +6,7 @@ from datetime import datetime as dt
 import psycopg
 import yaml
 
-from config_reader import read_config
+from common.config_reader import read_config
 from cfbd_helpers.cfbd_collector import CFBDCollector
 from db_populator_helper import publish_player_data, publish_college_data
 
