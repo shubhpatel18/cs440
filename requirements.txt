@@ -3,3 +3,4 @@ requests
 psycopg
 pyyaml
 pyqt5
+-e ./common

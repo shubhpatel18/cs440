@@ -3,14 +3,15 @@
 import os
 import requests
 
-from config_reader import read_config
+from common.config_reader import read_config
 
 def main():
-	dir_path = os.path.dirname(os.path.realpath(__file__))
+	tests_path = os.path.dirname(os.path.realpath(__file__))
+	client_path = os.path.join(tests_path, os.path.pardir)
 
 	### read config ##########################################################
 
-	config_file_path = os.path.join(dir_path, 'resources', 'config.yaml')
+	config_file_path = os.path.join(client_path, 'resources', 'config.yaml')
 	config = read_config(config_file_path)
 	server_address = config['server']['address']
 	server_port = config['server']['port']

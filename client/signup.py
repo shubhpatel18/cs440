@@ -1,4 +1,3 @@
-import os
 import requests
 
 from PyQt5.QtCore import *
@@ -7,7 +6,6 @@ from PyQt5.QtWidgets import *
 
 from ui_python.signup_dialog import Ui_SignupDialog
 from link import Link
-from config_reader import read_config
 
 class SignupDialog(QDialog):
     def __init__(self, link: Link):

@@ -3,7 +3,7 @@
 import os
 import ssl
 
-from config_reader import read_config
+from common.config_reader import read_config
 
 from server_helpers.web_server import TauHTTPServer
 from server_helpers.db_helper import TauDBHelper

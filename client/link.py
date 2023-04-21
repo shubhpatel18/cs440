@@ -1,6 +1,6 @@
 import os
 
-from config_reader import read_config
+from common.config_reader import read_config
 
 from PyQt5.QtCore import QObject
 
@@ -13,9 +13,9 @@ class Link(QObject):
         self.server_address, self.server_port, self.server_cert = self.read_config()
 
     def read_config(self):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
+        client_path = os.path.dirname(os.path.realpath(__file__))
 
-        config_file_path = os.path.join(dir_path, 'resources', 'config.yaml')
+        config_file_path = os.path.join(client_path, 'resources', 'config.yaml')
         config = read_config(config_file_path)
         server_address = config['server']['address']
         server_port = config['server']['port']

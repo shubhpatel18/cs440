@@ -6,8 +6,9 @@ server/resources/config.yaml
 server/resources/cert.pem
 server/resources/key.pem
 
-# temporary
+# generated
 __pycache__
+*.egg-info
 server/data_logs
 
 # vscode
