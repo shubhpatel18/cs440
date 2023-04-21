@@ -26,7 +26,7 @@ def main():
 	params = {
 		'team_name': 'Test Team',
 		'year': 2022,
-		'week': 5
+		'week': 14
 	}
 
 	r = requests.get(url=url, params=params, verify=server_cert)
