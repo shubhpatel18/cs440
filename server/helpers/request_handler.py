@@ -100,20 +100,22 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		return HTTPReturnCode.OK, {'valid_request': False}
 
 	def _get_available_players(self, param_dict: Dict) -> Tuple[int, Dict]:
-		username = param_dict.get('username', None)
+		team_name = param_dict.get('team_name', None)
 		year = param_dict.get('year', None)
 		week = param_dict.get('week', None)
-		if not (username and year and week):
+		if not (team_name and year and week):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'available_players': [],
+				'team_exists': False,
 				'valid_request': False,
 			}
 
-		available_players, error = self.db_helper.get_players_available_to_user(username, year, week)
+		available_players, team_exists, error = self.db_helper.get_players_available_to_team(team_name, year, week)
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
 			'available_players': available_players,
+			'team_exists': team_exists,
 			'valid_request': True,
 		}
 

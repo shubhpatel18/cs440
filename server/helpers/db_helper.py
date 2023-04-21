@@ -114,13 +114,45 @@ class TauDBHelper:
 		return fantasy_teams, error
 
 	def add_player_to_fantasy_team(self, player_name: str, team_name: str) -> Tuple[bool, bool]:
+		"""returns add_player_successful, error"""
+
 		# TODO: Shubh
 		add_player_successful = False
 		error = True
 		return add_player_successful, error
 
-	def get_players_available_to_user(self, username: str, year:int, week: int) -> Tuple[List[Dict], bool]:
-		# TODO: Shubh
-		available_players = []
-		error = True
-		return available_players, error
+	def get_players_available_to_team(self, team_name: str, year:int, week: int) -> Tuple[List[Dict], bool]:
+		"""returns players_available_to_team, team_exists, error"""
+
+		# look up team
+		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
+			with conn.cursor() as curs:
+				# get team roster
+				positions = "qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id"
+				curs.execute(f"SELECT {positions} FROM fantasy_teams WHERE team_name=%s", (team_name,))
+				team_exists = curs.rowcount > 0
+				if not team_exists:
+					return [], False, False
+
+				team_player_ids = set(curs.fetchone())
+
+				# look up players stats for year and week
+				player_info = "player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name"
+				curs.execute(
+					f"""SELECT {player_info}
+						FROM players join colleges
+							ON players.college_id=colleges.college_id
+						WHERE year=%s AND week=%s
+					""",
+					(year, week)
+				)
+				all_available_players = curs.fetchall()
+
+		# filter players available to team
+		def available_to_team(player_data):
+			player_id = player_data[0]
+			return player_id not in team_player_ids
+		players_available_to_team = list(filter(available_to_team, all_available_players))
+
+		error = False
+		return players_available_to_team, team_exists, error
