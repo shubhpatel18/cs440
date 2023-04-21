@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS public.fantasy_teams
 (
 	team_name character varying(20) COLLATE pg_catalog."default" NOT NULL DEFAULT '"myteam"'::character varying,
 	team_id serial,
+	user_id integer NOT NULL,
 	qb_id integer,
 	rb_id integer,
 	wr1_id integer,

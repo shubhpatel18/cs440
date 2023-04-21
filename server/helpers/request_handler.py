@@ -200,14 +200,16 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		if not (team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'create_team_successful': False,
+				'user_exists': False,
 				'valid_request': False,
 			}
 
-		create_team_successful, error = self.db_helper.create_fantasy_team(team_name, username)
+		create_team_successful, user_exists, error = self.db_helper.create_fantasy_team(team_name, username)
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
 			'create_team_successful': create_team_successful,
+			'user_exists': user_exists,
 			'valid_request': True,
 		}
 

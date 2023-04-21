@@ -1,10 +1,13 @@
-from typing import Dict, Tuple, List 
+#!python3.8
 
 import hashlib
+from typing import Dict, Tuple, List 
 
 import psycopg
 
-#!python3.8
+##############################################################################
+# ERROR HANDLING NOT YET IMPLEMENTED, ALL FUNCTIONS RETURN ERROR = FALSE
+##############################################################################
 
 class TauDBHelper:
 	def __init__(self, db_name: str, db_username: str, db_password: str) -> None:
@@ -30,7 +33,7 @@ class TauDBHelper:
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if username is taken
-				curs.execute("SELECT * FROM users WHERE username=%s", [username])
+				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
 				if curs.rowcount:
 					# username taken
 					signup_successful = False
@@ -72,10 +75,27 @@ class TauDBHelper:
 		return password_change_successful, error
 
 	def create_fantasy_team(self, team_name: str, username: str) -> Tuple[bool, bool]:
-		# TODO: Shubh
-		create_team_successful = False
-		error = True
-		return create_team_successful, error
+		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
+			with conn.cursor() as curs:
+				# check if user exists, and get id
+				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
+				if curs.rowcount:
+					# user exists
+					row = curs.fetchone()
+					user_id = int(row[0])
+					curs.execute("INSERT INTO fantasy_teams (team_name, user_id) VALUES (%s, %s);",
+						(team_name, user_id)
+					)
+					create_team_successful = True
+					user_exists = True
+
+				# user does not exist
+				else:
+					create_team_successful = False
+					user_exists = False
+
+		error = False
+		return create_team_successful, user_exists, error
 
 	def view_fantasy_team(self, username: str) -> Tuple[List[Dict], bool]:
 		# TODO: Kate
