@@ -101,9 +101,21 @@ class TauDBHelper:
 		error = False
 		return create_team_successful, user_exists, error
 
-	def view_fantasy_teams(self, username: str) -> Tuple[Dict[Dict[Dict]], bool]:
+	def view_fantasy_teams(self, username: str) -> Tuple[Dict[str, Dict[str, List]], bool]:
 		# TODO: Kate
 		# position info for each team associated with a user
+		# {
+		#     team_name1: {
+		#         qb: [qb player stats],
+		#         ...
+		#         kicker: [kicker player stats],
+		#     },
+		#     team_name2: {
+		#         qb: [qb player stats],
+		#         ...
+		#         kicker: [kicker player stats],
+		#     },
+		# }
 		fantasy_teams = {}
 		error = True
 		return fantasy_teams, error
