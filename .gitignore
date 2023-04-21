@@ -2,6 +2,7 @@
 venv
 
 # confidential
+database/resources/config.yaml
 server/resources/config.yaml
 server/resources/cert.pem
 server/resources/key.pem

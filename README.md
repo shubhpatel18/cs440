@@ -11,11 +11,11 @@ This project uses `PostgreSQL` and `pgAdmin4`.
 ### Installation
 
 ```bash
-./postgres_install.bash
+pip install -r requirements.txt
 ```
 
 ```bash
-pip install -r requirements.txt
+./postgres_install.bash
 ```
 
 You will be prompted for an email address and password for `pgAdmin4`, save these.
@@ -42,7 +42,7 @@ You will be prompted for an email address and password for `pgAdmin4`, save thes
 
 	You can now exit the `postgres` command line.
 
-	Duplicate `server/resources/config_template.yaml` as `server/resources/config.yaml`,
+	Duplicate `database/resources/config_template.yaml` as `database/resources/config.yaml`,
 	and fill in your password. Do not commit this file to the repo.
 
 4. Enable password authentication for the new user.
@@ -84,31 +84,29 @@ sudo systemctl restart postgresql.service
 
 2. Set up the project database.
 
-	1. Open the `Severs` dropdown menu and click on `postgres > Databases > postgres`.
+	1. Open the `Servers` dropdown menu and click on `postgres > Databases > postgres`.
 	2. In the menu bar, click `Tools > Query Tool`.
-	3. Copy `databases/create_db.sql` into the `Query` box, and click the "play" icon.
+	3. Copy `databases/sql/create_db.sql` into the `Query` box, and click the "play" icon.
 	4. Right click `Databases` and select `Refresh`. The `tau` database should appear.
 	5. Click the `tau` database. Once again, in the menu bar, click `Tools > Query Tool`.
-	6. Copy `databases/create_table_players.sql` into the `Query` box, and click the "play" icon.
-	7. Copy `databases/create_table_colleges.sql` into the `Query` box, and click the "play" icon.
-	8. Copy `databases/create_table_users.sql` into the `Query` box, and click the "play" icon.
-	9. Copy `databases/create_table_fantasy_teams.sql` into the `Query` box, and click the "play" icon.
+	6. Copy `databases/sql/create_table_players.sql` into the `Query` box, and click the "play" icon.
+	7. Copy `databases/sql/create_table_colleges.sql` into the `Query` box, and click the "play" icon.
+	8. Copy `databases/sql/create_table_users.sql` into the `Query` box, and click the "play" icon.
+	9. Copy `databases/sql/create_table_fantasy_teams.sql` into the `Query` box, and click the "play" icon.
 
 3. Upload the `players` and `colleges` tables' data.
 
 	1. Go to `https://collegefootballdata.com/key` and get an API key.
-	2. Add your API key to your `server/resources/config.yaml`.
-	3. Run `server/db_populator.py`.
+	2. Add your API key to your `database/resources/config.yaml`.
+	3. Run `database/db_populator.py`.
 	4. Check that the data is in your database, or if you got an errors.
 
 ## Server
 
-```bash
+### Connect to DB
 
-python3 server/server.py
-```
-
-Enter the password for your certificate (generated in the steps below) when prompted.
+Duplicate `server/resources/config_template.yaml` as `server/resources/config.yaml`,
+and fill in your database password. Do not commit this file to the repo.
 
 ### Certificate
 
@@ -121,9 +119,7 @@ cp server/resources/cert.pem client/resources/cert.pem
 
 Follow the prompts and put in whatever inputs you want. Example inputs shown below.
 
-**Note that the PEM key must be 4-1024 characters.**.
-
-Add the PEM key to `server/resources/config.yaml`
+**Note that the PEM key must be 4-1024 characters.**. Add the PEM key to `server/resources/config.yaml`
 
 ```plaintext
 Country Name (2 letter code) [AU]:US
@@ -133,4 +129,10 @@ Organization Name (eg, company) [Internet Widgits Pty Ltd]:Roster Rookies
 Organizational Unit Name (eg, section) []:
 Common Name (e.g. server FQDN or YOUR name) []:tau
 Email Address []:tau@tau.com
+```
+
+### Run Server
+
+```bash
+python3 server/server.py
 ```

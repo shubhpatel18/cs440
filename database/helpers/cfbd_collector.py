@@ -2,7 +2,7 @@
 
 from collections import defaultdict
 
-from cfbd_helpers import CFBDScraper
+from helpers.cfbd_scraper import CFBDScraper
 
 # used to translate stat names from the API to stat names for our database
 _stat_translation_dict = {
