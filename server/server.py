@@ -5,8 +5,8 @@ import ssl
 
 from common.config_reader import read_config
 
-from server_helpers.web_server import TauHTTPServer
-from server_helpers.db_helper import TauDBHelper
+from helpers.request_handler import TauHTTPServer
+from helpers.db_helper import TauDBHelper
 
 def main():
 	dir_path = os.path.dirname(os.path.realpath(__file__))

@@ -6,7 +6,7 @@ from typing import Tuple, Dict
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from server_helpers.db_helper import TauDBHelper
+from helpers.db_helper import TauDBHelper
 
 class HTTPReturnCode(IntEnum):
 	OK = 200

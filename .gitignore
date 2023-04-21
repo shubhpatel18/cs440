@@ -10,7 +10,7 @@ server/resources/key.pem
 # generated
 __pycache__
 *.egg-info
-server/data_logs
+database/data_logs
 
 # vscode
 .markdownlint.json
