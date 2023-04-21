@@ -1,6 +1,7 @@
 #!python3.8
 
 import json
+import urllib
 from enum import IntEnum
 from typing import Tuple, Dict
 
@@ -35,7 +36,9 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 
 	def _parse_path(self) -> Tuple[str, Dict[str, str], bool]:
 		try:
-			path_split = self.path.split('?')
+			url = self.path
+			decoded_url = urllib.parse.unquote_plus(url)
+			path_split = decoded_url.split('?')
 			path = path_split[0]
 			param_dict = {}
 			if len(path_split) > 1:
