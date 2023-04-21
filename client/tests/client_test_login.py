@@ -17,8 +17,7 @@ def main():
 	server_port = config['server']['port']
 	server_cert_rel_path = config['server']['certfile']
 
-	file_path = os.path.dirname(__file__)
-	server_cert = os.path.join(file_path, server_cert_rel_path)
+	server_cert = os.path.join(client_path, server_cert_rel_path)
 
 	### test login ###########################################################
 
