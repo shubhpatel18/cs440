@@ -107,6 +107,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		if not (team_name and username and year and week):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'available_players': [],
+				'user_exists': False,
 				'team_exists': False,
 				'valid_request': False,
 			}
@@ -116,6 +117,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
 			'available_players': available_players,
+			'user_exists': user_exists,
 			'team_exists': team_exists,
 			'valid_request': True,
 		}
@@ -144,7 +146,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		elif base_path == '/signup': post_handler = self._post_signup
 		elif base_path == '/change_password': post_handler = self._post_change_password
 		elif base_path == '/create_fantasy_team': post_handler = self._post_create_fantasy_team
-		elif base_path == '/add_player': post_handler = self._post_add_player
+		elif base_path == '/set_player': post_handler = self._post_set_player
 		else: post_handler = self._post_default
 		return_code, json_response = post_handler(param_dict, post_dict)
 
@@ -221,19 +223,29 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			'valid_request': True,
 		}
 
-	def _post_add_player(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
+	def _post_set_player(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
 		player_name = post_dict.get('player_name', None)
+		player_position = post_dict.get('player_position', None)
+		team_role = post_dict.get('team_role', None)
 		team_name = post_dict.get('team_name', None)
-		if not (player_name and team_name):
+		username = post_dict.get('username', None)
+		if not (player_name and player_position and team_role and team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'add_player_successful': False,
+				'user_exists': False,
+				'team_exists': False,
+				'player_exists': False,
 				'valid_request': False,
 			}
 
-		add_player_successful, error = self.db_helper.add_player_to_fantasy_team(player_name, team_name)
+		response = self.db_helper.set_player_in_fantasy_team(player_name, player_position, team_role, team_name, username)
+		add_player_successful, user_exists, team_exists, player_exists, error = response
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
 			'add_player_successful': add_player_successful,
+			'user_exists': user_exists,
+			'team_exists': team_exists,
+			'player_exists': player_exists,
 			'valid_request': True,
 		}

@@ -114,13 +114,44 @@ class TauDBHelper:
 		error = True
 		return fantasy_teams, error
 
-	def add_player_to_fantasy_team(self, player_name: str, team_name: str) -> Tuple[bool, bool]:
-		"""returns add_player_successful, error"""
+	def set_player_in_fantasy_team(self, player_name: str, player_position: str, team_role: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
+		"""returns add_player_successful, user_exists, team_exists, player_exists, error"""
 
-		# TODO: Shubh
-		add_player_successful = False
-		error = True
-		return add_player_successful, error
+		# TODO incorporate username in request handler and test client
+
+		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
+			with conn.cursor() as curs:
+				# check if user exists
+				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
+				user_exists = curs.rowcount > 0
+				if not user_exists:
+					return False, False, False, False, False
+
+				# get user id
+				user_info = curs.fetchone()
+				user_id = int(user_info[0])
+
+				# make sure team exists
+				curs.execute("SELECT * FROM fantasy_teams WHERE team_name=%s AND user_id=%s",
+					(team_name, user_id))
+				team_exists = curs.rowcount > 0
+				if not team_exists:
+					return False, True, False, False, False
+
+				# get player id
+				curs.execute("SELECT * FROM players WHERE player_name=%s AND position=%s",
+					(player_name, player_position))
+				player_exists = curs.rowcount > 0
+				if not player_exists:
+					return False, True, True, False, False
+				player_data = curs.fetchone()
+				player_id = player_data[1]
+
+				# add player to team
+				curs.execute(f"UPDATE fantasy_teams SET {team_role}_id=%s WHERE team_name=%s AND user_id=%s;",
+					(player_id, team_name, user_id))
+				conn.commit()
+				return True, True, True, True, False
 
 	def get_players_available_to_team(self, team_name: str, username: str, year:int, week: int) -> Tuple[List[Dict], bool]:
 		"""returns players_available_to_team, user_exists, team_exists, error"""
@@ -161,7 +192,7 @@ class TauDBHelper:
 
 		# filter players available to team
 		def available_to_team(player_data):
-			player_id = player_data[0]
+			player_id = player_data[1]
 			return player_id not in team_player_ids
 		players_available_to_team = list(filter(available_to_team, all_available_players))
 		return players_available_to_team, True, True, False
