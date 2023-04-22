@@ -117,8 +117,6 @@ class TauDBHelper:
 	def set_player_in_fantasy_team(self, player_name: str, player_position: str, team_role: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
 		"""returns add_player_successful, user_exists, team_exists, player_exists, error"""
 
-		# TODO incorporate username in request handler and test client
-
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if user exists
