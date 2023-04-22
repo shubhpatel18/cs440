@@ -139,13 +139,13 @@ class TauDBHelper:
 					return False, True, False, False, False
 
 				# get player id
-				curs.execute("SELECT * FROM players WHERE player_name=%s AND position=%s",
+				curs.execute("SELECT DISTINCT player_id FROM players WHERE player_name=%s AND position=%s",
 					(player_name, player_position))
 				player_exists = curs.rowcount > 0
 				if not player_exists:
 					return False, True, True, False, False
 				player_data = curs.fetchone()
-				player_id = player_data[1]
+				player_id = player_data[0]
 
 				# add player to team
 				curs.execute(f"UPDATE fantasy_teams SET {team_role}_id=%s WHERE team_name=%s AND user_id=%s;",
@@ -176,10 +176,10 @@ class TauDBHelper:
 				if not team_exists:
 					return [], True, False, False
 
-				team_player_ids = set(curs.fetchone())
+				team_player_ids = set(curs.fetchone()) - set((None,))
 
 				# look up players stats for year and week
-				player_info = "player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name"
+				player_info = "player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name"
 				curs.execute(
 					f"""SELECT {player_info}
 						FROM players join colleges
@@ -192,7 +192,7 @@ class TauDBHelper:
 
 		# filter players available to team
 		def available_to_team(player_data):
-			player_id = player_data[1]
+			player_id = player_data[0]
 			return player_id not in team_player_ids
 		players_available_to_team = list(filter(available_to_team, all_available_players))
 		return players_available_to_team, True, True, False
