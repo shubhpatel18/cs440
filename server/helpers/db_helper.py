@@ -69,6 +69,7 @@ class TauDBHelper:
 
 	def create_fantasy_team(self, team_name: str, username: str) -> Tuple[bool, bool, bool]:
 		"""returns create_team_successful, user_exists, user_already_using_team_name, error"""
+
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
 				# check if user exists
@@ -121,18 +122,28 @@ class TauDBHelper:
 		error = True
 		return add_player_successful, error
 
-	def get_players_available_to_team(self, team_name: str, year:int, week: int) -> Tuple[List[Dict], bool]:
-		"""returns players_available_to_team, team_exists, error"""
+	def get_players_available_to_team(self, team_name: str, username: str, year:int, week: int) -> Tuple[List[Dict], bool]:
+		"""returns players_available_to_team, user_exists, team_exists, error"""
 
-		# look up team
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
+				# check if user exists
+				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
+				user_exists = curs.rowcount > 0
+				if not user_exists:
+					return [], False, False, False
+
+				# get user id
+				user_info = curs.fetchone()
+				user_id = int(user_info[0])
+
 				# get team roster
 				positions = "qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id"
-				curs.execute(f"SELECT {positions} FROM fantasy_teams WHERE team_name=%s", (team_name,))
+				curs.execute(f"SELECT {positions} FROM fantasy_teams WHERE team_name=%s AND user_id=%s",
+					(team_name, user_id))
 				team_exists = curs.rowcount > 0
 				if not team_exists:
-					return [], False, False
+					return [], True, False, False
 
 				team_player_ids = set(curs.fetchone())
 
@@ -153,6 +164,4 @@ class TauDBHelper:
 			player_id = player_data[0]
 			return player_id not in team_player_ids
 		players_available_to_team = list(filter(available_to_team, all_available_players))
-
-		error = False
-		return players_available_to_team, team_exists, error
+		return players_available_to_team, True, True, False
