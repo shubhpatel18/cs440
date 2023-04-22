@@ -3,6 +3,7 @@
 ### publish player data ######################################################
 
 _players_columns = [
+	('player_id', 			'%s'),
 	('player_name', 		'%s'),
 	('position', 			'%s'),
 	('receptions', 			'%s'),
@@ -28,6 +29,7 @@ _players_data_types_str = ', '.join(_players_column_data_types)
 
 def publish_player_data(cursor, data, year, week):
 	values = [
+		data['id'],
 		data['name'],
 		data['position'],
 		data['receptions'],

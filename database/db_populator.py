@@ -54,18 +54,20 @@ def main():
 
 	# get data for each week, publish, and log
 	for week in weeks:
-		print(f'Collecting {year} week {week} data for {college_names}')
+		print(f'Collecting {year} week {week} player data for {college_names}')
 		players_data = get_players_data(apikey, colleges, year, week)
 
-		print(f'Publishing {year} week {week} data for {college_names}')
+		print(f'Publishing {year} week {week} player data for {college_names}')
 		players_log_file_name = players_log_file_name_fmt.format(week=week)
 		players_log_file_path = os.path.join(data_logs_folder_path, players_log_file_name)
 		write_players_data(players_data, players_log_file_path)
 		publish_players_data(db_name, db_username, db_password, players_data, year, week)
 
 	# get college data
+	print(f'Collecting {year} team record data for {college_names}')
 	colleges_data = get_conference_data(apikey, year, conference, colleges)
 
+	print(f'Publishing {year} team record data for {college_names}')
 	colleges_log_file_name = colleges_log_file_name_fmt.format(year=year)
 	colleges_log_file_path = os.path.join(data_logs_folder_path, colleges_log_file_name)
 	write_colleges_data(colleges_data, colleges_log_file_path)

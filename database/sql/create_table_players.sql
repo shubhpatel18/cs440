@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS public.players
 (
-	player_id serial,
+	id serial,
+	player_id integer NOT NULL,
 	player_name character varying(50) COLLATE pg_catalog."default" NOT NULL,
 	position character varying(20) COLLATE pg_catalog."default" NOT NULL,
 	receptions integer NOT NULL DEFAULT 0,
@@ -17,7 +18,7 @@ CREATE TABLE IF NOT EXISTS public.players
 	college_id integer NOT NULL,
 	year integer NOT NULL,
 	week integer NOT NULL,
-	CONSTRAINT players_pkey1 PRIMARY KEY (player_id)
+	CONSTRAINT players_pkey1 PRIMARY KEY (id)
 ) TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.players OWNER to tau;
