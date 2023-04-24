@@ -18,8 +18,23 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
+      <widget class="QWidget" name="create_team_tab">
+       <attribute name="title">
+        <string>Create Team</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="view_team_tab">
+       <attribute name="title">
+        <string>View Team</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="player_stats_tab">
+       <attribute name="title">
+        <string>Player Stats</string>
+       </attribute>
+      </widget>
       <widget class="QWidget" name="profile_tab">
        <attribute name="title">
         <string>Profile</string>
@@ -37,6 +52,11 @@
          <string>Change Password</string>
         </property>
        </widget>
+      </widget>
+      <widget class="QWidget" name="settings_tab">
+       <attribute name="title">
+        <string>Settings</string>
+       </attribute>
       </widget>
      </widget>
     </item>
