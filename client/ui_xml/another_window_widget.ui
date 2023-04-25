@@ -85,7 +85,7 @@
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QLineEdit" name="tlf_edit">
+           <widget class="QLineEdit" name="tfl_edit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -205,7 +205,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QLabel" name="tlf_label">
+           <widget class="QLabel" name="tfl_label">
             <property name="text">
              <string>Tackles for Loss:</string>
             </property>
