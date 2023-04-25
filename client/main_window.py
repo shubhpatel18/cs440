@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.8
 
+import json
 import sys
 import signal
 
@@ -8,7 +9,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from ui_python.main_window_widget import Ui_MainWindow
-from ui_python.another_window_widget import Ui_AnotherWindow
+from another_window import AnotherWindow
 from login import LoginDialog
 from signup import SignupDialog
 from link import Link
@@ -18,10 +19,6 @@ class MainWindow(QMainWindow):
         super().__init__(*args, **kwargs)
 
         self.link = Link()
-
-        # icon_path = Path(__file__).parent.resolve / "filepath/filename"
-        # self.setWindowIcon(QIcon(str(icon_path)))
-        self.setWindowTitle("Team Tau Fantasy Football")
 
         self.main_window = Ui_MainWindow()
         self.main_window.setupUi(self)
@@ -92,20 +89,7 @@ class MainWindow(QMainWindow):
     def showAnotherWindow(self):
         self.close()
         self.open = AnotherWindow(self.link)
-        self.open.setWindowTitle("Team Tau Fantasy Football")
         self.open.show()
-
-class AnotherWindow(QMainWindow):
-    def __init__(self, link: Link, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-
-        self.link = Link()
-
-        # icon_path = Path(__file__).parent.resolve / "filepath/filename"
-        # self.setWindowIcon(QIcon(str(icon_path)))
-
-        self.main_window = Ui_AnotherWindow()
-        self.main_window.setupUi(self)
 
 class AppRunner():
     def __init__(self, WindowType: QMainWindow):

@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Team Tau Fantasy Football"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Roster Rookies"))
         self.welcome_label.setText(_translate("MainWindow", "Welcome to \n"
 "College Fantasy Football!"))
         self.login_button.setText(_translate("MainWindow", "Login"))

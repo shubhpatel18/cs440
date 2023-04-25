@@ -12,6 +12,7 @@ client/resources/cert.pem
 __pycache__
 *.egg-info
 database/data_logs
+client/resources/weights.json
 
 # vscode
 .markdownlint.json

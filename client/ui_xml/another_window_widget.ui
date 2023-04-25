@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Roster Rookies</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -60,31 +60,7 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <layout class="QGridLayout" name="gridLayout">
-          <item row="6" column="0">
-           <widget class="QLabel" name="sacks_label">
-            <property name="text">
-             <string>Sacks:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="touchdowns_edit">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QLabel" name="fumbles_label">
-            <property name="text">
-             <string>Fumbles Recovered:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="3">
+          <item row="3" column="3">
            <widget class="QLineEdit" name="tfl_edit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -97,7 +73,7 @@
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="3" column="1">
            <widget class="QLineEdit" name="receptions_edit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -107,7 +83,7 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="3">
+          <item row="7" column="3">
            <widget class="QLineEdit" name="fg_percentage_edit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -117,57 +93,7 @@
             </property>
            </widget>
           </item>
-          <item row="5" column="2">
-           <widget class="QLabel" name="punting_label">
-            <property name="text">
-             <string>Punting Yards:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3">
-           <widget class="QLineEdit" name="interceptions_edit">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="0" colspan="4" alignment="Qt::AlignHCenter">
-           <widget class="QPushButton" name="submit_button">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Submit</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QLineEdit" name="turnovers_edit">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="1">
-           <widget class="QLineEdit" name="sacks_edit">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="3">
+          <item row="6" column="3">
            <widget class="QLineEdit" name="punting_edit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -177,42 +103,8 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="yards_label">
-            <property name="text">
-             <string>Total Yards:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="6" column="2">
-           <widget class="QLabel" name="fg_percentage_label">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Field Goal Percentage:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="turnovers_label">
-            <property name="text">
-             <string>Turnovers Lost:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLabel" name="tfl_label">
-            <property name="text">
-             <string>Tackles for Loss:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="QLineEdit" name="fumbles_edit">
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="yards_edit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -221,30 +113,37 @@
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
+          <item row="2" column="0" colspan="4">
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="turnovers_edit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
            <widget class="QLabel" name="touchdowns_label">
             <property name="text">
              <string>Touchdowns:</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="interceptions_label">
-            <property name="text">
-             <string>Interceptions:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="receptions_label">
+          <item row="4" column="3">
+           <widget class="QLineEdit" name="interceptions_edit">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Receptions:</string>
             </property>
            </widget>
           </item>
@@ -267,8 +166,21 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="yards_edit">
+          <item row="7" column="2">
+           <widget class="QLabel" name="fg_percentage_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Field Goal Percentage:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QLineEdit" name="fumbles_edit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -277,17 +189,118 @@
             </property>
            </widget>
           </item>
-          <item row="7" column="0" colspan="4">
+          <item row="9" column="0" colspan="4" alignment="Qt::AlignHCenter">
+           <widget class="QPushButton" name="submit_button">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Submit</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="receptions_label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Receptions:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="sacks_edit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2">
+           <widget class="QLabel" name="punting_label">
+            <property name="text">
+             <string>Punting Yards:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="yards_label">
+            <property name="text">
+             <string>Total Yards:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="touchdowns_edit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="sacks_label">
+            <property name="text">
+             <string>Sacks:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <widget class="QLabel" name="fumbles_label">
+            <property name="text">
+             <string>Fumbles Recovered:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLabel" name="interceptions_label">
+            <property name="text">
+             <string>Interceptions:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="turnovers_label">
+            <property name="text">
+             <string>Turnovers Lost:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLabel" name="tfl_label">
+            <property name="text">
+             <string>Tackles for Loss:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0" colspan="4">
            <widget class="Line" name="line_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" colspan="4">
-           <widget class="Line" name="line">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="1" column="0" colspan="4" alignment="Qt::AlignHCenter">
+           <widget class="QLabel" name="label">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Enter 0.0 for no weight</string>
             </property>
            </widget>
           </item>

@@ -12,6 +12,18 @@ class Link(QObject):
 
         self.server_address, self.server_port, self.server_cert = self.read_config()
 
+        # weights
+        self.receptions = 0.0
+        self.tfl = 0.0
+        self.yards = 0.0
+        self.interceptions = 0.0
+        self.touchdowns = 0.0
+        self.fumbles = 0.0
+        self.turnovers = 0.0
+        self.punting_yards = 0.0
+        self.sacks = 0.0
+        self.fg_percentage = 0.0
+
     def read_config(self):
         client_path = os.path.dirname(os.path.realpath(__file__))
 
