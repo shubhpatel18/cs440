@@ -46,7 +46,6 @@ class AnotherWindow(QMainWindow):
         self.main_window.view_players.verticalHeader().setVisible(False)
         self.main_window.view_players.insertRow(self.main_window.view_players.rowCount())
 
-
         self.main_window.available_players.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
         self.main_window.available_players.verticalHeader().setVisible(False)
         self.main_window.available_players.insertRow(self.main_window.available_players.rowCount())
