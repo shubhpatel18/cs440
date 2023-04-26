@@ -1,4 +1,5 @@
 import json
+import requests
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -56,6 +57,7 @@ class AnotherWindow(QMainWindow):
         for row in range(self.main_window.available_players.rowCount()):
 
             btn = QPushButton(self.main_window.available_players)
+            btn.clicked.connect(self.add_player)
             btn.setText('Add Player')
             self.main_window.available_players.setCellWidget(row, 0, btn)
 
@@ -81,6 +83,23 @@ class AnotherWindow(QMainWindow):
     def create_new_team(self):
         create_new_team_dialog = CreateNewTeamDialog(self.link)
         create_new_team_dialog.exec()
+        
+    def add_player(self, row):
+        player_info = [self.main_window.available_players.item(row, column) for column in range(self.main_window.available_players.columnCount())]
+        
+        
+        url = f'{self.link.server_address}:{self.link.server_port}/set_player'
+        post_data = {
+		    'player_name': player_info[2],
+		    'player_position': player_info[1],
+		    #'team_role': player_info[],  # player id
+		    #'team_name': ,
+		    'username': self.link.username,
+	    }
+
+        r = requests.post(url=url, json=post_data, verify=self.link.server_cert)
+        data = r.json()
+        print(json.dumps(data, indent=4))
     
     def record_weights(self):
         self.link.receptions = float(self.main_window.receptions_edit.text())
