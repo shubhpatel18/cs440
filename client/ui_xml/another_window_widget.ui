@@ -23,7 +23,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="view_team_tab">
        <attribute name="title">
@@ -130,6 +130,11 @@
           <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
+          <column>
+           <property name="text">
+            <string/>
+           </property>
+          </column>
           <column>
            <property name="text">
             <string>Position</string>
@@ -340,6 +345,11 @@
           <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
+          <column>
+           <property name="text">
+            <string/>
+           </property>
+          </column>
           <column>
            <property name="text">
             <string>Position</string>

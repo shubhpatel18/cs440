@@ -56,6 +56,15 @@ class AnotherWindow(QMainWindow):
         self.main_window.create_new_team_3.clicked.connect(self.create_new_team)
 
         for row in range(self.main_window.available_players.rowCount()):
+
+            btn = QPushButton(self.main_window.available_players)
+            btn.setText('Add Player')
+            self.main_window.available_players.setCellWidget(row, 0, btn)
+
+            btn = QPushButton(self.main_window.view_players)
+            btn.setText('Remove Player')
+            self.main_window.view_players.setCellWidget(row, 0, btn)
+
             for column in range(self.main_window.available_players.columnCount()):
                 item = self.main_window.available_players.item(row, column)
                 if item != None:
