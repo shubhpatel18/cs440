@@ -127,7 +127,7 @@ class AnotherWindow(QMainWindow):
             "turnovers lost": self.link.turnovers,
             "punting yards": self.link.punting_yards,
             "sacks": self.link.sacks,
-            "field_goal_percentage": self.link.fg_percentage
+            "field goal percentage": self.link.fg_percentage
         }
 
         json_object = json.dumps(self.weights, indent=4)
