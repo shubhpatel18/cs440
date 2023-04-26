@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 
 from ui_python.another_window_widget import Ui_AnotherWindow
 from link import Link
+from client.add_player_success import AddPlayerSuccessDialog
 
 class AnotherWindow(QMainWindow):
     def __init__(self, link: Link, *args, **kwargs) -> None:
@@ -39,6 +40,18 @@ class AnotherWindow(QMainWindow):
         self.shortcut_quit = QShortcut(QKeySequence('Ctrl+Q'), self)
         self.shortcut_quit.activated.connect(self.sigHandler)
 
+    def open_add_player_success(self):
+        add_player_success_dialog_box = AddPlayerSuccessDialog(self.link)
+
+        add_player_success_dialog_box.exec()
+        
+        self.showTeamTab()
+        
+    def showTeamTab(self):
+        self.close()
+        ##self.open = TeamTab()
+        ##self.open.show()
+    
     def record_weights(self):
         self.link.receptions = float(self.main_window.receptions_edit.text())
         self.link.tfl = float(self.main_window.tfl_edit.text())
