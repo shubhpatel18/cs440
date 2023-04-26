@@ -23,7 +23,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="view_team_tab">
        <attribute name="title">
@@ -153,6 +153,18 @@
           <column>
            <property name="text">
             <string/>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Player_ID</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
            </property>
           </column>
           <column>
@@ -358,6 +370,18 @@
           <column>
            <property name="text">
             <string/>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Player_ID</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
            </property>
           </column>
           <column>

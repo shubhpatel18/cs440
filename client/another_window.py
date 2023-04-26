@@ -53,6 +53,8 @@ class AnotherWindow(QMainWindow):
         self.main_window.create_new_team.clicked.connect(self.create_new_team)
         self.main_window.create_new_team_3.clicked.connect(self.create_new_team)
 
+        self.main_window.available_players.setColumnHidden(1, True)
+        self.main_window.view_players.setColumnHidden(1, True)
         for row in range(self.main_window.available_players.rowCount()):
 
             btn = QPushButton(self.main_window.available_players)
