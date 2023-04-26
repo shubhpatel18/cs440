@@ -26,10 +26,10 @@ class CreateNewTeamDialog(QDialog):
 
         # If team name does not already exist
         url = f'{self.link.server_address}:{self.link.server_port}/create_fantasy_team'
-        params = {
+        data = {
             'team_name': team_name,
             'username': self.link.username,
         }
 
-        r = requests.post(url=url, params=params, verify=self.link.server_cert)
+        r = requests.post(url=url, json=data, verify=self.link.server_cert)
         data = r.json()
