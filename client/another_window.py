@@ -83,36 +83,6 @@ class AnotherWindow(QMainWindow):
     def create_new_team(self):
         create_new_team_dialog = CreateNewTeamDialog(self.link)
         create_new_team_dialog.exec()
-
-    def open_add_player_success(self):
-        add_player_success_dialog_box = AddPlayerSuccessDialog(self.link)
-
-        add_player_success_dialog_box.exec()
-        
-        self.showTeamTab()
-        
-    def open_select_replaced_player_(self):
-        select_replaced_player_dialog_box = SelectReplacedPlayerDialog(self.link)
-
-        select_replaced_player_dialog_box.exec()
-        
-        if select_replaced_player_dialog_box.success == True:
-            self.open_add_player_success()
-        elif select_replaced_player_dialog_box.cancel == True:
-            return
-        elif select_replaced_player_dialog_box.valid == False:
-            #self.error_label.setText("Invalid request. Please try again.")
-            #self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
-            return
-        elif select_replaced_player_dialog_box.success == False:
-            #self.error_label.setText("Request failed. Please try again.")
-            #self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
-            return
-        
-    def showTeamTab(self):
-        self.close()
-        #self.open = TeamTab()
-        #self.open.show()
     
     def record_weights(self):
         self.link.receptions = float(self.main_window.receptions_edit.text())
