@@ -7,8 +7,6 @@ from PyQt5.QtWidgets import *
 from ui_python.another_window_widget import Ui_AnotherWindow
 from link import Link
 from create_new_team import CreateNewTeamDialog
-from add_player_success import AddPlayerSuccessDialog
-from select_replaced_player import SelectReplacedPlayerDialog
 
 class AnotherWindow(QMainWindow):
     def __init__(self, link: Link, *args, **kwargs) -> None:
