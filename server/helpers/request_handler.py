@@ -96,8 +96,26 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _get_fantasy_teams(self, param_dict: Dict) -> Tuple[int, Dict]:
-		# TODO Kate
-		return HTTPReturnCode.OK, {'valid_request': False}
+		username = param_dict.get('username', None)
+		year = param_dict.get('year', None)
+		week = param_dict.get('week', None)
+		if not (username and year and week):
+			return HTTPReturnCode.BAD_REQUEST, {
+				'fantasy_teams': {},
+				'user_exists': False,
+				'team_exists': False,
+				'valid_request': False,
+			}
+
+		fantasy_teams, user_exists, team_exists, error = self.db_helper.view_fantasy_teams(username, year, week)
+		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
+		else: return_code = HTTPReturnCode.OK
+		return return_code, {
+			'fantasy_teams': fantasy_teams,
+			'user_exists': user_exists,
+			'team_exists': team_exists,
+			'valid_request': True,
+		}
 
 	def _get_available_players(self, param_dict: Dict) -> Tuple[int, Dict]:
 		team_name = param_dict.get('team_name', None)

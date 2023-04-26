@@ -24,7 +24,9 @@ def main():
 
 	url = f'{server_address}:{server_port}/fantasy_teams'
 	params = {
-		'username': 'test'
+		'username': 'test',
+		'year': 2022,
+		'week': 14,
 	}
 
 	r = requests.get(url=url, params=params, verify=server_cert)

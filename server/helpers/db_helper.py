@@ -1,9 +1,12 @@
 #!python3.8
 
 import hashlib
+from collections import defaultdict
 from typing import Dict, Tuple, List 
 
 import psycopg
+
+POSITION_NAMES = ('qb', 'rb', 'wr1', 'wr2', 'te', 'flex', 'center', 'lg', 'rg', 'punter', 'de1', 'de2', 'dt1', 'dt2', 'lb1', 'lb2', 'lb3', 'cb1', 'cb2', 's1', 's2', 'kicker')
 
 ##############################################################################
 # ERROR HANDLING NOT YET IMPLEMENTED, ALL FUNCTIONS RETURN ERROR = FALSE
@@ -95,21 +98,8 @@ class TauDBHelper:
 				conn.commit()
 				return True, True, False, False
 
-	def view_fantasy_teams(self, username: str) -> Tuple[Dict[str, Dict[str, List]], bool]:
-		# TODO: Kate
-		# position info for each team associated with a user
-		# {
-		#     team_name1: {
-		#         qb: [qb player stats],
-		#         ...
-		#         kicker: [kicker player stats],
-		#     },
-		#     team_name2: {
-		#         qb: [qb player stats],
-		#         ...
-		#         kicker: [kicker player stats],
-		#     },
-		# }
+	def view_fantasy_teams(self, username: str, year: int, week: int) -> Tuple[Dict[str, Dict[str, List]], bool, bool, bool]:
+		"""returns fantasy_teams, user_exists, team_exists, error"""
 
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
@@ -117,39 +107,48 @@ class TauDBHelper:
 				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
 				user_exists = curs.rowcount > 0
 				if not user_exists:
-					return [], False, False, False
-
-				fantasy_teams = {}
-				error = True
+					return {}, False, False, False
 
 				# get user id
 				user_info = curs.fetchone()
 				user_id = int(user_info[0])
 
 				# get team roster for each team associated with user
-				positions = "qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id"
+				positions = "team_name, qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id"
 				curs.execute(f"SELECT {positions} FROM fantasy_teams WHERE user_id=%s",
-					(user_id))
+					(user_id,))
 				team_exists = curs.rowcount > 0
 				if not team_exists:
-					return [], True, False, False
+					return {}, True, False, False
 
-				# change to a 2D list, where there is one index for each team
-				team_player_ids = set(curs.fetchone()) - set((None,))
+				# make dictionary of team ids
+				fantasy_team_ids = {}
+				rows = curs.fetchall()
+				for row in rows:
+					team_name = row[0]
+					player_ids = row[1:]
+					fantasy_team_ids[team_name] = player_ids
 
 				# look up players stats for each fantasy team
-				for team in range(curs.rowcount):
-					player_info = "player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name"
-					curs.execute(
-						f"""SELECT {player_info}
-							FROM players join colleges
-								ON players.college_id=colleges.college_id
-							WHERE player_id={team_player_ids[team]}
-						"""
-					)
-					player_stats = curs.fetchall()
+				fantasy_teams = defaultdict(dict)
+				for team_name, player_ids in fantasy_team_ids.items():
+					for player_id, position in zip(player_ids, POSITION_NAMES):
+						if player_id:
+							player_info = "player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name"
+							curs.execute(
+								f"""SELECT {player_info}
+									FROM players join colleges
+										ON players.college_id=colleges.college_id
+									WHERE player_id={player_id} AND year=%s AND week=%s
+								""",
+								(year, week)
+							)
+							player_stats = curs.fetchone()
+						else:
+							player_stats = []
+						fantasy_teams[team_name][position] = player_stats
 
-		return fantasy_teams, error
+		return fantasy_teams, True, True, False
 
 	def set_player_in_fantasy_team(self, player_name: str, player_position: str, team_role: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
 		"""returns add_player_successful, user_exists, team_exists, player_exists, error"""
