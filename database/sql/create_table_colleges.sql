@@ -12,3 +12,6 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.colleges
 	OWNER to tau;
+
+CREATE INDEX college_name_index
+ON public.colleges(college_name);

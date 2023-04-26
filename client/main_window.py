@@ -3,6 +3,8 @@
 import json
 import sys
 import signal
+import os
+from pathlib import Path
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -19,6 +21,10 @@ class MainWindow(QMainWindow):
         super().__init__(*args, **kwargs)
 
         self.link = Link()
+
+        icon_path = os.path.dirname("images/logo.png")
+        self.setWindowIcon(QIcon(str(icon_path)))
+        self.setWindowTitle("Roster Rookies")
 
         self.main_window = Ui_MainWindow()
         self.main_window.setupUi(self)
@@ -89,7 +95,38 @@ class MainWindow(QMainWindow):
     def showAnotherWindow(self):
         self.close()
         self.open = AnotherWindow(self.link)
+        self.open.setWindowTitle("Roster Rookies")
         self.open.show()
+
+# class AnotherWindow(QMainWindow):
+#     def __init__(self, link: Link, *args, **kwargs) -> None:
+#         super().__init__(*args, **kwargs)
+
+#         self.link = Link()
+
+#         icon_path = os.path.dirname("images/logo.png")
+#         self.setWindowIcon(QIcon(str(icon_path)))
+
+        # self.main_window = Ui_AnotherWindow()
+        # self.main_window.setupUi(self)
+
+        # self.main_window.tableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        # self.main_window.tableWidget.verticalHeader().setVisible(False)
+        # self.main_window.tableWidget.insertRow(self.main_window.tableWidget.rowCount())
+        # self.main_window.tableWidget.setItem(0, 1, QTableWidgetItem("test"))
+        # self.main_window.tableWidget.doubleClicked.connect()
+        # url = f'{self.link.server_address}:{self.link.server_port}/available_players'
+        # params = {
+        #     'team_name': 'test',
+        #     'username': link.username,
+        #     'year': '',
+        #     'week': ''
+        # }
+
+        # r = requests.get(url=url, params=params, verify=self.link.server_cert)
+        # data = r.json()
+        # for()
+        # self.main_window.tableWidget.setItem()
 
 class AppRunner():
     def __init__(self, WindowType: QMainWindow):

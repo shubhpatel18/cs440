@@ -11,3 +11,6 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.users
 	OWNER to tau;
+
+CREATE INDEX username_index
+ON public.users(username);

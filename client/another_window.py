@@ -6,8 +6,9 @@ from PyQt5.QtWidgets import *
 
 from ui_python.another_window_widget import Ui_AnotherWindow
 from link import Link
-from client.add_player_success import AddPlayerSuccessDialog
-from client.select_replaced_player import SelectReplacedPlayerDialog
+from create_new_team import CreateNewTeamDialog
+from add_player_success import AddPlayerSuccessDialog
+from select_replaced_player import SelectReplacedPlayerDialog
 
 class AnotherWindow(QMainWindow):
     def __init__(self, link: Link, *args, **kwargs) -> None:
@@ -40,6 +41,40 @@ class AnotherWindow(QMainWindow):
 
         self.shortcut_quit = QShortcut(QKeySequence('Ctrl+Q'), self)
         self.shortcut_quit.activated.connect(self.sigHandler)
+
+        self.main_window.view_players.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.main_window.view_players.verticalHeader().setVisible(False)
+        self.main_window.view_players.insertRow(self.main_window.view_players.rowCount())
+
+
+        self.main_window.available_players.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.main_window.available_players.verticalHeader().setVisible(False)
+        self.main_window.available_players.insertRow(self.main_window.available_players.rowCount())
+        self.main_window.available_players.setItem(0, 1, QTableWidgetItem("test"))
+        self.main_window.available_players.cellDoubleClicked.connect(self.available_player_double_clicked)
+
+        self.main_window.create_new_team.clicked.connect(self.create_new_team)
+        self.main_window.create_new_team_3.clicked.connect(self.create_new_team)
+
+        for row in range(self.main_window.available_players.rowCount()):
+            for column in range(self.main_window.available_players.columnCount()):
+                item = self.main_window.available_players.item(row, column)
+                if item != None:
+                    item.setFlags(item.flags() ^ Qt.ItemIsEditable)
+
+    def available_player_double_clicked(self, row, column):
+        items = [self.main_window.available_players.item(row, column) for column in range(self.main_window.available_players.columnCount())]
+        data = []
+        for item in items:
+            if item == None:
+                data.append(None)
+            else:
+                data.append(item.text())
+        print(f"Double-clicked on row {row}: {data}")
+    
+    def create_new_team(self):
+        create_new_team_dialog = CreateNewTeamDialog(self.link)
+        create_new_team_dialog.exec()
 
     def open_add_player_success(self):
         add_player_success_dialog_box = AddPlayerSuccessDialog(self.link)

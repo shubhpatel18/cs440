@@ -22,3 +22,9 @@ CREATE TABLE IF NOT EXISTS public.players
 ) TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.players OWNER to tau;
+
+CREATE INDEX position_index
+ON public.players(position);
+
+CREATE INDEX player_name_index
+ON public.players(player_name);

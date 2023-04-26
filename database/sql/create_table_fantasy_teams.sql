@@ -30,3 +30,9 @@ CREATE TABLE IF NOT EXISTS public.fantasy_teams
 
 ALTER TABLE IF EXISTS public.fantasy_teams
 	OWNER to tau;
+
+CREATE INDEX team_name_index
+ON public.fantasy_teams(team_name);
+
+CREATE INDEX user_id_index
+ON public.fantasy_teams(user_id);
