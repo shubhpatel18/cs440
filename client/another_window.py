@@ -49,7 +49,6 @@ class AnotherWindow(QMainWindow):
         self.main_window.available_players.verticalHeader().setVisible(False)
         self.main_window.available_players.insertRow(self.main_window.available_players.rowCount())
         self.main_window.available_players.setItem(0, 1, QTableWidgetItem("test"))
-        self.main_window.available_players.cellDoubleClicked.connect(self.available_player_double_clicked)
 
         self.main_window.create_new_team.clicked.connect(self.create_new_team)
         self.main_window.create_new_team_3.clicked.connect(self.create_new_team)
@@ -71,37 +70,42 @@ class AnotherWindow(QMainWindow):
                 item = self.main_window.available_players.item(row, column)
                 if item != None:
                     item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-
-    def available_player_double_clicked(self, row, column):
-        items = [self.main_window.available_players.item(row, column) for column in range(self.main_window.available_players.columnCount())]
-        data = []
-        for item in items:
-            if item == None:
-                data.append(None)
-            else:
-                data.append(item.text())
-        print(f"Double-clicked on row {row}: {data}")
     
     def create_new_team(self):
         create_new_team_dialog = CreateNewTeamDialog(self.link)
         create_new_team_dialog.exec()
         
     def add_player(self, row):
+        success = False
+        
         player_info = [self.main_window.available_players.item(row, column) for column in range(self.main_window.available_players.columnCount())]
         
+        player_name = player_info[3]
+        player_position = player_info[2]
+        team_role = player_info[1]
+        team_name = self.main_window.view_players_team_name_dropdown.currentText()
         
         url = f'{self.link.server_address}:{self.link.server_port}/set_player'
         post_data = {
-		    'player_name': player_info[2],
-		    'player_position': player_info[1],
-		    #'team_role': player_info[],  # player id
-		    #'team_name': ,
+		    'player_name': player_name,
+		    'player_position': player_position,
+		    'team_role': team_role,  # player id
+		    'team_name': team_name,
 		    'username': self.link.username,
 	    }
 
         r = requests.post(url=url, json=post_data, verify=self.link.server_cert)
         data = r.json()
-        print(json.dumps(data, indent=4))
+        success = data['signup_successful']
+        
+        if success == True:
+            self.main_window.view_players_label.setText(player_name + " successfully added to team " + team_name + ".")
+            self.main_window.view_players_label.setStyleSheet("color: rgb(0, 128, 0)")
+            self.main_window.tabWidget.setCurrentIndex(self, 0)
+        else:
+            self.main_window.view_players_label.setText(player_name + " could not be added to team. " + player_position + " already filled. Remove player already in position and try again")
+            self.main_window.view_players_label.setStyleSheet("color: rgb(239, 41, 41)")
+            self.main_window.tabWidget.setCurrentIndex(self, 0)
     
     def record_weights(self):
         self.link.receptions = float(self.main_window.receptions_edit.text())
