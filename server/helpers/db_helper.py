@@ -110,8 +110,45 @@ class TauDBHelper:
 		#         kicker: [kicker player stats],
 		#     },
 		# }
-		fantasy_teams = {}
-		error = True
+
+		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
+			with conn.cursor() as curs:
+				# check if user exists
+				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
+				user_exists = curs.rowcount > 0
+				if not user_exists:
+					return [], False, False, False
+
+				fantasy_teams = {}
+				error = True
+
+				# get user id
+				user_info = curs.fetchone()
+				user_id = int(user_info[0])
+
+				# get team roster for each team associated with user
+				positions = "qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id"
+				curs.execute(f"SELECT {positions} FROM fantasy_teams WHERE user_id=%s",
+					(user_id))
+				team_exists = curs.rowcount > 0
+				if not team_exists:
+					return [], True, False, False
+
+				# change to a 2D list, where there is one index for each team
+				team_player_ids = set(curs.fetchone()) - set((None,))
+
+				# look up players stats for each fantasy team
+				for team in range(curs.rowcount):
+					player_info = "player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name"
+					curs.execute(
+						f"""SELECT {player_info}
+							FROM players join colleges
+								ON players.college_id=colleges.college_id
+							WHERE player_id={team_player_ids[team]}
+						"""
+					)
+					player_stats = curs.fetchall()
+
 		return fantasy_teams, error
 
 	def set_player_in_fantasy_team(self, player_name: str, player_position: str, team_role: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
