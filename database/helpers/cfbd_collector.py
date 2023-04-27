@@ -39,6 +39,29 @@ _stat_translation_dict = {
 	'':'injury_status' # TODO:
 }
 
+# used to translate position names from the API to position names for our database
+_position_translation_dict = {
+	'CB': 'CB',	# cornerback
+	'LB': 'LB',	# linebacker
+	'DL': 'DT',	# defensive lineman -> defensive tackle
+	'OT': 'G',	# offensive tackle -> guard
+	'P'	: 'P',	# punter
+	'G'	: 'G',	# guard
+	'WR': 'WR',	# wide receiver
+	'OL': 'G',	# offensive lineman -> guard
+	'DT': 'DT',	# defensive tackle
+	'TE': 'TE',	# tight end
+	'S'	: 'S',	# safety
+	'RB': 'RB',	# running back
+	'QB': 'QB',	# quarter back
+	'C'	: 'C',	# center
+	'FB': 'RB',	# fullback -> running back
+	'LS': 'C',	# long snapper -> center
+	'DE': 'DE',	# defensive end
+	'DB': 'LB',	# defensive back -> linebacker
+	'PK': 'K',	# placekicker -> kicker
+}
+
 def _player_dict():
 	"""create default player dict"""
 	return {
@@ -74,10 +97,11 @@ class CFBDCollector:
 		for college, id in colleges.items():
 			for player in self.scraper.get_team_roster(college, year):
 				# make sure the minimum identification information is present in the data
-				if player.first_name and player.last_name and player.position:
+				position = _position_translation_dict.get(player.position, None)
+				if player.first_name and player.last_name and position:
 					players_data[player.id]['id'] = player.id
 					players_data[player.id]['name'] = f'{player.first_name} {player.last_name}'
-					players_data[player.id]['position'] = player.position
+					players_data[player.id]['position'] = position
 					players_data[player.id]['college_id'] = id
 					players_data[player.id]['injury_status'] = 'Healthy'
 
