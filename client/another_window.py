@@ -6,8 +6,10 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from ui_python.another_window_widget import Ui_AnotherWindow
+from ui_python.change_password_dialog import Ui_ChangePasswordDialog
 from link import Link
 from create_new_team import CreateNewTeamDialog
+from change_password import ChangePasswordDialog
 
 class AnotherWindow(QMainWindow):
     def __init__(self, link: Link, *args, **kwargs) -> None:
@@ -31,6 +33,9 @@ class AnotherWindow(QMainWindow):
         self.main_window.fg_percentage_edit.setValidator(QDoubleValidator())
 
         self.main_window.submit_button.clicked.connect(self.record_weights)
+
+        self.changepass_button = self.main_window.pushButton
+        self.changepass_button.clicked.connect(self.open_change_password)
 
         self.shortcut_fullscreen = QShortcut(QKeySequence('F11'), self)
         self.shortcut_fullscreen.activated.connect(self.toggle_fullscreen)
@@ -257,6 +262,20 @@ class AnotherWindow(QMainWindow):
         self.main_window.punting_edit.setText("")
         self.main_window.sacks_edit.setText("")
         self.main_window.fg_percentage_edit.setText("")
+
+    def open_change_password(self):
+        change_password_dialog_box = ChangePasswordDialog(self.link)
+
+        change_password_dialog_box.exec()
+
+        if change_password_dialog_box.success == False:
+            self.error_label.setText("Change Password failed. Please try again.")
+            self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
+            return
+        elif change_password_dialog_box.valid == False:
+            self.error_label.setText("Invalid password change request. Please try again.")
+            self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
+            return
 
     def toggle_fullscreen(self):
         if self.isFullScreen():

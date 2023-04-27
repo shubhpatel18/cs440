@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import *
 
 from ui_python.change_password_dialog import Ui_ChangePasswordDialog
 from link import Link
-from config_reader import read_config
 
 #self.link.username is current user
 
@@ -25,7 +24,7 @@ class ChangePasswordDialog(QDialog):
         self.change_password_dialog.setupUi(self)
 
         self.ok_button = self.change_password_dialog.buttonBox
-        self.ok_button.accepted.connect(lambda: self.verify_credentials(self.link.username, self.change_password_dialog.current_password_edit.text(), self.change_password_dialog.new_password_edit_1.text(),self.change_password_dialog.new_password_edit_2.text()))
+        self.ok_button.accepted.connect(lambda: self.change_password(self.link.username, self.change_password_dialog.current_password_edit.text(), self.change_password_dialog.new_password_edit_1.text(),self.change_password_dialog.new_password_edit_2.text()))
         self.cancel_button = self.change_password_dialog.buttonBox
         self.cancel_button.rejected.connect(lambda: self.cancel_password_change())
 
