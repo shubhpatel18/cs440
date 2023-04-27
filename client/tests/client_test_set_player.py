@@ -27,7 +27,7 @@ def main():
 		'player_name': 'Will Dixon',
 		'player_position': 'TE',  # actual player position
 		'team_role': 'te',  # inserted into te_id column of fantasy team
-		'team_name': 'Test Team',
+		'team_name': 'test',
 		'username': 'test',
 	}
 

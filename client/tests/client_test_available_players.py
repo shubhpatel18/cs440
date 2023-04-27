@@ -24,7 +24,7 @@ def main():
 
 	url = f'{server_address}:{server_port}/available_players'
 	params = {
-		'team_name': 'Test Team',
+		'team_name': 'test1',
 		'username': 'test',
 		'year': 2022,
 		'week': 14

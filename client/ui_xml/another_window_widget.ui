@@ -41,7 +41,7 @@
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QComboBox" name="comboBox_6">
+         <widget class="QComboBox" name="view_players_week_dropdown">
           <property name="currentIndex">
            <number>0</number>
           </property>
@@ -169,18 +169,6 @@
           </column>
           <column>
            <property name="text">
-            <string>Position</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>16</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>Player Name</string>
            </property>
            <property name="font">
@@ -193,7 +181,7 @@
           </column>
           <column>
            <property name="text">
-            <string>Score</string>
+            <string>Position</string>
            </property>
            <property name="font">
             <font>
@@ -326,6 +314,18 @@
           <column>
            <property name="text">
             <string>Injury Status</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>College</string>
            </property>
            <property name="font">
             <font>
@@ -386,18 +386,6 @@
           </column>
           <column>
            <property name="text">
-            <string>Position</string>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>16</pointsize>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </column>
-          <column>
-           <property name="text">
             <string>Player Name</string>
            </property>
            <property name="font">
@@ -410,7 +398,7 @@
           </column>
           <column>
            <property name="text">
-            <string>Score</string>
+            <string>Position</string>
            </property>
            <property name="font">
             <font>
@@ -552,10 +540,22 @@
             </font>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>College</string>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>16</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="0" column="2">
-         <widget class="QComboBox" name="comboBox_2">
+         <widget class="QComboBox" name="available_players_week_dropdown">
           <item>
            <property name="text">
             <string>Week 1</string>
