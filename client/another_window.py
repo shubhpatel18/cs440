@@ -98,31 +98,32 @@ class AnotherWindow(QMainWindow):
         data = r.json()
         r.close()
 
-        for fantasy_team in data['fantasy_teams']:
-            self.main_window.available_players_team_name_dropdown.addItem(fantasy_team)
-            self.main_window.view_players_team_name_dropdown.addItem(fantasy_team)
+        if data['team_exists'] == True:
+            for fantasy_team in data['fantasy_teams']:
+                self.main_window.available_players_team_name_dropdown.addItem(fantasy_team)
+                self.main_window.view_players_team_name_dropdown.addItem(fantasy_team)
 
-        row = 0
-        for key in data['fantasy_teams'][self.main_window.view_players_team_name_dropdown.currentText()].keys():
-            
-            self.main_window.view_players.insertRow(row)
-            btn = QPushButton(self.main_window.view_players)
-            btn.setText('Remove Player')
-            self.main_window.view_players.setCellWidget(row, 0, btn)
-            self.main_window.view_players.cellClicked.connect(self.remove_player)
+            row = 0
+            for key in data['fantasy_teams'][self.main_window.view_players_team_name_dropdown.currentText()].keys():
+                
+                self.main_window.view_players.insertRow(row)
+                btn = QPushButton(self.main_window.view_players)
+                btn.setText('Remove Player')
+                self.main_window.view_players.setCellWidget(row, 0, btn)
+                self.main_window.view_players.cellClicked.connect(self.remove_player)
 
 
-            data_array:list = data['fantasy_teams'][self.main_window.view_players_team_name_dropdown.currentText()][key]
-            if len(data_array) > 0:
+                data_array:list = data['fantasy_teams'][self.main_window.view_players_team_name_dropdown.currentText()][key]
+                if len(data_array) > 0:
 
-                for stat in range(len(data_array)):
-                    self.main_window.view_players.setItem(row, stat+2, QTableWidgetItem())
-                    item = self.main_window.view_players.item(row, stat+2)
-                    if item != None:
-                        item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-                        item.setText(str(data_array[stat]))
-                    
-            row = row + 1
+                    for stat in range(len(data_array)):
+                        self.main_window.view_players.setItem(row, stat+2, QTableWidgetItem())
+                        item = self.main_window.view_players.item(row, stat+2)
+                        if item != None:
+                            item.setFlags(item.flags() ^ Qt.ItemIsEditable)
+                            item.setText(str(data_array[stat]))
+                        
+                row = row + 1
 
     def update_fantasy_team(self):
         url = f'{self.link.server_address}:{self.link.server_port}/fantasy_teams'
