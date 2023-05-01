@@ -130,7 +130,6 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			and receptions_multiplier and total_yards_multiplier and touchdowns_multiplier and turnovers_lost_mulitplier and sacks_multiplier and tackles_for_loss_multiplier and interceptions_multiplier and fumbles_recovered_multiplier and punting_yards_multiplier and fg_percentage_multiplier
 		):
 			return HTTPReturnCode.BAD_REQUEST, {
-				'valid_year_and_week': False,
 				'fantasy_teams': {},
 				'user_exists': False,
 				'team_exists': False,
@@ -140,9 +139,18 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		try:
 			year = int(year)
 			week = int(week)
+			receptions_multiplier = float(receptions_multiplier)
+			total_yards_multiplier = float(total_yards_multiplier)
+			touchdowns_multiplier = float(touchdowns_multiplier)
+			turnovers_lost_mulitplier = float(turnovers_lost_mulitplier)
+			sacks_multiplier = float(sacks_multiplier)
+			tackles_for_loss_multiplier = float(tackles_for_loss_multiplier)
+			interceptions_multiplier = float(interceptions_multiplier)
+			fumbles_recovered_multiplier = float()
+			punting_yards_multiplier = float(fumbles_recovered_multiplier)
+			fg_percentage_multiplier = float(fg_percentage_multiplier)
 		except:
 			return HTTPReturnCode.BAD_REQUEST, {
-				'valid_year_and_week': False,
 				'fantasy_teams': {},
 				'user_exists': False,
 				'team_exists': False,
@@ -156,7 +164,6 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
-			'valid_year_and_week': True,
 			'fantasy_teams': fantasy_teams,
 			'user_exists': user_exists,
 			'team_exists': team_exists,
@@ -183,22 +190,32 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			and receptions_multiplier and total_yards_multiplier and touchdowns_multiplier and turnovers_lost_mulitplier and sacks_multiplier and tackles_for_loss_multiplier and interceptions_multiplier and fumbles_recovered_multiplier and punting_yards_multiplier and fg_percentage_multiplier
 		):
 			return HTTPReturnCode.BAD_REQUEST, {
-				'valid_year_and_week': False,
 				'available_players': [],
 				'user_exists': False,
 				'team_exists': False,
+				'valid_role': False,
 				'valid_request': False,
 			}
 		
 		try:
 			year = int(year)
 			week = int(week)
+			receptions_multiplier = float(receptions_multiplier)
+			total_yards_multiplier = float(total_yards_multiplier)
+			touchdowns_multiplier = float(touchdowns_multiplier)
+			turnovers_lost_mulitplier = float(turnovers_lost_mulitplier)
+			sacks_multiplier = float(sacks_multiplier)
+			tackles_for_loss_multiplier = float(tackles_for_loss_multiplier)
+			interceptions_multiplier = float(interceptions_multiplier)
+			fumbles_recovered_multiplier = float()
+			punting_yards_multiplier = float(fumbles_recovered_multiplier)
+			fg_percentage_multiplier = float(fg_percentage_multiplier)
 		except:
 			return HTTPReturnCode.BAD_REQUEST, {
-				'valid_year_and_week': False,
 				'fantasy_teams': {},
 				'user_exists': False,
 				'team_exists': False,
+				'valid_role': False,
 				'valid_request': False,
 			}
 
