@@ -115,18 +115,48 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		username = param_dict.get('username', None)
 		year = param_dict.get('year', None)
 		week = param_dict.get('week', None)
-		if not (username and year and week):
+		receptions_multiplier = param_dict.get('receptions_multiplier', None)
+		total_yards_multiplier = param_dict.get('total_yards_multiplier', None)
+		touchdowns_multiplier = param_dict.get('touchdowns_multiplier', None)
+		turnovers_lost_mulitplier = param_dict.get('turnovers_lost_mulitplier', None)
+		sacks_multiplier = param_dict.get('sacks_multiplier', None)
+		tackles_for_loss_multiplier = param_dict.get('tackles_for_loss_multiplier', None)
+		interceptions_multiplier = param_dict.get('interceptions_multiplier', None)
+		fumbles_recovered_multiplier = param_dict.get('fumbles_recovered_multiplier', None)
+		punting_yards_multiplier = param_dict.get('punting_yards_multiplier', None)
+		fg_percentage_multiplier = param_dict.get('fg_percentage_multiplier', None)
+		if not (
+			username and year and week
+			and receptions_multiplier and total_yards_multiplier and touchdowns_multiplier and turnovers_lost_mulitplier and sacks_multiplier and tackles_for_loss_multiplier and interceptions_multiplier and fumbles_recovered_multiplier and punting_yards_multiplier and fg_percentage_multiplier
+		):
 			return HTTPReturnCode.BAD_REQUEST, {
+				'valid_year_and_week': False,
+				'fantasy_teams': {},
+				'user_exists': False,
+				'team_exists': False,
+				'valid_request': False,
+			}
+		
+		try:
+			year = int(year)
+			week = int(week)
+		except:
+			return HTTPReturnCode.BAD_REQUEST, {
+				'valid_year_and_week': False,
 				'fantasy_teams': {},
 				'user_exists': False,
 				'team_exists': False,
 				'valid_request': False,
 			}
 
-		fantasy_teams, user_exists, team_exists, error = self.db_helper.view_fantasy_teams(username, year, week)
+		fantasy_teams, user_exists, team_exists, error = self.db_helper.view_fantasy_teams(
+			username, year, week,
+			receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier
+		)
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
+			'valid_year_and_week': True,
 			'fantasy_teams': fantasy_teams,
 			'user_exists': user_exists,
 			'team_exists': team_exists,
@@ -138,18 +168,48 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		username = param_dict.get('username', None)
 		year = param_dict.get('year', None)
 		week = param_dict.get('week', None)
-		if not (team_name and username and year and week):
+		receptions_multiplier = param_dict.get('receptions_multiplier', None)
+		total_yards_multiplier = param_dict.get('total_yards_multiplier', None)
+		touchdowns_multiplier = param_dict.get('touchdowns_multiplier', None)
+		turnovers_lost_mulitplier = param_dict.get('turnovers_lost_mulitplier', None)
+		sacks_multiplier = param_dict.get('sacks_multiplier', None)
+		tackles_for_loss_multiplier = param_dict.get('tackles_for_loss_multiplier', None)
+		interceptions_multiplier = param_dict.get('interceptions_multiplier', None)
+		fumbles_recovered_multiplier = param_dict.get('fumbles_recovered_multiplier', None)
+		punting_yards_multiplier = param_dict.get('punting_yards_multiplier', None)
+		fg_percentage_multiplier = param_dict.get('fg_percentage_multiplier', None)
+		if not (
+			team_name and username and year and week
+			and receptions_multiplier and total_yards_multiplier and touchdowns_multiplier and turnovers_lost_mulitplier and sacks_multiplier and tackles_for_loss_multiplier and interceptions_multiplier and fumbles_recovered_multiplier and punting_yards_multiplier and fg_percentage_multiplier
+		):
 			return HTTPReturnCode.BAD_REQUEST, {
+				'valid_year_and_week': False,
 				'available_players': [],
 				'user_exists': False,
 				'team_exists': False,
 				'valid_request': False,
 			}
+		
+		try:
+			year = int(year)
+			week = int(week)
+		except:
+			return HTTPReturnCode.BAD_REQUEST, {
+				'valid_year_and_week': False,
+				'fantasy_teams': {},
+				'user_exists': False,
+				'team_exists': False,
+				'valid_request': False,
+			}
 
-		available_players, user_exists, team_exists, error = self.db_helper.get_players_available_to_team(team_name, username, year, week)
+		available_players, user_exists, team_exists, error = self.db_helper.get_players_available_to_team(
+			team_name, username, year, week,
+			receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier
+		)
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
+			'valid_year_and_week': True,
 			'available_players': available_players,
 			'user_exists': user_exists,
 			'team_exists': team_exists,

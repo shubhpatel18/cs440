@@ -24,10 +24,20 @@ def main():
 
 	url = f'{server_address}:{server_port}/available_players'
 	params = {
-		'team_name': 'test1',
+		'team_name': 'Test Team',
 		'username': 'test',
 		'year': 2022,
-		'week': 14
+		'week': 14,
+		'receptions_multiplier': 1,
+		'total_yards_multiplier': 1,
+		'touchdowns_multiplier': 1,
+		'turnovers_lost_mulitplier': 1,
+		'sacks_multiplier': 1,
+		'tackles_for_loss_multiplier': 1,
+		'interceptions_multiplier': 1,
+		'fumbles_recovered_multiplier': 1,
+		'punting_yards_multiplier': 1,
+		'fg_percentage_multiplier': 1,
 	}
 
 	r = requests.get(url=url, params=params, verify=server_cert)

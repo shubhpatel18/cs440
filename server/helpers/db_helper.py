@@ -161,7 +161,9 @@ class TauDBHelper:
 				conn.commit()
 				return True, True, True, False, False
 
-	def view_fantasy_teams(self, username: str, year: int, week: int) -> Tuple[Dict[str, Dict[str, List]], bool, bool, bool]:
+	def view_fantasy_teams(self, username: str, year: int, week: int,
+			receptions_multiplier: float, total_yards_multiplier: float, touchdowns_multiplier: float, turnovers_lost_mulitplier: float, sacks_multiplier: float, tackles_for_loss_multiplier: float, interceptions_multiplier: float, fumbles_recovered_multiplier: float, punting_yards_multiplier: float, fg_percentage_multiplier: float
+		) -> Tuple[Dict[str, Dict[str, List]], bool, bool, bool]:
 		"""returns fantasy_teams, user_exists, team_exists, error"""
 
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
@@ -177,9 +179,15 @@ class TauDBHelper:
 				user_id = int(user_info[0])
 
 				# get team roster for each team associated with user
-				positions = "team_name, qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id"
-				curs.execute(f"SELECT {positions} FROM fantasy_teams WHERE user_id=%s",
-					(user_id,))
+				curs.execute(
+					"""
+					SELECT
+						team_name, qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id
+					FROM fantasy_teams
+					WHERE user_id=%s
+					""",
+					(user_id,)
+				)
 				team_exists = curs.rowcount > 0
 				if not team_exists:
 					return {}, True, False, False
@@ -193,22 +201,40 @@ class TauDBHelper:
 					fantasy_team_ids[team_name] = player_ids
 
 				# look up players stats for each fantasy team
+				this_week_year, this_week_week = year, week
+				prev_week_year = year     if week > 0 else year - 1
+				prev_week_week = week - 1 if week > 0 else 14
 				fantasy_teams = defaultdict(dict)
 				for team_name, player_ids in fantasy_team_ids.items():
 					for player_id, position in zip(player_ids, POSITION_NAMES):
+						player_stats = []  # default to no stats
 						if player_id:
-							player_info = "player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name"
 							curs.execute(
-								f"""SELECT {player_info}
+								"""
+								SELECT player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+									COALESCE (projected_score, 0) AS projected_score
+								FROM
+									(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name
 									FROM players join colleges
 										ON players.college_id=colleges.college_id
-									WHERE player_id={player_id} AND year=%s AND week=%s
+									WHERE player_id=%s AND year=%s AND week=%s)
+									AS player_info
+								LEFT JOIN
+									(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (wins::float / (wins::float + ties::float + losses::float)) AS projected_score
+									FROM players join colleges
+										ON players.college_id=colleges.college_id
+									WHERE player_id=%s AND year=%s AND week=%s)
+									AS projected_scores
+								ON player_info.player_id=projected_scores.player_id
+								ORDER BY projected_score DESC
 								""",
-								(year, week)
+								(
+									player_id, this_week_year, this_week_week,
+									receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier,
+									player_id, prev_week_year, prev_week_week
+								)
 							)
 							player_stats = curs.fetchone()
-						else:
-							player_stats = []
 						fantasy_teams[team_name][position] = player_stats
 
 		return fantasy_teams, True, True, False
@@ -288,7 +314,9 @@ class TauDBHelper:
 					conn.commit()
 				return True, True, True, True, False
 
-	def get_players_available_to_team(self, team_name: str, username: str, year:int, week: int) -> Tuple[List[Dict], bool]:
+	def get_players_available_to_team(self, team_name: str, username: str, year:int, week: int,
+			receptions_multiplier: float, total_yards_multiplier: float, touchdowns_multiplier: float, turnovers_lost_mulitplier: float, sacks_multiplier: float, tackles_for_loss_multiplier: float, interceptions_multiplier: float, fumbles_recovered_multiplier: float, punting_yards_multiplier: float, fg_percentage_multiplier: float
+		) -> Tuple[List[Dict], bool, bool, bool]:
 		"""returns players_available_to_team, user_exists, team_exists, error"""
 
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
@@ -304,9 +332,15 @@ class TauDBHelper:
 				user_id = int(user_info[0])
 
 				# get team roster
-				positions = "qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id"
-				curs.execute(f"SELECT {positions} FROM fantasy_teams WHERE team_name=%s AND user_id=%s",
-					(team_name, user_id))
+				curs.execute(
+					"""
+					SELECT
+						qb_id, rb_id, wr1_id, wr2_id, te_id, flex_id, center_id, lg_id, rg_id, punter_id, de1_id, de2_id, dt1_id, dt2_id, lb1_id, lb2_id, lb3_id, cb1_id, cb2_id, s1_id, s2_id, kicker_id
+					FROM fantasy_teams
+					WHERE team_name=%s AND user_id=%s
+					""",
+					(team_name, user_id)
+				)
 				team_exists = curs.rowcount > 0
 				if not team_exists:
 					return [], True, False, False
@@ -314,16 +348,36 @@ class TauDBHelper:
 				team_player_ids = set(curs.fetchone()) - set((None,))
 
 				# look up players stats for year and week
-				player_info = "player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name"
+				this_week_year, this_week_week = year, week
+				prev_week_year = year     if week > 0 else year - 1
+				prev_week_week = week - 1 if week > 0 else 14
 				curs.execute(
-					f"""SELECT {player_info}
+					"""
+					SELECT player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+						COALESCE (projected_score, 0) AS projected_score
+					FROM
+						(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name
 						FROM players join colleges
 							ON players.college_id=colleges.college_id
-						WHERE year=%s AND week=%s
+						WHERE year=%s AND week=%s)
+						AS player_info
+					LEFT JOIN
+						(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (wins::float / (wins::float + ties::float + losses::float)) AS projected_score
+						FROM players join colleges
+							ON players.college_id=colleges.college_id
+						WHERE year=%s AND week=%s)
+						AS projected_scores
+					ON player_info.player_id=projected_scores.player_id
+					ORDER BY projected_score DESC
 					""",
-					(year, week)
+					(
+						this_week_year, this_week_week,
+						receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier,
+						prev_week_year, prev_week_week
+					)
 				)
 				all_available_players = curs.fetchall()
+				print(all_available_players[0])
 
 		# filter players available to team
 		def available_to_team(player_data):
