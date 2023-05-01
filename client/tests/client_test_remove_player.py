@@ -22,10 +22,11 @@ def main():
 
 	### test login ###########################################################
 
-	url = f'{server_address}:{server_port}/create_fantasy_team'
+	url = f'{server_address}:{server_port}/remove_player'
 	post_data = {
+		'player_name': 'Will Dixon',
 		'team_name': 'test',
-		'username': 'test'
+		'username': 'test',
 	}
 
 	r = requests.post(url=url, json=post_data, verify=server_cert)
