@@ -98,6 +98,34 @@ class TauDBHelper:
 				conn.commit()
 				return True, True, False, False
 
+	def remove_fantasy_team(self, team_name: str, username: str) -> Tuple[bool, bool, bool]:
+		"""returns remove_team_successful, user_exists, team_exists, error"""
+
+		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
+			with conn.cursor() as curs:
+				# check if user exists
+				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
+				user_exists = curs.rowcount > 0
+				if not user_exists:
+					return False, False, False, False
+
+				# get user id
+				user_info = curs.fetchone()
+				user_id = int(user_info[0])
+
+				# check if team exists
+				curs.execute("SELECT * FROM fantasy_teams WHERE team_name=%s AND user_id=%s",
+					(team_name, user_id))
+				team_exists = curs.rowcount > 0
+				if not team_exists:
+					return False, True, False, False
+
+				# create team
+				curs.execute("DELETE FROM fantasy_teams WHERE team_name=%s AND user_id=%s;",
+					(team_name, user_id))
+				conn.commit()
+				return True, True, True, False
+
 	def view_fantasy_teams(self, username: str, year: int, week: int) -> Tuple[Dict[str, Dict[str, List]], bool, bool, bool]:
 		"""returns fantasy_teams, user_exists, team_exists, error"""
 

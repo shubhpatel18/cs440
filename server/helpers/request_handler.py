@@ -180,6 +180,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		elif base_path == '/signup': post_handler = self._post_signup
 		elif base_path == '/change_password': post_handler = self._post_change_password
 		elif base_path == '/create_fantasy_team': post_handler = self._post_create_fantasy_team
+		elif base_path == '/remove_fantasy_team': post_handler = self._post_remove_fantasy_team
 		elif base_path == '/set_player': post_handler = self._post_set_player
 		else: post_handler = self._post_default
 		return_code, json_response = post_handler(param_dict, post_dict)
@@ -254,6 +255,27 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			'create_team_successful': create_team_successful,
 			'user_exists': user_exists,
 			'user_already_using_team_name': user_already_using_team_name,
+			'valid_request': True,
+		}
+
+	def _post_remove_fantasy_team(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
+		team_name = post_dict.get('team_name', None)
+		username = post_dict.get('username', None)
+		if not (team_name and username):
+			return HTTPReturnCode.BAD_REQUEST, {
+				'remove_team_successful': False,
+				'user_exists': False,
+				'team_exists': False,
+				'valid_request': False,
+			}
+
+		create_team_successful, user_exists, team_exists, error = self.db_helper.remove_fantasy_team(team_name, username)
+		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
+		else: return_code = HTTPReturnCode.OK
+		return return_code, {
+			'remove_team_successful': create_team_successful,
+			'user_exists': user_exists,
+			'team_exists': team_exists,
 			'valid_request': True,
 		}
 
