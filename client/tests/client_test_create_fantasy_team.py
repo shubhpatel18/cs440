@@ -24,8 +24,8 @@ def main():
 
 	url = f'{server_address}:{server_port}/create_fantasy_team'
 	post_data = {
-		'team_name': 'test',
-		'username': 'test'
+		'team_name': 'Test Team',
+		'username': 'test',
 	}
 
 	r = requests.post(url=url, json=post_data, verify=server_cert)

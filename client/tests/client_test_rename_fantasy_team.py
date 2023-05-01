@@ -26,7 +26,7 @@ def main():
 	post_data = {
 		'team_name': 'Test Team',
 		'new_team_name': 'Test Team Renamed',
-		'username': 'test'
+		'username': 'test',
 	}
 
 	r = requests.post(url=url, json=post_data, verify=server_cert)
