@@ -9,6 +9,22 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from helpers.db_helper import TauDBHelper
 
+_valid_positions = {
+	'QB': {'qb'},
+	'RB': {'rb', 'flex'},
+	'WR': {'wr1', 'wr2', 'flex'},
+	'TE': {'te', 'flex'},
+	'C': {'center'},
+	'G': {'lg', 'rg'},
+	'P': {'punter'},
+	'DE': {'de1', 'de2'},
+	'DT': {'dt1', 'dt2'},
+	'LB': {'lb1', 'lb2', 'lb3'},
+	'CB': {'cb1', 'cb2'},
+	'S': {'s1', 's2'},
+	'K': {'kicker'},
+}
+
 class HTTPReturnCode(IntEnum):
 	OK = 200
 	BAD_REQUEST = 400
@@ -249,11 +265,24 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		username = post_dict.get('username', None)
 		if not (player_name and player_position and team_role and team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
+				'valid_position': False,
 				'add_player_successful': False,
 				'user_exists': False,
 				'team_exists': False,
 				'player_exists': False,
 				'valid_request': False,
+			}
+		
+		position_exists = player_position in _valid_positions
+		position_allowed = team_role in _valid_positions[player_position]
+		if not (position_exists and position_allowed):
+			return HTTPReturnCode.BAD_REQUEST, {
+				'valid_position': False,
+				'add_player_successful': False,
+				'user_exists': False,
+				'team_exists': False,
+				'player_exists': False,
+				'valid_request': True,
 			}
 
 		response = self.db_helper.set_player_in_fantasy_team(player_name, player_position, team_role, team_name, username)
@@ -261,6 +290,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
+			'valid_position': True,
 			'add_player_successful': add_player_successful,
 			'user_exists': user_exists,
 			'team_exists': team_exists,
