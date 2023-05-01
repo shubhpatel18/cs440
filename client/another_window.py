@@ -281,3 +281,8 @@ class AnotherWindow(QMainWindow):
 
     def sigHandler(*args):
         QApplication.quit()
+
+    # for use with signout button
+    def showMainWindow(self):
+        self.link.username = ""
+        self.close()
