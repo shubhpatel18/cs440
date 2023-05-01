@@ -88,7 +88,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.wfile.write(json.dumps(json_response).encode())
 
 	def _get_default(self, param_dict: Dict) -> Tuple[int, Dict]:
-		return HTTPReturnCode.OK, {'valid_request': False}
+		return HTTPReturnCode.SERVICE_UNAVAILABLE, {'valid_request': False}
 
 	def _get_example(self, param_dict: Dict) -> Tuple[int, Dict]:
 		param_dict['valid_request'] = True
@@ -181,6 +181,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		elif base_path == '/change_password': post_handler = self._post_change_password
 		elif base_path == '/create_fantasy_team': post_handler = self._post_create_fantasy_team
 		elif base_path == '/remove_fantasy_team': post_handler = self._post_remove_fantasy_team
+		elif base_path == '/rename_fantasy_team': post_handler = self._post_rename_fantasy_team
 		elif base_path == '/set_player': post_handler = self._post_set_player
 		else: post_handler = self._post_default
 		return_code, json_response = post_handler(param_dict, post_dict)
@@ -189,7 +190,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		self.wfile.write(json.dumps(json_response).encode())
 
 	def _post_default(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		return HTTPReturnCode.OK, {'valid_request': 'false'}
+		return HTTPReturnCode.SERVICE_UNAVAILABLE, {'valid_request': 'false'}
 
 	def _post_example(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
 		result = {}
@@ -269,13 +270,37 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				'valid_request': False,
 			}
 
-		create_team_successful, user_exists, team_exists, error = self.db_helper.remove_fantasy_team(team_name, username)
+		remove_team_successful, user_exists, team_exists, error = self.db_helper.remove_fantasy_team(team_name, username)
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
-			'remove_team_successful': create_team_successful,
+			'remove_team_successful': remove_team_successful,
 			'user_exists': user_exists,
 			'team_exists': team_exists,
+			'valid_request': True,
+		}
+
+	def _post_rename_fantasy_team(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
+		team_name = post_dict.get('team_name', None)
+		new_team_name = post_dict.get('new_team_name', None)
+		username = post_dict.get('username', None)
+		if not (team_name and new_team_name and username):
+			return HTTPReturnCode.BAD_REQUEST, {
+				'rename_team_successful': False,
+				'user_exists': False,
+				'team_exists': False,
+				'user_already_using_team_name': False,
+				'valid_request': False,
+			}
+
+		rename_team_successful, user_exists, team_exists, user_already_using_team_name, error = self.db_helper.rename_fantasy_team(team_name, new_team_name, username)
+		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
+		else: return_code = HTTPReturnCode.OK
+		return return_code, {
+			'rename_team_successful': rename_team_successful,
+			'user_exists': user_exists,
+			'team_exists': team_exists,
+			'user_already_using_team_name': user_already_using_team_name,
 			'valid_request': True,
 		}
 
