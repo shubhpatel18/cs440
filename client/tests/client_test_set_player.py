@@ -24,9 +24,9 @@ def main():
 
 	url = f'{server_address}:{server_port}/set_player'
 	post_data = {
-		'player_name': 'Will Dixon',
-		'player_position': 'TE',  # actual player position
-		'team_role': 'te',  # inserted into te_id column of fantasy team
+		'player_name': 'Dillon Gabriel',
+		'player_position': 'QB',  # actual player position
+		'team_role': 'qb',  # inserted into te_id column of fantasy team
 		'team_name': 'Test Team',
 		'username': 'test',
 	}
