@@ -3,9 +3,9 @@ import requests
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-
 from ui_python.create_new_team_dialog import Ui_CreateNewTeamDialog
 from link import Link
+import another_window
 
 class CreateNewTeamDialog(QDialog):
     def __init__(self, link: Link):

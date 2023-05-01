@@ -8,8 +8,9 @@ from PyQt5.QtWidgets import *
 from ui_python.another_window_widget import Ui_AnotherWindow
 from ui_python.change_password_dialog import Ui_ChangePasswordDialog
 from link import Link
-from create_new_team import CreateNewTeamDialog
 from change_password import ChangePasswordDialog
+from create_new_team import CreateNewTeamDialog
+from add_player import AddPlayerDialog
 
 class AnotherWindow(QMainWindow):
     def __init__(self, link: Link, *args, **kwargs) -> None:
@@ -60,6 +61,27 @@ class AnotherWindow(QMainWindow):
 
         self.init_fantasy_team()
         self.init_available_players()
+        self.main_window.available_players_team_name_dropdown.setCurrentIndex(0)
+        self.main_window.view_players_team_name_dropdown.setCurrentIndex(0)
+        # connect the currentTextChanged signal to a slot function
+        self.main_window.available_players_team_name_dropdown.currentTextChanged.connect(lambda: self.change_fantasy_team(self.main_window.available_players_team_name_dropdown.currentIndex()))
+        self.main_window.view_players_team_name_dropdown.currentTextChanged.connect(lambda: self.change_fantasy_team(self.main_window.view_players_team_name_dropdown.currentIndex()))
+
+    def change_fantasy_team(self, index: int):
+        self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
+        self.main_window.view_players_team_name_dropdown.setCurrentIndex(index)
+        if self.main_window.tabWidget.currentIndex() == 0:
+            self.update_available_players()
+            self.main_window.tabWidget.setCurrentIndex(1)
+            self.update_fantasy_team()
+            self.main_window.tabWidget.setCurrentIndex(0)
+        else:
+            self.update_fantasy_team()
+            self.main_window.tabWidget.setCurrentIndex(0)
+            self.update_available_players()
+            self.main_window.tabWidget.setCurrentIndex(1)
+        
+        self.main_window.view_players_label.setText('')
 
     def init_available_players(self):
         url = f'{self.link.server_address}:{self.link.server_port}/available_players'
@@ -107,10 +129,12 @@ class AnotherWindow(QMainWindow):
         data = r.json()
         r.close()
 
+        # print(data)
         if data['team_exists'] == True:
             for fantasy_team in data['fantasy_teams']:
-                self.main_window.available_players_team_name_dropdown.addItem(fantasy_team)
-                self.main_window.view_players_team_name_dropdown.addItem(fantasy_team)
+                if self.main_window.available_players_team_name_dropdown.findText(fantasy_team) == -1:
+                    self.main_window.available_players_team_name_dropdown.addItem(fantasy_team)
+                    self.main_window.view_players_team_name_dropdown.addItem(fantasy_team)
 
             row = 0
             for key in data['fantasy_teams'][self.main_window.view_players_team_name_dropdown.currentText()].keys():
@@ -138,51 +162,35 @@ class AnotherWindow(QMainWindow):
         self.main_window.view_players.setRowCount(0)
         self.init_fantasy_team()
 
-    # def update_fantasy_team(self):
-    #     url = f'{self.link.server_address}:{self.link.server_port}/fantasy_teams'
-    #     params = {
-    #         'username': self.link.username,
-    #         'year': 2022,
-    #         'week': self.main_window.view_players_week_dropdown.currentText().split(' ')[1],
-    #     }
-
-    #     r = requests.get(url=url, params=params, verify=self.link.server_cert)
-    #     data = r.json()
-    #     r.close()
-
-    #     for fantasy_team in data['fantasy_teams']:
-    #         self.main_window.available_players_team_name_dropdown.addItem(fantasy_team)
-    #         self.main_window.view_players_team_name_dropdown.addItem(fantasy_team)
-
-    #     row = 0
-    #     for key in data['fantasy_teams'][self.main_window.view_players_team_name_dropdown.currentText()].keys():
-            
-    #         btn = QPushButton(self.main_window.view_players)
-    #         btn.setText('Remove Player')
-    #         self.main_window.view_players.setCellWidget(row, 0, btn)
-    #         self.main_window.view_players.cellClicked.connect(self.remove_player)
-
-
-    #         data_array:list = data['fantasy_teams'][self.main_window.view_players_team_name_dropdown.currentText()][key]
-    #         if len(data_array) > 0:
-
-    #             for stat in range(len(data_array)):
-    #                 self.main_window.view_players.setItem(row, stat+2, QTableWidgetItem())
-    #                 item = self.main_window.view_players.item(row, stat+2)
-    #                 if item != None:
-    #                     item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-    #                     item.setText(str(data_array[stat]))
-                    
-    #         row = row + 1
-
     def create_new_team(self):
+        initial_team_total = self.main_window.available_players_team_name_dropdown.count()
         create_new_team_dialog = CreateNewTeamDialog(self.link)
         create_new_team_dialog.exec()
+
+        url = f'{self.link.server_address}:{self.link.server_port}/fantasy_teams'
+        params = {
+            'username': self.link.username,
+            'year': 2022,
+            'week': self.main_window.view_players_week_dropdown.currentText().split(' ')[1],
+        }
+
+        r = requests.get(url=url, params=params, verify=self.link.server_cert)
+        data = r.json()
+        r.close()
         
+        if data['team_exists'] == True:
+            final_team_total = len(data['fantasy_teams'])
+            print(final_team_total)
+            if initial_team_total < final_team_total:
+                for fantasy_team in data['fantasy_teams']:
+                    if self.main_window.available_players_team_name_dropdown.findText(fantasy_team) == -1:
+                        self.main_window.available_players_team_name_dropdown.addItem(fantasy_team)
+                        self.main_window.view_players_team_name_dropdown.addItem(fantasy_team)
+                        self.change_fantasy_team(final_team_total - 1)
+
     def add_player(self):
         btn = self.sender()
         row = btn.property("row")
-        success = False
         
         player_info = []
         for column in range(1, self.main_window.available_players.columnCount() - 1):
@@ -190,34 +198,19 @@ class AnotherWindow(QMainWindow):
         
         player_name = player_info[1]
         player_position = player_info[2]
-        team_role = self.main_window.position_to_fill.currentText()
         team_name = self.main_window.view_players_team_name_dropdown.currentText()
         
-        url = f'{self.link.server_address}:{self.link.server_port}/set_player'
-        data = {
-		    'player_name': player_name,
-		    'player_position': player_position,
-		    'team_role': team_role,  # player id
-		    'team_name': team_name,
-		    'username': self.link.username,
-	    }
+        create_new_team_dialog = AddPlayerDialog(self.link, player_name, player_position, team_name)
+        create_new_team_dialog.exec()
 
-        r = requests.post(url=url, json=data, verify=self.link.server_cert)
-        data = r.json()
-        print(data)
-        self.update_fantasy_team()
-        success = data['add_player_successful']
+        if create_new_team_dialog.successful == True:
+            self.update_fantasy_team()
         
-        if success == True:
             self.main_window.view_players_label.setText(player_name + " successfully added to team " + team_name + ".")
             self.main_window.view_players_label.setStyleSheet("color: rgb(0, 128, 0)")
             self.main_window.tabWidget.setCurrentIndex(0)
-        else:
-            self.main_window.view_players_label.setText(player_name + " could not be added to team. " + player_position + " already filled. Remove player already in position and try again")
-            self.main_window.view_players_label.setStyleSheet("color: rgb(239, 41, 41)")
-            self.main_window.tabWidget.setCurrentIndex(self, 0)
             
-        self.update_available_players()
+            self.update_available_players()
     
     def remove_player(self):
         print('remove_player')
