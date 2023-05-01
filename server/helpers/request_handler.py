@@ -378,6 +378,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				'user_exists': False,
 				'team_exists': False,
 				'player_exists': False,
+				'valid_role': False,
 				'valid_request': False,
 			}
 		
@@ -390,11 +391,12 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				'user_exists': False,
 				'team_exists': False,
 				'player_exists': False,
+				'valid_role': False,
 				'valid_request': True,
 			}
 
 		response = self.db_helper.set_player_in_fantasy_team(player_name, player_position, team_role, team_name, username)
-		add_player_successful, user_exists, team_exists, player_exists, error = response
+		add_player_successful, user_exists, team_exists, player_exists, valid_role, error = response
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
@@ -403,9 +405,10 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			'user_exists': user_exists,
 			'team_exists': team_exists,
 			'player_exists': player_exists,
+			'valid_role': valid_role,
 			'valid_request': True,
 		}
-	
+
 	def _post_clear_role(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
 		team_role = post_dict.get('team_role', None)
 		team_name = post_dict.get('team_name', None)

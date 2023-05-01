@@ -240,7 +240,7 @@ class TauDBHelper:
 		return fantasy_teams, True, True, False
 
 	def set_player_in_fantasy_team(self, player_name: str, player_position: str, team_role: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
-		"""returns add_player_successful, user_exists, team_exists, player_exists, error"""
+		"""returns add_player_successful, user_exists, team_exists, player_exists, valid_role, error"""
 
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
@@ -248,7 +248,7 @@ class TauDBHelper:
 				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
 				user_exists = curs.rowcount > 0
 				if not user_exists:
-					return False, False, False, False, False
+					return False, False, False, False, False, False
 
 				# get user id
 				user_info = curs.fetchone()
@@ -259,22 +259,25 @@ class TauDBHelper:
 					(team_name, user_id))
 				team_exists = curs.rowcount > 0
 				if not team_exists:
-					return False, True, False, False, False
+					return False, True, False, False, False, False
 
 				# get player id
 				curs.execute("SELECT DISTINCT player_id FROM players WHERE player_name=%s AND position=%s",
 					(player_name, player_position))
 				player_exists = curs.rowcount > 0
 				if not player_exists:
-					return False, True, True, False, False
+					return False, True, True, False, False, False
 				player_data = curs.fetchone()
 				player_id = player_data[0]
+
+				if team_role not in POSITION_NAMES:
+					return False, True, True, True, False, False
 
 				# add player to team
 				curs.execute(f"UPDATE fantasy_teams SET {team_role}_id=%s WHERE team_name=%s AND user_id=%s;",
 					(player_id, team_name, user_id))
 				conn.commit()
-				return True, True, True, True, False
+				return True, True, True, True, True, False
 
 	def clear_role_in_fantasy_team(self, team_role: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
 		"""returns clear_role_successful, user_exists, team_exists, valid_role, error"""
