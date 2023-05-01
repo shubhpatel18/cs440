@@ -141,10 +141,10 @@ class AnotherWindow(QMainWindow):
                 
                 self.main_window.view_players.insertRow(row)
                 btn = QPushButton(self.main_window.view_players)
+                btn.setProperty("row", row)
+                btn.clicked.connect(self.remove_player)
                 btn.setText('Remove Player')
                 self.main_window.view_players.setCellWidget(row, 0, btn)
-                self.main_window.view_players.cellClicked.connect(self.remove_player)
-
 
                 data_array:list = data['fantasy_teams'][self.main_window.view_players_team_name_dropdown.currentText()][key]
                 if len(data_array) > 0:
@@ -213,7 +213,36 @@ class AnotherWindow(QMainWindow):
             self.update_available_players()
     
     def remove_player(self):
-        print('remove_player')
+        btn = self.sender()
+        row = btn.property("row")
+
+        player_info = []
+        for column in range(1, self.main_window.view_players.columnCount() - 1):
+            if self.main_window.view_players.item(row, column):
+                player_info.append(self.main_window.view_players.item(row, column).text())
+
+        player_name = player_info[0]
+        team_name = self.main_window.view_players_team_name_dropdown.currentText()
+
+        url = f'{self.link.server_address}:{self.link.server_port}/remove_player'
+        post_data = {
+            'player_name': player_name,
+            'team_name': team_name,
+            'username': self.link.username
+        }
+
+        r = requests.post(url=url, json=post_data, verify=self.link.server_cert)
+        data = r.json()
+        r.close()
+
+        if data['remove_player_successful'] == True:
+            self.update_fantasy_team()
+
+            self.main_window.view_players_label.setText(player_name + " successfully removed from team " + team_name + ".")
+            self.main_window.view_players_label.setStyleSheet("color: rgb(0, 128, 0)")
+            
+            self.update_available_players()
+
         
     def record_weights(self):
         self.link.receptions = float(self.main_window.receptions_edit.text())
