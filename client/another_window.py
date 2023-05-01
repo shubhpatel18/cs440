@@ -245,17 +245,6 @@ class AnotherWindow(QMainWindow):
         with open("client/resources/weights.json", "w") as outfile:
             outfile.write(json_object)
 
-        self.main_window.receptions_edit.setText("")
-        self.main_window.tfl_edit.setText("")
-        self.main_window.yards_edit.setText("")
-        self.main_window.interceptions_edit.setText("")
-        self.main_window.touchdowns_edit.setText("")
-        self.main_window.fumbles_edit.setText("")
-        self.main_window.turnovers_edit.setText("")
-        self.main_window.punting_edit.setText("")
-        self.main_window.sacks_edit.setText("")
-        self.main_window.fg_percentage_edit.setText("")
-
     def open_change_password(self):
         change_password_dialog_box = ChangePasswordDialog(self.link)
 
