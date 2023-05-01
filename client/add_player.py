@@ -25,12 +25,12 @@ class AddPlayerDialog(QDialog):
     
         url = f'{self.link.server_address}:{self.link.server_port}/set_player'
         data = {
-		    'player_name': player_name,
-		    'player_position': player_position,
-		    'team_role': team_role,  # player id
-		    'team_name': team_name,
-		    'username': self.link.username,
-	    }
+            'player_name': player_name,
+            'player_position': player_position,
+            'team_role': team_role,
+            'team_name': team_name,
+            'username': self.link.username,
+        }
 
         r = requests.post(url=url, json=data, verify=self.link.server_cert)
         data = r.json()

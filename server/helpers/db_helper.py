@@ -276,8 +276,8 @@ class TauDBHelper:
 				conn.commit()
 				return True, True, True, True, False
 
-	def remove_player_in_fantasy_team(self, player_name: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
-		"""returns remove_player_successful, user_exists, team_exists, player_exists, error"""
+	def clear_role_in_fantasy_team(self, team_role: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
+		"""returns clear_role_successful, user_exists, team_exists, valid_role, error"""
 
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
@@ -297,21 +297,14 @@ class TauDBHelper:
 				team_exists = curs.rowcount > 0
 				if not team_exists:
 					return False, True, False, False, False
-
-				# get player id
-				curs.execute("SELECT DISTINCT player_id FROM players WHERE player_name=%s",
-					(player_name,))
-				player_exists = curs.rowcount > 0
-				if not player_exists:
+				
+				if team_role not in POSITION_NAMES:
 					return False, True, True, False, False
-				player_data = curs.fetchone()
-				player_id = player_data[0]
 
 				# remove player from team
-				for team_role in POSITION_NAMES:
-					curs.execute(f"UPDATE fantasy_teams SET {team_role}_id=null WHERE {team_role}_id=%s AND team_name=%s AND user_id=%s;",
-						(player_id, team_name, user_id))
-					conn.commit()
+				curs.execute(f"UPDATE fantasy_teams SET {team_role}_id=null WHERE team_name=%s AND user_id=%s;",
+					(team_name, user_id))
+				conn.commit()
 				return True, True, True, True, False
 
 	def get_players_available_to_team(self, team_name: str, username: str, year:int, week: int,

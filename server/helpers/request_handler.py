@@ -243,7 +243,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		elif base_path == '/remove_fantasy_team': post_handler = self._post_remove_fantasy_team
 		elif base_path == '/rename_fantasy_team': post_handler = self._post_rename_fantasy_team
 		elif base_path == '/set_player': post_handler = self._post_set_player
-		elif base_path == '/remove_player': post_handler = self._post_remove_player
+		elif base_path == '/clear_role': post_handler = self._post_clear_role
 		else: post_handler = self._post_default
 		return_code, json_response = post_handler(param_dict, post_dict)
 
@@ -406,29 +406,27 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			'valid_request': True,
 		}
 	
-	def _post_remove_player(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		player_name = post_dict.get('player_name', None)
-		# player_position = post_dict.get('player_position', None)
-		# team_role = post_dict.get('team_role', None)
+	def _post_clear_role(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
+		team_role = post_dict.get('team_role', None)
 		team_name = post_dict.get('team_name', None)
 		username = post_dict.get('username', None)
-		if not (player_name and team_name and username):
+		if not (team_role and team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
-				'remove_player_successful': False,
+				'clear_role_successful': False,
 				'user_exists': False,
 				'team_exists': False,
-				'player_exists': False,
+				'valid_role': False,
 				'valid_request': False,
 			}
 
-		response = self.db_helper.remove_player_in_fantasy_team(player_name, team_name, username)
-		remove_player_successful, user_exists, team_exists, player_exists, error = response
+		response = self.db_helper.clear_role_in_fantasy_team(team_role, team_name, username)
+		remove_player_successful, user_exists, team_exists, valid_role, error = response
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
-			'remove_player_successful': remove_player_successful,
+			'clear_role_successful': remove_player_successful,
 			'user_exists': user_exists,
 			'team_exists': team_exists,
-			'player_exists': player_exists,
+			'valid_role': valid_role,
 			'valid_request': True,
 		}

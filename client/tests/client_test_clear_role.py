@@ -22,10 +22,10 @@ def main():
 
 	### test login ###########################################################
 
-	url = f'{server_address}:{server_port}/remove_player'
+	url = f'{server_address}:{server_port}/clear_role'
 	post_data = {
-		'player_name': 'Will Dixon',
-		'team_name': 'test',
+		'team_role': 'qb',
+		'team_name': 'Test Team',
 		'username': 'test',
 	}
 
