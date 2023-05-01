@@ -95,8 +95,8 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		return HTTPReturnCode.OK, param_dict
 
 	def _get_login(self, param_dict: Dict) -> Tuple[int, Dict]:
-		username = param_dict.get('username', None)
-		password = param_dict.get('password', None)
+		username = param_dict.get('username', '')
+		password = param_dict.get('password', '')
 		if not (username and password):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'login_successful': False,
@@ -112,19 +112,19 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _get_fantasy_teams(self, param_dict: Dict) -> Tuple[int, Dict]:
-		username = param_dict.get('username', None)
+		username = param_dict.get('username', '')
 		year = param_dict.get('year', None)
 		week = param_dict.get('week', None)
-		receptions_multiplier = param_dict.get('receptions_multiplier', None)
-		total_yards_multiplier = param_dict.get('total_yards_multiplier', None)
-		touchdowns_multiplier = param_dict.get('touchdowns_multiplier', None)
-		turnovers_lost_mulitplier = param_dict.get('turnovers_lost_mulitplier', None)
-		sacks_multiplier = param_dict.get('sacks_multiplier', None)
-		tackles_for_loss_multiplier = param_dict.get('tackles_for_loss_multiplier', None)
-		interceptions_multiplier = param_dict.get('interceptions_multiplier', None)
-		fumbles_recovered_multiplier = param_dict.get('fumbles_recovered_multiplier', None)
-		punting_yards_multiplier = param_dict.get('punting_yards_multiplier', None)
-		fg_percentage_multiplier = param_dict.get('fg_percentage_multiplier', None)
+		receptions_multiplier = param_dict.get('receptions_multiplier', 0)
+		total_yards_multiplier = param_dict.get('total_yards_multiplier', 0)
+		touchdowns_multiplier = param_dict.get('touchdowns_multiplier', 0)
+		turnovers_lost_mulitplier = param_dict.get('turnovers_lost_mulitplier', 0)
+		sacks_multiplier = param_dict.get('sacks_multiplier', 0)
+		tackles_for_loss_multiplier = param_dict.get('tackles_for_loss_multiplier', 0)
+		interceptions_multiplier = param_dict.get('interceptions_multiplier', 0)
+		fumbles_recovered_multiplier = param_dict.get('fumbles_recovered_multiplier', 0)
+		punting_yards_multiplier = param_dict.get('punting_yards_multiplier', 0)
+		fg_percentage_multiplier = param_dict.get('fg_percentage_multiplier', 0)
 		if not (
 			username and year and week
 			and receptions_multiplier and total_yards_multiplier and touchdowns_multiplier and turnovers_lost_mulitplier and sacks_multiplier and tackles_for_loss_multiplier and interceptions_multiplier and fumbles_recovered_multiplier and punting_yards_multiplier and fg_percentage_multiplier
@@ -164,20 +164,20 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _get_available_players(self, param_dict: Dict) -> Tuple[int, Dict]:
-		team_name = param_dict.get('team_name', None)
-		username = param_dict.get('username', None)
+		team_name = param_dict.get('team_name', '')
+		username = param_dict.get('username', '')
 		year = param_dict.get('year', None)
 		week = param_dict.get('week', None)
-		receptions_multiplier = param_dict.get('receptions_multiplier', None)
-		total_yards_multiplier = param_dict.get('total_yards_multiplier', None)
-		touchdowns_multiplier = param_dict.get('touchdowns_multiplier', None)
-		turnovers_lost_mulitplier = param_dict.get('turnovers_lost_mulitplier', None)
-		sacks_multiplier = param_dict.get('sacks_multiplier', None)
-		tackles_for_loss_multiplier = param_dict.get('tackles_for_loss_multiplier', None)
-		interceptions_multiplier = param_dict.get('interceptions_multiplier', None)
-		fumbles_recovered_multiplier = param_dict.get('fumbles_recovered_multiplier', None)
-		punting_yards_multiplier = param_dict.get('punting_yards_multiplier', None)
-		fg_percentage_multiplier = param_dict.get('fg_percentage_multiplier', None)
+		receptions_multiplier = param_dict.get('receptions_multiplier', 0)
+		total_yards_multiplier = param_dict.get('total_yards_multiplier', 0)
+		touchdowns_multiplier = param_dict.get('touchdowns_multiplier', 0)
+		turnovers_lost_mulitplier = param_dict.get('turnovers_lost_mulitplier', 0)
+		sacks_multiplier = param_dict.get('sacks_multiplier', 0)
+		tackles_for_loss_multiplier = param_dict.get('tackles_for_loss_multiplier', 0)
+		interceptions_multiplier = param_dict.get('interceptions_multiplier', 0)
+		fumbles_recovered_multiplier = param_dict.get('fumbles_recovered_multiplier', 0)
+		punting_yards_multiplier = param_dict.get('punting_yards_multiplier', 0)
+		fg_percentage_multiplier = param_dict.get('fg_percentage_multiplier', 0)
 		if not (
 			team_name and username and year and week
 			and receptions_multiplier and total_yards_multiplier and touchdowns_multiplier and turnovers_lost_mulitplier and sacks_multiplier and tackles_for_loss_multiplier and interceptions_multiplier and fumbles_recovered_multiplier and punting_yards_multiplier and fg_percentage_multiplier
@@ -261,9 +261,9 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		return HTTPReturnCode.OK, result
 
 	def _post_signup(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		username = post_dict.get('username', None)
-		name = post_dict.get('name', None)
-		password = post_dict.get('password', None)
+		username = post_dict.get('username', '')
+		name = post_dict.get('name', '')
+		password = post_dict.get('password', '')
 		if not (username and name and password):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'signup_successful': False,
@@ -282,9 +282,9 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _post_change_password(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		username = post_dict.get('username', None)
-		old_password = post_dict.get('old_password', None)
-		new_password = post_dict.get('new_password', None)
+		username = post_dict.get('username', '')
+		old_password = post_dict.get('old_password', '')
+		new_password = post_dict.get('new_password', '')
 		if not (username and old_password and new_password):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'password_change_successful': False,
@@ -300,8 +300,8 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _post_create_fantasy_team(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		team_name = post_dict.get('team_name', None)
-		username = post_dict.get('username', None)
+		team_name = post_dict.get('team_name', '')
+		username = post_dict.get('username', '')
 		if not (team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'create_team_successful': False,
@@ -321,8 +321,8 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _post_remove_fantasy_team(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		team_name = post_dict.get('team_name', None)
-		username = post_dict.get('username', None)
+		team_name = post_dict.get('team_name', '')
+		username = post_dict.get('username', '')
 		if not (team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'remove_team_successful': False,
@@ -342,9 +342,9 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _post_rename_fantasy_team(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		team_name = post_dict.get('team_name', None)
-		new_team_name = post_dict.get('new_team_name', None)
-		username = post_dict.get('username', None)
+		team_name = post_dict.get('team_name', '')
+		new_team_name = post_dict.get('new_team_name', '')
+		username = post_dict.get('username', '')
 		if not (team_name and new_team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'rename_team_successful': False,
@@ -366,11 +366,11 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _post_set_player(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		player_name = post_dict.get('player_name', None)
-		player_position = post_dict.get('player_position', None)
-		team_role = post_dict.get('team_role', None)
-		team_name = post_dict.get('team_name', None)
-		username = post_dict.get('username', None)
+		player_name = post_dict.get('player_name', '')
+		player_position = post_dict.get('player_position', '')
+		team_role = post_dict.get('team_role', '').lower()
+		team_name = post_dict.get('team_name', '')
+		username = post_dict.get('username', '')
 		if not (player_name and player_position and team_role and team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'valid_position': False,
@@ -410,9 +410,9 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		}
 
 	def _post_clear_role(self, param_dict: Dict, post_dict: Dict) -> Tuple[int, Dict]:
-		team_role = post_dict.get('team_role', None)
-		team_name = post_dict.get('team_name', None)
-		username = post_dict.get('username', None)
+		team_role = post_dict.get('team_role', '').lower()
+		team_name = post_dict.get('team_name', '')
+		username = post_dict.get('username', '')
 		if not (team_role and team_name and username):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'clear_role_successful': False,
