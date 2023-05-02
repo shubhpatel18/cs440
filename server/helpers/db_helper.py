@@ -211,10 +211,11 @@ class TauDBHelper:
 						if player_id:
 							curs.execute(
 								"""
-								SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+								SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name, ROUND(actual_score::numeric, 2)::float AS actual_score,
 									COALESCE (ROUND(projected_score::numeric, 2)::float, 0.0) AS projected_score
 								FROM
-									(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name
+									(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+									(%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) AS actual_score
 									FROM players join colleges
 										ON players.college_id=colleges.college_id
 									WHERE player_id=%s AND year=%s AND week=%s)
@@ -228,6 +229,7 @@ class TauDBHelper:
 								ON player_info.player_id=projected_scores.player_id
 								""",
 								(
+									receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier,
 									player_id, this_week_year, this_week_week,
 									receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier,
 									player_id, prev_week_year, prev_week_week
@@ -356,10 +358,11 @@ class TauDBHelper:
 				prev_week_week = week - 1 if week > 0 else 14
 				curs.execute(
 					f"""
-					SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+					SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name, ROUND(actual_score::numeric, 2)::float AS actual_score,
 						COALESCE (ROUND(projected_score::numeric, 2)::float, 0.0) AS projected_score
 					FROM
-						(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name
+						(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+						(%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) AS actual_score
 						FROM players join colleges
 							ON players.college_id=colleges.college_id
 						WHERE position IN {positions_str} AND year=%s AND week=%s)
@@ -375,6 +378,7 @@ class TauDBHelper:
 					LIMIT {count if count >= 0 else 'ALL'}
 					""",
 					(
+						receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier,
 						this_week_year, this_week_week,
 						receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier,
 						prev_week_year, prev_week_week,
