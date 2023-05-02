@@ -6,7 +6,6 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 from ui_python.another_window_widget import Ui_AnotherWindow
-from ui_python.change_password_dialog import Ui_ChangePasswordDialog
 from link import Link
 from change_password import ChangePasswordDialog
 from create_new_team import CreateNewTeamDialog
@@ -56,9 +55,6 @@ class AnotherWindow(QMainWindow):
         self.main_window.create_new_team.clicked.connect(self.create_new_team)
         self.main_window.create_new_team_3.clicked.connect(self.create_new_team)
 
-        self.main_window.available_players.setColumnHidden(1, True)
-        self.main_window.view_players.setColumnHidden(1, True)
-
         self.init_fantasy_team()
         self.init_available_players()
         self.main_window.available_players_team_name_dropdown.setCurrentIndex(0)
@@ -106,10 +102,12 @@ class AnotherWindow(QMainWindow):
         r.close()
 
         available_player_data = data['available_players']
+        self.main_window.available_players.clearSelection()
+        self.main_window.available_players.clearContents()
         self.main_window.available_players.setRowCount(len(available_player_data))
         for row, player_data in enumerate(available_player_data):
 
-            # create row with add player button
+            # add add player button
             btn = QPushButton(self.main_window.available_players)
             btn.setProperty('row', row)
             btn.setText('Add Player')
@@ -124,7 +122,9 @@ class AnotherWindow(QMainWindow):
                 item = QTableWidgetItem()
                 item.setText(str(stat))
                 item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-                self.main_window.available_players.setItem(row, column+1, item)
+                self.main_window.available_players.setItem(row, column, item)
+
+        self.main_window.available_players.adjustSize()
 
     def init_fantasy_team(self):
         self.update_fantasy_teams()
@@ -167,29 +167,31 @@ class AnotherWindow(QMainWindow):
             # populate table with fantasy team data
             team_name = self.main_window.view_players_team_name_dropdown.currentText()
             fantasy_team_data = data['fantasy_teams'][team_name]
+            self.main_window.view_players.clearSelection()
+            self.main_window.view_players.clearContents()
             self.main_window.view_players.setRowCount(len(fantasy_team_data))
             for row, item in enumerate(fantasy_team_data.items()):
-                position, player_data = item
+                role, player_data = item
 
-                # create row, with remove player button
+                # add remove player button
                 btn = QPushButton(self.main_window.view_players)
                 btn.setProperty('row', row)
                 btn.setText('Remove Player')
                 btn.clicked.connect(self.remove_player)
                 self.main_window.view_players.setCellWidget(row, 0, btn)
 
-                player_data = data['fantasy_teams'][team_name][position]
+                player_data = data['fantasy_teams'][team_name][role]
                 if len(player_data) > 0:
 
                     for column, stat in enumerate(player_data):
-                        # skip player id
-                        if column == 0:
-                            continue
-
+                        # skip player id, but insert team role
+                        text = str(role).upper() if column == 0 else str(stat)
                         item = QTableWidgetItem()
                         item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-                        item.setText(str(stat))
-                        self.main_window.view_players.setItem(row, column+1, item)
+                        item.setText(text)
+                        self.main_window.view_players.setItem(row, column+1, item)  # skip button column
+
+            self.main_window.view_players.adjustSize()
 
     def create_new_team(self):
         create_new_team_dialog = CreateNewTeamDialog(self.link)
@@ -202,7 +204,7 @@ class AnotherWindow(QMainWindow):
         row = btn.property("row")
 
         player_info = []
-        for column in range(2, self.main_window.available_players.columnCount()):
+        for column in range(1, self.main_window.available_players.columnCount()):  # skip buttons
             player_info.append(self.main_window.available_players.item(row, column).text())
 
         player_name = player_info[0]
@@ -214,24 +216,22 @@ class AnotherWindow(QMainWindow):
 
         if add_player_dialog.successful == True:
             self.update_fantasy_teams()
+            self.update_available_players()
 
             self.main_window.view_players_label.setText(player_name + " successfully added to team " + team_name + ".")
             self.main_window.view_players_label.setStyleSheet("color: rgb(0, 128, 0)")
             self.main_window.tabWidget.setCurrentIndex(0)
-
-            self.update_available_players()
 
     def remove_player(self):
         btn = self.sender()
         row = btn.property("row")
 
         player_info = []
-        for column in range(1, self.main_window.view_players.columnCount() - 1):
-            if self.main_window.view_players.item(row, column):
-                player_info.append(self.main_window.view_players.item(row, column).text())
+        for column in range(1, self.main_window.view_players.columnCount()):  # skip buttons
+            player_info.append(self.main_window.view_players.item(row, column).text())
 
-        player_name = player_info[0]
-        team_role = player_info[1]
+        team_role = player_info[0].lower()
+        player_name = player_info[1]
         team_name = self.main_window.view_players_team_name_dropdown.currentText()
 
         url = f'{self.link.server_address}:{self.link.server_port}/clear_role'
@@ -247,11 +247,10 @@ class AnotherWindow(QMainWindow):
 
         if data['clear_role_successful'] == True:
             self.update_fantasy_teams()
+            self.update_available_players()
 
             self.main_window.view_players_label.setText(player_name + " successfully removed from team " + team_name + ".")
             self.main_window.view_players_label.setStyleSheet("color: rgb(0, 128, 0)")
-            
-            self.update_available_players()
 
     def record_weights(self):
         self.link.receptions = float(self.main_window.receptions_edit.text())
