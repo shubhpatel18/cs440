@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'another_window_widget.ui'
+# Form implementation generated from reading ui file 'ui_xml/another_window_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.1
 #
@@ -15,8 +15,8 @@ class Ui_AnotherWindow(object):
         AnotherWindow.setObjectName("AnotherWindow")
         AnotherWindow.resize(1206, 738)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        icon.addPixmap(QtGui.QPixmap("../images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("ui_xml/../images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("ui_xml/../images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         AnotherWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(AnotherWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -535,7 +535,7 @@ class Ui_AnotherWindow(object):
         AnotherWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(AnotherWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         self.view_players_week_dropdown.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(AnotherWindow)
         AnotherWindow.setTabOrder(self.receptions_edit, self.yards_edit)
