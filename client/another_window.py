@@ -90,7 +90,19 @@ class AnotherWindow(QMainWindow):
             'username': self.link.username,
             'year': 2022,
             'week': self.main_window.available_players_week_dropdown.currentText().split(' ')[1],
+            'receptions_multiplier': self.link.receptions,
+            'total_yards_multiplier': self.link.yards,
+            'touchdowns_multiplier': self.link.touchdowns,
+            'turnovers_lost_mulitplier': self.link.turnovers,
+            'sacks_multiplier': self.link.sacks,
+            'tackles_for_loss_multiplier': self.link.tfl,
+            'interceptions_multiplier': self.link.interceptions,
+            'fumbles_recovered_multiplier': self.link.fumbles,
+            'punting_yards_multiplier': self.link.punting_yards,
+            'fg_percentage_multiplier': self.link.fg_percentage,
         }
+
+        print(params)
 
         r = requests.get(url=url, params=params, verify=self.link.server_cert)
         data = r.json()
@@ -106,10 +118,10 @@ class AnotherWindow(QMainWindow):
             btn.setText('Add Player')
             self.main_window.available_players.setCellWidget(row, 0, btn)
 
-            for column in range(len(data['available_players'][0])):
+            for column in range(0, len(data['available_players'][0]) + 1):
                 self.main_window.available_players.setItem(row, column+1, QTableWidgetItem())
                 item = self.main_window.available_players.item(row, column+1)
-                item.setText(str(data['available_players'][row][column]))
+                item.setText(str(data['available_players'][row][column - 1]))
                 if item != None:
                     item.setFlags(item.flags() ^ Qt.ItemIsEditable)
                     
@@ -123,13 +135,24 @@ class AnotherWindow(QMainWindow):
             'username': self.link.username,
             'year': 2022,
             'week': self.main_window.view_players_week_dropdown.currentText().split(' ')[1],
+            'receptions_multiplier': self.link.receptions,
+            'total_yards_multiplier': self.link.yards,
+            'touchdowns_multiplier': self.link.touchdowns,
+            'turnovers_lost_mulitplier': self.link.turnovers,
+            'sacks_multiplier': self.link.sacks,
+            'tackles_for_loss_multiplier': self.link.tfl,
+            'interceptions_multiplier': self.link.interceptions,
+            'fumbles_recovered_multiplier': self.link.fumbles,
+            'punting_yards_multiplier': self.link.punting_yards,
+            'fg_percentage_multiplier': self.link.fg_percentage,
         }
+
+        print(params)
 
         r = requests.get(url=url, params=params, verify=self.link.server_cert)
         data = r.json()
         r.close()
 
-        # print(data)
         if data['team_exists'] == True:
             for fantasy_team in data['fantasy_teams']:
                 if self.main_window.available_players_team_name_dropdown.findText(fantasy_team) == -1:
@@ -222,11 +245,12 @@ class AnotherWindow(QMainWindow):
                 player_info.append(self.main_window.view_players.item(row, column).text())
 
         player_name = player_info[0]
+        team_role = player_info[1]
         team_name = self.main_window.view_players_team_name_dropdown.currentText()
 
         url = f'{self.link.server_address}:{self.link.server_port}/remove_player'
         post_data = {
-            'player_name': player_name,
+            'team_role': team_role,
             'team_name': team_name,
             'username': self.link.username
         }
