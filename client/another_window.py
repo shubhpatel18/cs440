@@ -11,6 +11,7 @@ from change_password import ChangePasswordDialog
 from create_new_team import CreateNewTeamDialog
 from add_player import AddPlayerDialog
 from success_dialog import SuccessDialog
+from failure_dialog import FailureDialog
 
 class AnotherWindow(QMainWindow):
     def __init__(self, link: Link, *args, **kwargs) -> None:
@@ -226,6 +227,10 @@ class AnotherWindow(QMainWindow):
             self.update_available_players()
 
             self.main_window.tabWidget.setCurrentIndex(0)
+        else:
+            failure_dialog = FailureDialog()
+            failure_dialog.label.setText("Adding " + player_name + " to team " + team_name + " failed.")
+            failure_dialog.exec()
 
     def remove_player(self):
         btn = self.sender()
