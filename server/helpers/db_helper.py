@@ -237,7 +237,7 @@ class TauDBHelper:
 						if player_id:
 							curs.execute(
 								"""
-								SELECT player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+								SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
 									COALESCE (projected_score, 0) AS projected_score
 								FROM
 									(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name
@@ -383,7 +383,7 @@ class TauDBHelper:
 				prev_week_week = week - 1 if week > 0 else 14
 				curs.execute(
 					f"""
-					SELECT player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+					SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
 						COALESCE (projected_score, 0) AS projected_score
 					FROM
 						(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name

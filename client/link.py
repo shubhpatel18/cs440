@@ -54,4 +54,4 @@ class Link(QObject):
             self.turnovers = data["turnovers lost"]
             self.punting_yards = data["punting yards"]
             self.sacks = data["sacks"]
-            self.fg_percentage = data["field_goal_percentage"]
+            self.fg_percentage = data["field goal percentage"]

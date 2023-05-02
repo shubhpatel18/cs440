@@ -117,10 +117,14 @@ class AnotherWindow(QMainWindow):
             self.main_window.available_players.setCellWidget(row, 0, btn)
 
             for column, stat in enumerate(player_data):
+                # skip player id
+                if column == 0:
+                    continue
+
                 item = QTableWidgetItem()
                 item.setText(str(stat))
                 item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-                self.main_window.available_players.setItem(row, column+2, item)
+                self.main_window.available_players.setItem(row, column+1, item)
 
     def init_fantasy_team(self):
         self.update_fantasy_teams()
@@ -177,11 +181,15 @@ class AnotherWindow(QMainWindow):
                 player_data = data['fantasy_teams'][team_name][position]
                 if len(player_data) > 0:
 
-                    for col, stat in enumerate(player_data):
+                    for column, stat in enumerate(player_data):
+                        # skip player id
+                        if column == 0:
+                            continue
+
                         item = QTableWidgetItem()
                         item.setFlags(item.flags() ^ Qt.ItemIsEditable)
                         item.setText(str(stat))
-                        self.main_window.view_players.setItem(row, col+2, item)
+                        self.main_window.view_players.setItem(row, column+1, item)
 
     def create_new_team(self):
         create_new_team_dialog = CreateNewTeamDialog(self.link)
