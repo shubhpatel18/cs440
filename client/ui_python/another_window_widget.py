@@ -30,6 +30,9 @@ class Ui_AnotherWindow(object):
         self.gridLayout_3 = QtWidgets.QGridLayout(self.view_team_tab)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.view_players = QtWidgets.QTableWidget(self.view_team_tab)
+        self.view_players.setSortingEnabled(False)
+        self.view_players.horizontalHeader().setSortIndicatorShown(False) # hide sort indicator
+        self.view_players.horizontalHeader().setSectionsClickable(False) # allow clicking on header
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -252,6 +255,9 @@ class Ui_AnotherWindow(object):
         self.horizontalLayout_2.addWidget(self.count_spinbox)
         self.gridLayout_2.addLayout(self.horizontalLayout_2, 0, 4, 1, 1)
         self.available_players = QtWidgets.QTableWidget(self.player_stats_tab)
+        self.available_players.setSortingEnabled(False)
+        self.available_players.horizontalHeader().setSortIndicatorShown(False) # hide sort indicator
+        self.available_players.horizontalHeader().setSectionsClickable(False) # allow clicking on header
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
