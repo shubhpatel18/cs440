@@ -23,7 +23,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="view_team_tab">
        <attribute name="title">
@@ -1061,6 +1061,30 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>receptions_edit</tabstop>
+  <tabstop>yards_edit</tabstop>
+  <tabstop>touchdowns_edit</tabstop>
+  <tabstop>turnovers_edit</tabstop>
+  <tabstop>sacks_edit</tabstop>
+  <tabstop>tfl_edit</tabstop>
+  <tabstop>interceptions_edit</tabstop>
+  <tabstop>fumbles_edit</tabstop>
+  <tabstop>punting_edit</tabstop>
+  <tabstop>fg_percentage_edit</tabstop>
+  <tabstop>submit_button</tabstop>
+  <tabstop>view_players_team_name_dropdown</tabstop>
+  <tabstop>create_new_team</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>view_players_week_dropdown</tabstop>
+  <tabstop>available_players</tabstop>
+  <tabstop>available_players_team_name_dropdown</tabstop>
+  <tabstop>available_players_week_dropdown</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>create_new_team_3</tabstop>
+  <tabstop>team_role_combobox</tabstop>
+  <tabstop>view_players</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
