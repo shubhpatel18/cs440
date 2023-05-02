@@ -270,14 +270,9 @@ class AnotherWindow(QMainWindow):
         btn = self.sender()
         row = btn.property("row")
 
-        player_info = []
-        for column in range(1, self.main_window.view_players.columnCount()):  # skip buttons
-            item = self.main_window.view_players.item(row, column)
-            if item:
-                player_info.append(item.text())
-        
-        if player_info:
-            team_role = player_info[0].lower()
+        team_role_item = self.main_window.view_players.item(row, 1)
+        if team_role_item:
+            team_role = team_role_item.text().lower()
             team_name = self.main_window.view_players_team_name_dropdown.currentText()
 
             url = f'{self.link.server_address}:{self.link.server_port}/clear_role'
