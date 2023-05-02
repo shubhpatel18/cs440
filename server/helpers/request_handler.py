@@ -9,7 +9,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from helpers.db_helper import TauDBHelper
 
-_valid_positions = {
+POSITION_TO_ROLES = {
 	'QB': {'qb'},
 	'RB': {'rb', 'flex'},
 	'WR': {'wr1', 'wr2', 'flex'},
@@ -154,6 +154,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				'fantasy_teams': {},
 				'user_exists': False,
 				'team_exists': False,
+				'valid_role': False,
 				'valid_request': False,
 			}
 
@@ -173,6 +174,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 	def _get_available_players(self, param_dict: Dict) -> Tuple[int, Dict]:
 		team_name = param_dict.get('team_name', '')
 		username = param_dict.get('username', '')
+		team_role = param_dict.get('team_role', '').lower()
 		year = param_dict.get('year', None)
 		week = param_dict.get('week', None)
 		receptions_multiplier = param_dict.get('receptions_multiplier', 0)
@@ -186,7 +188,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		punting_yards_multiplier = param_dict.get('punting_yards_multiplier', 0)
 		fg_percentage_multiplier = param_dict.get('fg_percentage_multiplier', 0)
 		if not (
-			team_name and username and year and week
+			team_name and username and team_role and year and week
 			and receptions_multiplier and total_yards_multiplier and touchdowns_multiplier and turnovers_lost_mulitplier and sacks_multiplier and tackles_for_loss_multiplier and interceptions_multiplier and fumbles_recovered_multiplier and punting_yards_multiplier and fg_percentage_multiplier
 		):
 			return HTTPReturnCode.BAD_REQUEST, {
@@ -219,17 +221,17 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				'valid_request': False,
 			}
 
-		available_players, user_exists, team_exists, error = self.db_helper.get_players_available_to_team(
-			team_name, username, year, week,
+		available_players, user_exists, team_exists, valid_role, error = self.db_helper.get_players_available_to_team(
+			team_name, username, team_role, year, week,
 			receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier
 		)
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
 		else: return_code = HTTPReturnCode.OK
 		return return_code, {
-			'valid_year_and_week': True,
 			'available_players': available_players,
 			'user_exists': user_exists,
 			'team_exists': team_exists,
+			'valid_role': valid_role,
 			'valid_request': True,
 		}
 
@@ -399,8 +401,8 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				'valid_request': False,
 			}
 		
-		position_exists = player_position in _valid_positions
-		position_allowed = team_role in _valid_positions[player_position]
+		position_exists = player_position in POSITION_TO_ROLES
+		position_allowed = team_role in POSITION_TO_ROLES[player_position]
 		if not (position_exists and position_allowed):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'valid_position': False,

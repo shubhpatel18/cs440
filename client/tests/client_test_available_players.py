@@ -26,6 +26,7 @@ def main():
 	params = {
 		'team_name': 'Test Team',
 		'username': 'test',
+		'team_role': 'all',
 		'year': 2022,
 		'week': 14,
 		'receptions_multiplier': 1,
