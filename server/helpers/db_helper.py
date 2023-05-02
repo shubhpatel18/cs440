@@ -7,30 +7,32 @@ from typing import Dict, Tuple, List
 import psycopg
 
 ROLE_TO_POSITIONS = {
-	'qb': ('QB'),
-	'rb': ('RB'),
-	'wr1': ('WR'),
-	'wr2': ('WR'),
-	'te': ('TE'),
+	'qb': ('QB',),
+	'rb': ('RB',),
+	'wr1': ('WR',),
+	'wr2': ('WR',),
+	'te': ('TE',),
 	'flex': ('RB', 'WR', 'TE'),
-	'center': ('C'),
-	'lg': ('G'),
-	'rg': ('G'),
-	'punter': ('P'),
-	'de1': ('DE'),
-	'de2': ('DE'),
-	'dt1': ('DT'),
-	'dt2': ('DT'),
-	'lb1': ('LB'),
-	'lb2': ('LB'),
-	'lb3': ('LB'),
-	'cb1': ('CB'),
-	'cb2': ('CB'),
-	's1': ('S'),
-	's2': ('S'),
-	'kicker': ('K'),
+	'center': ('C',),
+	'lg': ('G',),
+	'rg': ('G',),
+	'punter': ('P',),
+	'de1': ('DE',),
+	'de2': ('DE',),
+	'dt1': ('DT',),
+	'dt2': ('DT',),
+	'lb1': ('LB',),
+	'lb2': ('LB',),
+	'lb3': ('LB',),
+	'cb1': ('CB',),
+	'cb2': ('CB',),
+	's1': ('S',),
+	's2': ('S',),
+	'kicker': ('K',),
 	'all': ('QB', 'RB', 'WR', 'TE', 'C', 'G', 'P', 'DE', 'DT', 'LB', 'CB', 'S', 'K'),
 }
+
+TEAM_ROLES = set(ROLE_TO_POSITIONS.keys() - {'all'})
 
 ##############################################################################
 # ERROR HANDLING NOT YET IMPLEMENTED, ALL FUNCTIONS RETURN ERROR = FALSE
@@ -230,7 +232,7 @@ class TauDBHelper:
 				prev_week_week = week - 1 if week > 0 else 14
 				fantasy_teams = defaultdict(dict)
 				for team_name, player_ids in fantasy_team_ids.items():
-					for player_id, position in zip(player_ids, ROLE_TO_POSITIONS.keys()):
+					for player_id, position in zip(player_ids, TEAM_ROLES):
 						player_stats = []  # default to no stats
 						if player_id:
 							curs.execute(
@@ -294,7 +296,7 @@ class TauDBHelper:
 				player_data = curs.fetchone()
 				player_id = player_data[0]
 
-				if team_role not in ROLE_TO_POSITIONS.keys():
+				if team_role not in TEAM_ROLES:
 					return False, True, True, True, False, False
 
 				# add player to team
@@ -325,7 +327,7 @@ class TauDBHelper:
 				if not team_exists:
 					return False, True, False, False, False
 				
-				if team_role not in ROLE_TO_POSITIONS.keys():
+				if team_role not in TEAM_ROLES:
 					return False, True, True, False, False
 
 				# remove player from team
@@ -367,25 +369,33 @@ class TauDBHelper:
 
 				team_player_ids = set(curs.fetchone()) - set((None,))
 
+				if team_role not in ROLE_TO_POSITIONS:
+					return [], True, True, False, False
+
+				positions = ROLE_TO_POSITIONS[team_role]
+				str_positions = (f"'{position}'" for position in positions)
+				joined_positions = ', '.join(str_positions)
+				positions_str = f'({joined_positions})'
+
 				# look up players stats for year and week
 				this_week_year, this_week_week = year, week
 				prev_week_year = year     if week > 0 else year - 1
 				prev_week_week = week - 1 if week > 0 else 14
 				curs.execute(
-					"""
+					f"""
 					SELECT player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
 						COALESCE (projected_score, 0) AS projected_score
 					FROM
 						(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name
 						FROM players join colleges
 							ON players.college_id=colleges.college_id
-						WHERE year=%s AND week=%s)
+						WHERE position IN {positions_str} AND year=%s AND week=%s)
 						AS player_info
 					LEFT JOIN
 						(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (wins::float / (wins::float + ties::float + losses::float)) AS projected_score
 						FROM players join colleges
 							ON players.college_id=colleges.college_id
-						WHERE year=%s AND week=%s)
+						WHERE position IN {positions_str} AND year=%s AND week=%s)
 						AS projected_scores
 					ON player_info.player_id=projected_scores.player_id
 					ORDER BY projected_score DESC
@@ -397,7 +407,6 @@ class TauDBHelper:
 					)
 				)
 				all_available_players = curs.fetchall()
-				print(all_available_players[0])
 
 		# filter players available to team
 		def available_to_team(player_data):
