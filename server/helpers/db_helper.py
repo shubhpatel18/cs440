@@ -221,7 +221,7 @@ class TauDBHelper:
 									WHERE player_id=%s AND year=%s AND week=%s)
 									AS player_info
 								LEFT JOIN
-									(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (wins::float / (wins::float + ties::float + losses::float)) AS projected_score
+									(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (1 + .2 * ( ( wins::float / (wins::float + ties::float + losses::float) ) - 0.5) * 2) AS projected_score
 									FROM players join colleges
 										ON players.college_id=colleges.college_id
 									WHERE player_id=%s AND year=%s AND week=%s)
@@ -372,7 +372,7 @@ class TauDBHelper:
 						WHERE position IN {positions_str} AND year=%s AND week=%s)
 						AS player_info
 					LEFT JOIN
-						(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (wins::float / (wins::float + ties::float + losses::float)) AS projected_score
+									(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (1 + .2 * ( ( wins::float / (wins::float + ties::float + losses::float) ) - 0.5) * 2) AS projected_score
 						FROM players join colleges
 							ON players.college_id=colleges.college_id
 						WHERE position IN {positions_str} AND year=%s AND week=%s)
