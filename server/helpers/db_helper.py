@@ -238,7 +238,7 @@ class TauDBHelper:
 							curs.execute(
 								"""
 								SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
-									COALESCE (projected_score, 0) AS projected_score
+									COALESCE (ROUND(projected_score::numeric, 2)::float, 0.0) AS projected_score
 								FROM
 									(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name
 									FROM players join colleges
@@ -384,7 +384,7 @@ class TauDBHelper:
 				curs.execute(
 					f"""
 					SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
-						COALESCE (projected_score, 0) AS projected_score
+						COALESCE (ROUND(projected_score::numeric, 2)::float, 0.0) AS projected_score
 					FROM
 						(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name
 						FROM players join colleges
