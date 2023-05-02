@@ -84,6 +84,7 @@ class AnotherWindow(QMainWindow):
     def update_current_week(self, index: int):
         self.main_window.view_players_week_dropdown.setCurrentIndex(index)
         self.main_window.available_players_week_dropdown.setCurrentIndex(index)
+        self.update_fantasy_teams()
         self.update_available_players()
 
     def change_fantasy_team(self, index: int):
