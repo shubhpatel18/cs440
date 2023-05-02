@@ -23,7 +23,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="view_team_tab">
        <attribute name="title">
@@ -262,62 +262,7 @@
           </property>
           <item>
            <property name="text">
-            <string>Week 1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 6</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 7</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 8</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 9</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 10</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 11</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 12</string>
+            <string>Week 14</string>
            </property>
           </item>
           <item>
@@ -327,7 +272,62 @@
           </item>
           <item>
            <property name="text">
-            <string>Week 14</string>
+            <string>Week 12</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 11</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 10</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 9</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 8</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 7</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 6</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 1</string>
            </property>
           </item>
          </widget>
@@ -477,64 +477,12 @@
         </item>
         <item row="0" column="2">
          <widget class="QComboBox" name="available_players_week_dropdown">
+          <property name="currentText">
+           <string>Week 14</string>
+          </property>
           <item>
            <property name="text">
-            <string>Week 1</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 2</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 3</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 4</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 5</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 6</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 7</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 8</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 9</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 10</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 11</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>Week 12</string>
+            <string>Week 14</string>
            </property>
           </item>
           <item>
@@ -544,7 +492,62 @@
           </item>
           <item>
            <property name="text">
-            <string>Week 14</string>
+            <string>Week 12</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 11</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 10</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 9</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 8</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 7</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 6</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 4</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 3</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Week 1</string>
            </property>
           </item>
          </widget>
