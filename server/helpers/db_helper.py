@@ -6,6 +6,8 @@ from typing import Dict, Tuple, List
 
 import psycopg
 
+TEAM_ROLES = ['qb_id', 'rb_id', 'wr1_id', 'wr2_id', 'te_id', 'flex_id', 'center_id', 'lg_id', 'rg_id', 'punter_id', 'de1_id', 'de2_id', 'dt1_id', 'dt2_id', 'lb1_id', 'lb2_id', 'lb3_id', 'cb1_id', 'cb2_id', 's1_id', 's2_id', 'kicker_id']
+
 ROLE_TO_POSITIONS = {
 	'qb': ('QB',),
 	'rb': ('RB',),
@@ -31,8 +33,6 @@ ROLE_TO_POSITIONS = {
 	'kicker': ('K',),
 	'all': ('QB', 'RB', 'WR', 'TE', 'C', 'G', 'P', 'DE', 'DT', 'LB', 'CB', 'S', 'K'),
 }
-
-TEAM_ROLES = set(ROLE_TO_POSITIONS.keys() - {'all'})
 
 ##############################################################################
 # ERROR HANDLING NOT YET IMPLEMENTED, ALL FUNCTIONS RETURN ERROR = FALSE
@@ -232,7 +232,7 @@ class TauDBHelper:
 				prev_week_week = week - 1 if week > 0 else 14
 				fantasy_teams = defaultdict(dict)
 				for team_name, player_ids in fantasy_team_ids.items():
-					for player_id, position in zip(player_ids, TEAM_ROLES):
+					for player_id, role in zip(player_ids, TEAM_ROLES):
 						player_stats = []  # default to no stats
 						if player_id:
 							curs.execute(
@@ -252,7 +252,6 @@ class TauDBHelper:
 									WHERE player_id=%s AND year=%s AND week=%s)
 									AS projected_scores
 								ON player_info.player_id=projected_scores.player_id
-								ORDER BY projected_score DESC
 								""",
 								(
 									player_id, this_week_year, this_week_week,
@@ -261,7 +260,7 @@ class TauDBHelper:
 								)
 							)
 							player_stats = curs.fetchone()
-						fantasy_teams[team_name][position] = player_stats
+						fantasy_teams[team_name][role] = player_stats
 
 		return fantasy_teams, True, True, False
 
