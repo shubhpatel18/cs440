@@ -104,6 +104,7 @@ class AnotherWindow(QMainWindow):
             'username': self.link.username,
             'team_role': self.main_window.team_role_combobox.currentText(),
             'year': 2022,
+            'count': 100,
             'week': self.main_window.available_players_week_dropdown.currentText().split(' ')[1],
             'receptions_multiplier': self.link.receptions,
             'total_yards_multiplier': self.link.yards,

@@ -309,7 +309,7 @@ class TauDBHelper:
 				conn.commit()
 				return True, True, True, True, False
 
-	def get_players_available_to_team(self, team_name: str, username: str, team_role: str, year:int, week: int,
+	def get_players_available_to_team(self, team_name: str, username: str, team_role: str, year:int, week: int, count: int,
 			receptions_multiplier: float, total_yards_multiplier: float, touchdowns_multiplier: float, turnovers_lost_mulitplier: float, sacks_multiplier: float, tackles_for_loss_multiplier: float, interceptions_multiplier: float, fumbles_recovered_multiplier: float, punting_yards_multiplier: float, fg_percentage_multiplier: float
 		) -> Tuple[List[Dict], bool, bool, bool]:
 		"""returns players_available_to_team, user_exists, team_exists, valid_role, error"""
@@ -372,11 +372,12 @@ class TauDBHelper:
 						AS projected_scores
 					ON player_info.player_id=projected_scores.player_id
 					ORDER BY projected_score DESC
+					LIMIT {count if count >= 0 else 'ALL'}
 					""",
 					(
 						this_week_year, this_week_week,
 						receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier,
-						prev_week_year, prev_week_week
+						prev_week_year, prev_week_week,
 					)
 				)
 				all_available_players = curs.fetchall()

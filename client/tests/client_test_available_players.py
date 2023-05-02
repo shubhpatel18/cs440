@@ -29,6 +29,7 @@ def main():
 		'team_role': 'all',
 		'year': 2022,
 		'week': 14,
+		'count': 10,
 		'receptions_multiplier': 1,
 		'total_yards_multiplier': 1,
 		'touchdowns_multiplier': 1,

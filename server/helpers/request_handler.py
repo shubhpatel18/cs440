@@ -163,6 +163,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		team_role = param_dict.get('team_role', '').lower()
 		year = param_dict.get('year', None)
 		week = param_dict.get('week', None)
+		count = param_dict.get('count', 0)
 		receptions_multiplier = param_dict.get('receptions_multiplier', 0)
 		total_yards_multiplier = param_dict.get('total_yards_multiplier', 0)
 		touchdowns_multiplier = param_dict.get('touchdowns_multiplier', 0)
@@ -174,7 +175,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		punting_yards_multiplier = param_dict.get('punting_yards_multiplier', 0)
 		fg_percentage_multiplier = param_dict.get('fg_percentage_multiplier', 0)
 		if not (
-			team_name and username and team_role and year and week
+			team_name and username and team_role and year and week and count
 			and receptions_multiplier and total_yards_multiplier and touchdowns_multiplier and turnovers_lost_mulitplier and sacks_multiplier and tackles_for_loss_multiplier and interceptions_multiplier and fumbles_recovered_multiplier and punting_yards_multiplier and fg_percentage_multiplier
 		):
 			return HTTPReturnCode.BAD_REQUEST, {
@@ -188,6 +189,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		try:
 			year = int(year)
 			week = int(week)
+			count = int(count)
 			receptions_multiplier = float(receptions_multiplier)
 			total_yards_multiplier = float(total_yards_multiplier)
 			touchdowns_multiplier = float(touchdowns_multiplier)
@@ -206,9 +208,9 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				'valid_role': False,
 				'valid_request': False,
 			}
-
+		
 		available_players, user_exists, team_exists, valid_role, error = self.db_helper.get_players_available_to_team(
-			team_name, username, team_role, year, week,
+			team_name, username, team_role, year, week, count,
 			receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier
 		)
 		if error: return_code = HTTPReturnCode.SERVICE_UNAVAILABLE
