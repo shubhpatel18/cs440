@@ -77,7 +77,7 @@ class AnotherWindow(QMainWindow):
         self.main_window.available_players_team_name_dropdown.currentIndexChanged.connect(self.fantasy_team_changed)
         self.main_window.view_players_team_name_dropdown.currentIndexChanged.connect(self.fantasy_team_changed)
         self.main_window.available_players_week_dropdown.currentIndexChanged.connect(self.update_available_players)
-        self.main_window.team_role_combobox.currentTextChanged.connect(self.update_available_players)
+        self.main_window.team_role_combobox.currentIndexChanged.connect(self.update_available_players)
 
     def change_fantasy_team(self, index: int):
         self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
@@ -143,7 +143,7 @@ class AnotherWindow(QMainWindow):
     def init_fantasy_teams(self):
         self.update_fantasy_teams()
 
-    def update_fantasy_teams(self):
+    def update_fantasy_teams(self, index=None):
         url = f'{self.link.server_address}:{self.link.server_port}/fantasy_teams'
         params = {
             'username': self.link.username,
@@ -165,6 +165,9 @@ class AnotherWindow(QMainWindow):
         data = r.json()
         r.close()
 
+        # remember current index if one hasnt been set
+        index = index or self.main_window.view_players_team_name_dropdown.currentIndex()
+
         if data['team_exists'] == True:
 
             # update team name dropdowns
@@ -175,6 +178,9 @@ class AnotherWindow(QMainWindow):
             for fantasy_team_name in data['fantasy_teams']:
                 self.main_window.available_players_team_name_dropdown.addItem(fantasy_team_name)
                 self.main_window.view_players_team_name_dropdown.addItem(fantasy_team_name)
+            if index >= 0:
+                self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
+                self.main_window.view_players_team_name_dropdown.setCurrentIndex(index)
             self.main_window.available_players_team_name_dropdown.blockSignals(False)
             self.main_window.view_players_team_name_dropdown.blockSignals(False)
 
@@ -211,7 +217,7 @@ class AnotherWindow(QMainWindow):
         create_new_team_dialog = CreateNewTeamDialog(self.link)
         create_new_team_dialog.exec()
         if create_new_team_dialog.accepted:
-            self.update_fantasy_teams()
+            self.update_fantasy_teams(self.main_window.view_players_team_name_dropdown.count())
             self.update_available_players()
 
     def add_player(self):
