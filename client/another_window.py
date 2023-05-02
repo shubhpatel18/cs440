@@ -77,7 +77,13 @@ class AnotherWindow(QMainWindow):
         self.main_window.available_players_team_name_dropdown.currentIndexChanged.connect(self.fantasy_team_changed)
         self.main_window.view_players_team_name_dropdown.currentIndexChanged.connect(self.fantasy_team_changed)
         self.main_window.available_players_week_dropdown.currentIndexChanged.connect(self.update_available_players)
-        self.main_window.team_role_combobox.currentIndexChanged.connect(self.update_available_players)
+        self.main_window.view_players_week_dropdown.currentIndexChanged.connect(self.update_current_week)
+        self.main_window.team_role_combobox.currentTextChanged.connect(self.update_available_players)
+
+    def update_current_week(self):
+        current_week = self.main_window.view_players_week_dropdown.currentIndex()
+        self.main_window.available_players_week_dropdown.setCurrentIndex(current_week)
+        self.update_available_players()
 
     def change_fantasy_team(self, index: int):
         self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
@@ -139,6 +145,10 @@ class AnotherWindow(QMainWindow):
                 self.main_window.available_players.setItem(row, column, item)
 
         self.main_window.available_players.resizeColumnToContents(0)
+
+        current_week = self.main_window.available_players_week_dropdown.currentIndex()
+        self.main_window.view_players_week_dropdown.setCurrentIndex(current_week)
+        self.update_fantasy_teams()
 
     def init_fantasy_teams(self):
         self.update_fantasy_teams()
