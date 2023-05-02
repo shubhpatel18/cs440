@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui_xml/another_window_widget.ui'
+# Form implementation generated from reading ui file 'client/ui_xml/another_window_widget.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -16,8 +16,8 @@ class Ui_AnotherWindow(object):
         AnotherWindow.setObjectName("AnotherWindow")
         AnotherWindow.resize(1206, 738)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("ui_xml/../images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        icon.addPixmap(QtGui.QPixmap("ui_xml/../images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon.addPixmap(QtGui.QPixmap("client/ui_xml/../images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("client/ui_xml/../images/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         AnotherWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(AnotherWindow)
         self.centralwidget.setObjectName("centralwidget")
