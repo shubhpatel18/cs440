@@ -277,6 +277,29 @@ class AnotherWindow(QMainWindow):
     def record_weights(self):
         self.main_window.settings_success_label.setText("")
 
+        line_edits = [
+            self.main_window.receptions_edit,
+            self.main_window.tfl_edit,
+            self.main_window.yards_edit,
+            self.main_window.interceptions_edit,
+            self.main_window.touchdowns_edit,
+            self.main_window.fumbles_edit,
+            self.main_window.turnovers_edit,
+            self.main_window.punting_edit,
+            self.main_window.sacks_edit,
+            self.main_window.fg_percentage_edit,
+        ]
+
+        invalid_input = False
+        for line_edit in line_edits:
+            if line_edit.hasAcceptableInput():
+                line_edit.setStyleSheet("")
+            else:
+                line_edit.setStyleSheet("background-color: #ff6060")
+                invalid_input = True
+        if invalid_input:
+            return
+
         self.link.receptions = float(self.main_window.receptions_edit.text())
         self.link.tfl = float(self.main_window.tfl_edit.text())
         self.link.yards = float(self.main_window.yards_edit.text())
