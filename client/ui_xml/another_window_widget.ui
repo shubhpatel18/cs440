@@ -23,7 +23,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="view_team_tab">
        <attribute name="title">
@@ -240,7 +240,7 @@
           </column>
           <column>
            <property name="text">
-            <string>Score</string>
+            <string>Projected Score</string>
            </property>
            <property name="font">
             <font>
@@ -771,7 +771,7 @@
           </column>
           <column>
            <property name="text">
-            <string>Score</string>
+            <string>Projected Score</string>
            </property>
            <property name="font">
             <font>
