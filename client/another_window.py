@@ -79,6 +79,7 @@ class AnotherWindow(QMainWindow):
         self.main_window.available_players_week_dropdown.currentIndexChanged.connect(self.update_current_week)
         self.main_window.view_players_week_dropdown.currentIndexChanged.connect(self.update_current_week)
         self.main_window.team_role_combobox.currentIndexChanged.connect(self.update_available_players)
+        self.main_window.count_spinbox.valueChanged.connect(self.update_available_players)
 
     def update_current_week(self, index: int):
         self.main_window.view_players_week_dropdown.setCurrentIndex(index)
@@ -104,7 +105,7 @@ class AnotherWindow(QMainWindow):
             'username': self.link.username,
             'team_role': self.main_window.team_role_combobox.currentText(),
             'year': 2022,
-            'count': 100,
+            'count': self.main_window.count_spinbox.value(),
             'week': self.main_window.available_players_week_dropdown.currentText().split(' ')[1],
             'receptions_multiplier': self.link.receptions,
             'total_yards_multiplier': self.link.yards,
