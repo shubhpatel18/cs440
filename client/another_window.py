@@ -1,5 +1,6 @@
 import json
 import requests
+import os
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -21,6 +22,17 @@ class AnotherWindow(QMainWindow):
 
         self.main_window = Ui_AnotherWindow()
         self.main_window.setupUi(self)
+
+        self.main_window.receptions_edit.setText(str(self.link.receptions))
+        self.main_window.tfl_edit.setText(str(self.link.tfl))
+        self.main_window.yards_edit.setText(str(self.link.yards))
+        self.main_window.interceptions_edit.setText(str(self.link.interceptions))
+        self.main_window.touchdowns_edit.setText(str(self.link.touchdowns))
+        self.main_window.fumbles_edit.setText(str(self.link.fumbles))
+        self.main_window.turnovers_edit.setText(str(self.link.turnovers))
+        self.main_window.punting_edit.setText(str(self.link.punting_yards))
+        self.main_window.sacks_edit.setText(str(self.link.sacks))
+        self.main_window.fg_percentage_edit.setText(str(self.link.fg_percentage))
 
         # valid settings inputs
         self.main_window.receptions_edit.setValidator(QDoubleValidator())
@@ -263,6 +275,8 @@ class AnotherWindow(QMainWindow):
             self.main_window.view_players_label.setStyleSheet("color: rgb(0, 128, 0)")
 
     def record_weights(self):
+        self.main_window.settings_success_label.setText("")
+
         self.link.receptions = float(self.main_window.receptions_edit.text())
         self.link.tfl = float(self.main_window.tfl_edit.text())
         self.link.yards = float(self.main_window.yards_edit.text())
@@ -291,6 +305,13 @@ class AnotherWindow(QMainWindow):
 
         with open("client/resources/weights.json", "w") as outfile:
             outfile.write(json_object)
+            
+        if os.path.isfile("client/resources/weights.json"):
+            self.main_window.settings_success_label.setText("Weights have been submitted.")
+            self.main_window.settings_success_label.setStyleSheet("color: rgb(0, 128, 0)")
+        else:
+            self.main_window.settings_success_label.setText("Weights have not been submitted. Please try again.")
+            self.main_window.settings_success_label.setStyleSheet("color: rgb(239, 41, 41)")
 
         self.update_available_players()
 
