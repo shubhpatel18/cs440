@@ -181,7 +181,7 @@ class AnotherWindow(QMainWindow):
         # remember current index if one hasnt been set
         index = index if index is not None else self.main_window.view_players_team_name_dropdown.currentIndex()
 
-        if data['team_exists'] == True:
+        if data['fantasy_teams']:
 
             # update team name dropdowns
             self.main_window.available_players_team_name_dropdown.blockSignals(True)

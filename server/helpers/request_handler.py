@@ -49,7 +49,6 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				for pair in param_pairs:
 					k, v = pair.split('=')
 					param_dict[k] = v
-			print(path)
 			return path, param_dict, False
 		except ValueError as e:
 			return '', {}, True
@@ -139,7 +138,6 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			return HTTPReturnCode.BAD_REQUEST, {
 				'fantasy_teams': {},
 				'user_exists': False,
-				'team_exists': False,
 				'valid_role': False,
 				'valid_request': False,
 			}
@@ -153,7 +151,6 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 		return return_code, {
 			'fantasy_teams': fantasy_teams,
 			'user_exists': user_exists,
-			'team_exists': team_exists,
 			'valid_request': True,
 		}
 

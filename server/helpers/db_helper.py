@@ -164,7 +164,7 @@ class TauDBHelper:
 	def view_fantasy_teams(self, username: str, year: int, week: int,
 			receptions_multiplier: float, total_yards_multiplier: float, touchdowns_multiplier: float, turnovers_lost_mulitplier: float, sacks_multiplier: float, tackles_for_loss_multiplier: float, interceptions_multiplier: float, fumbles_recovered_multiplier: float, punting_yards_multiplier: float, fg_percentage_multiplier: float
 		) -> Tuple[Dict[str, Dict[str, List]], bool, bool, bool]:
-		"""returns fantasy_teams, user_exists, team_exists, error"""
+		"""returns fantasy_teams, user_exists, error"""
 
 		with psycopg.connect(f'dbname={self.db_name} user={self.db_username} password={self.db_password}') as conn:
 			with conn.cursor() as curs:
@@ -172,7 +172,7 @@ class TauDBHelper:
 				curs.execute("SELECT * FROM users WHERE username=%s", (username,))
 				user_exists = curs.rowcount > 0
 				if not user_exists:
-					return {}, False, False, False
+					return {}, False, False
 
 				# get user id
 				user_info = curs.fetchone()
@@ -188,9 +188,6 @@ class TauDBHelper:
 					""",
 					(user_id,)
 				)
-				team_exists = curs.rowcount > 0
-				if not team_exists:
-					return {}, True, False, False
 
 				# make dictionary of team ids
 				fantasy_team_ids = {}
@@ -238,7 +235,7 @@ class TauDBHelper:
 							player_stats = curs.fetchone()
 						fantasy_teams[team_name][role] = player_stats
 
-		return fantasy_teams, True, True, False
+		return fantasy_teams, True, False
 
 	def set_player_in_fantasy_team(self, player_name: str, player_position: str, team_role: str, team_name: str, username: str) -> Tuple[bool, bool, bool, bool, bool]:
 		"""returns add_player_successful, user_exists, team_exists, player_exists, valid_role, error"""
