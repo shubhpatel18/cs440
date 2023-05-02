@@ -40,7 +40,6 @@ class EditTeamDialog(QDialog):
 
         r = requests.post(url=url, json=post_data, verify=self.link.server_cert)
         data = r.json()
-        print(data)
 
         if data['valid_request'] == True:
             self.valid = True

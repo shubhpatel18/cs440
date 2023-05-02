@@ -53,6 +53,7 @@ class AnotherWindow(QMainWindow):
         self.changepass_button.clicked.connect(self.open_change_password)
 
         self.main_window.edit_team.clicked.connect(lambda: self.open_team_edit(self.main_window.profile_fantasy_team_dropdown.currentText()))
+        self.main_window.remove_team.clicked.connect(lambda: self.remove_team(self.main_window.profile_fantasy_team_dropdown.currentText()))
 
         self.shortcut_fullscreen = QShortcut(QKeySequence('F11'), self)
         self.shortcut_fullscreen.activated.connect(self.toggle_fullscreen)
@@ -390,6 +391,18 @@ class AnotherWindow(QMainWindow):
             self.update_fantasy_teams(self.main_window.view_players_team_name_dropdown.count())
             self.update_available_players()
 
+    def remove_team(self, team_name: str):
+        url = f'{self.link.server_address}:{self.link.server_port}/remove_fantasy_team'
+        post_data = {
+            'team_name': team_name,
+            'username': self.link.username,
+        }
+
+        requests.post(url=url, json=post_data, verify=self.link.server_cert)
+
+        self.update_fantasy_teams(self.main_window.view_players_team_name_dropdown.count())
+        self.update_available_players()
+        
     def toggle_fullscreen(self):
         if self.isFullScreen():
             self.showNormal()
