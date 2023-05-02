@@ -247,7 +247,7 @@ class AnotherWindow(QMainWindow):
         team_role = player_info[1]
         team_name = self.main_window.view_players_team_name_dropdown.currentText()
 
-        url = f'{self.link.server_address}:{self.link.server_port}/remove_player'
+        url = f'{self.link.server_address}:{self.link.server_port}/clear_role'
         post_data = {
             'team_role': team_role,
             'team_name': team_name,
@@ -258,7 +258,7 @@ class AnotherWindow(QMainWindow):
         data = r.json()
         r.close()
 
-        if data['remove_player_successful'] == True:
+        if data['clear_role_successful'] == True:
             self.update_fantasy_team()
 
             self.main_window.view_players_label.setText(player_name + " successfully removed from team " + team_name + ".")
