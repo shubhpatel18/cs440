@@ -10,6 +10,7 @@ from ui_python.another_window_widget import Ui_AnotherWindow
 from link import Link
 from change_password import ChangePasswordDialog
 from create_new_team import CreateNewTeamDialog
+from edit_team import EditTeamDialog
 from add_player import AddPlayerDialog
 from success_dialog import SuccessDialog
 from failure_dialog import FailureDialog
@@ -50,6 +51,8 @@ class AnotherWindow(QMainWindow):
 
         self.changepass_button = self.main_window.pushButton
         self.changepass_button.clicked.connect(self.open_change_password)
+
+        self.main_window.edit_team.clicked.connect(lambda: self.open_team_edit(self.main_window.profile_fantasy_team_dropdown.currentText()))
 
         self.shortcut_fullscreen = QShortcut(QKeySequence('F11'), self)
         self.shortcut_fullscreen.activated.connect(self.toggle_fullscreen)
@@ -182,16 +185,21 @@ class AnotherWindow(QMainWindow):
             # update team name dropdowns
             self.main_window.available_players_team_name_dropdown.blockSignals(True)
             self.main_window.view_players_team_name_dropdown.blockSignals(True)
+            self.main_window.profile_fantasy_team_dropdown.blockSignals(True)
             self.main_window.available_players_team_name_dropdown.clear()
             self.main_window.view_players_team_name_dropdown.clear()
+            self.main_window.profile_fantasy_team_dropdown.clear()
             for fantasy_team_name in data['fantasy_teams']:
                 self.main_window.available_players_team_name_dropdown.addItem(fantasy_team_name)
                 self.main_window.view_players_team_name_dropdown.addItem(fantasy_team_name)
+                self.main_window.profile_fantasy_team_dropdown.addItem(fantasy_team_name)
             if index >= 0:
                 self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
                 self.main_window.view_players_team_name_dropdown.setCurrentIndex(index)
+                self.main_window.profile_fantasy_team_dropdown.setCurrentIndex(index)
             self.main_window.available_players_team_name_dropdown.blockSignals(False)
             self.main_window.view_players_team_name_dropdown.blockSignals(False)
+            self.main_window.profile_fantasy_team_dropdown.blockSignals(False)
 
             # populate table with fantasy team data
             team_name = self.main_window.view_players_team_name_dropdown.currentText()
@@ -367,6 +375,20 @@ class AnotherWindow(QMainWindow):
             self.error_label.setText("Invalid password change request. Please try again.")
             self.error_label.setStyleSheet("color: rgb(239, 41, 41)")
             return
+        
+    def open_team_edit(self, team_name: str):
+        edit_team_dialog_box = EditTeamDialog(self.link, team_name)
+
+        edit_team_dialog_box.exec()
+
+        if edit_team_dialog_box.success == False:
+            return
+        elif edit_team_dialog_box.valid == False:
+            return
+        
+        if edit_team_dialog_box.accepted:
+            self.update_fantasy_teams(self.main_window.view_players_team_name_dropdown.count())
+            self.update_available_players()
 
     def toggle_fullscreen(self):
         if self.isFullScreen():
