@@ -33,7 +33,7 @@
         <item row="1" column="0" colspan="3">
          <widget class="QTableWidget" name="view_players">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -60,11 +60,11 @@
           </column>
           <column>
            <property name="text">
-            <string>Player_ID</string>
+            <string>Team Role</string>
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -76,7 +76,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -88,7 +88,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -100,7 +100,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -112,7 +112,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -124,7 +124,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -136,7 +136,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -148,7 +148,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -160,7 +160,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -172,7 +172,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -184,7 +184,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -196,7 +196,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -208,7 +208,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -220,7 +220,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -232,7 +232,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -244,7 +244,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -552,7 +552,7 @@
         <item row="1" column="0" colspan="4">
          <widget class="QTableWidget" name="available_players">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -595,7 +595,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -607,7 +607,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -619,7 +619,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -631,7 +631,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -643,7 +643,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -655,7 +655,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -667,7 +667,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -679,7 +679,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -691,7 +691,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -703,7 +703,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -715,7 +715,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -727,7 +727,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -739,7 +739,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -751,7 +751,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
@@ -763,7 +763,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>16</pointsize>
+             <pointsize>12</pointsize>
              <weight>75</weight>
              <bold>true</bold>
             </font>
