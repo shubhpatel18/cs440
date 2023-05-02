@@ -11,6 +11,7 @@ from link import Link
 from change_password import ChangePasswordDialog
 from create_new_team import CreateNewTeamDialog
 from add_player import AddPlayerDialog
+from success_dialog import SuccessDialog
 
 class AnotherWindow(QMainWindow):
     def __init__(self, link: Link, *args, **kwargs) -> None:
@@ -214,9 +215,11 @@ class AnotherWindow(QMainWindow):
 
         if add_player_dialog.successful == True:
             self.update_fantasy_teams()
+            
+            success_dialog = SuccessDialog()
+            success_dialog.label.setText(player_name + " successfully added to team " + team_name + ".")
+            success_dialog.exec()
 
-            self.main_window.view_players_label.setText(player_name + " successfully added to team " + team_name + ".")
-            self.main_window.view_players_label.setStyleSheet("color: rgb(0, 128, 0)")
             self.main_window.tabWidget.setCurrentIndex(0)
 
             self.update_available_players()
