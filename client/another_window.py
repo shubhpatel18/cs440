@@ -66,6 +66,7 @@ class AnotherWindow(QMainWindow):
         # connect the currentTextChanged signal to a slot function
         self.main_window.available_players_team_name_dropdown.currentTextChanged.connect(lambda: self.change_fantasy_team(self.main_window.available_players_team_name_dropdown.currentIndex()))
         self.main_window.view_players_team_name_dropdown.currentTextChanged.connect(lambda: self.change_fantasy_team(self.main_window.view_players_team_name_dropdown.currentIndex()))
+        self.main_window.available_players_week_dropdown.currentTextChanged.connect(self.update_available_players)
         self.main_window.team_role_combobox.currentTextChanged.connect(self.update_available_players)
 
     def change_fantasy_team(self, index: int):
