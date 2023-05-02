@@ -402,8 +402,8 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 			}
 		
 		position_exists = player_position in POSITION_TO_ROLES
-		position_allowed = team_role in POSITION_TO_ROLES[player_position]
-		if not (position_exists and position_allowed):
+		position_allowed = position_exists and team_role in POSITION_TO_ROLES[player_position]
+		if not position_allowed:
 			return HTTPReturnCode.BAD_REQUEST, {
 				'valid_position': False,
 				'add_player_successful': False,
