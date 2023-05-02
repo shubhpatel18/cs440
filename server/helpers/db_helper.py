@@ -353,7 +353,7 @@ class TauDBHelper:
 				positions_str = f'({joined_positions})'
 
 				str_team_player_ids = (f"'{team_player_id}'" for team_player_id in team_player_ids)
-				joined_team_player_ids = ', '.join(str_team_player_ids)
+				joined_team_player_ids = ', '.join(str_team_player_ids) or "'-1'"
 				team_player_ids_str = f'({joined_team_player_ids})'
 
 				# look up players stats for year and week
