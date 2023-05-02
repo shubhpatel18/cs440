@@ -66,6 +66,7 @@ class AnotherWindow(QMainWindow):
         # connect the currentTextChanged signal to a slot function
         self.main_window.available_players_team_name_dropdown.currentTextChanged.connect(lambda: self.change_fantasy_team(self.main_window.available_players_team_name_dropdown.currentIndex()))
         self.main_window.view_players_team_name_dropdown.currentTextChanged.connect(lambda: self.change_fantasy_team(self.main_window.view_players_team_name_dropdown.currentIndex()))
+        self.main_window.team_role_combobox.currentTextChanged.connect(self.update_available_players)
 
     def change_fantasy_team(self, index: int):
         self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
@@ -88,6 +89,7 @@ class AnotherWindow(QMainWindow):
         params = {
             'team_name': self.main_window.available_players_team_name_dropdown.currentText(),
             'username': self.link.username,
+            'team_role': self.main_window.team_role_combobox.currentText(),
             'year': 2022,
             'week': self.main_window.available_players_week_dropdown.currentText().split(' ')[1],
             'receptions_multiplier': self.link.receptions,
@@ -101,8 +103,6 @@ class AnotherWindow(QMainWindow):
             'punting_yards_multiplier': self.link.punting_yards,
             'fg_percentage_multiplier': self.link.fg_percentage,
         }
-
-        print(params)
 
         r = requests.get(url=url, params=params, verify=self.link.server_cert)
         data = r.json()
@@ -146,8 +146,6 @@ class AnotherWindow(QMainWindow):
             'punting_yards_multiplier': self.link.punting_yards,
             'fg_percentage_multiplier': self.link.fg_percentage,
         }
-
-        print(params)
 
         r = requests.get(url=url, params=params, verify=self.link.server_cert)
         data = r.json()
