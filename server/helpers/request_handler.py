@@ -7,23 +7,9 @@ from typing import Tuple, Dict
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-from helpers.db_helper import TauDBHelper
+from common.translations import POSITION_TO_ROLES
 
-POSITION_TO_ROLES = {
-	'QB': {'qb'},
-	'RB': {'rb', 'flex'},
-	'WR': {'wr1', 'wr2', 'flex'},
-	'TE': {'te', 'flex'},
-	'C': {'center'},
-	'G': {'lg', 'rg'},
-	'P': {'punter'},
-	'DE': {'de1', 'de2'},
-	'DT': {'dt1', 'dt2'},
-	'LB': {'lb1', 'lb2', 'lb3'},
-	'CB': {'cb1', 'cb2'},
-	'S': {'s1', 's2'},
-	'K': {'kicker'},
-}
+from helpers.db_helper import TauDBHelper
 
 class HTTPReturnCode(IntEnum):
 	OK = 200

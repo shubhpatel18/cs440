@@ -6,33 +6,7 @@ from typing import Dict, Tuple, List
 
 import psycopg
 
-TEAM_ROLES = ['qb', 'rb', 'wr1', 'wr2', 'te', 'flex', 'center', 'lg', 'rg', 'punter', 'de1', 'de2', 'dt1', 'dt2', 'lb1', 'lb2', 'lb3', 'cb1', 'cb2', 's1', 's2', 'kicker']
-
-ROLE_TO_POSITIONS = {
-	'qb': ('QB',),
-	'rb': ('RB',),
-	'wr1': ('WR',),
-	'wr2': ('WR',),
-	'te': ('TE',),
-	'flex': ('RB', 'WR', 'TE'),
-	'center': ('C',),
-	'lg': ('G',),
-	'rg': ('G',),
-	'punter': ('P',),
-	'de1': ('DE',),
-	'de2': ('DE',),
-	'dt1': ('DT',),
-	'dt2': ('DT',),
-	'lb1': ('LB',),
-	'lb2': ('LB',),
-	'lb3': ('LB',),
-	'cb1': ('CB',),
-	'cb2': ('CB',),
-	's1': ('S',),
-	's2': ('S',),
-	'kicker': ('K',),
-	'all': ('QB', 'RB', 'WR', 'TE', 'C', 'G', 'P', 'DE', 'DT', 'LB', 'CB', 'S', 'K'),
-}
+from common.translations import TEAM_ROLES, ROLE_TO_POSITIONS
 
 ##############################################################################
 # ERROR HANDLING NOT YET IMPLEMENTED, ALL FUNCTIONS RETURN ERROR = FALSE

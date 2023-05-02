@@ -1,0 +1,43 @@
+TEAM_ROLES = ['qb', 'rb', 'wr1', 'wr2', 'te', 'flex', 'center', 'lg', 'rg', 'punter', 'de1', 'de2', 'dt1', 'dt2', 'lb1', 'lb2', 'lb3', 'cb1', 'cb2', 's1', 's2', 'kicker']
+
+ROLE_TO_POSITIONS = {
+	'qb': ('QB',),
+	'rb': ('RB',),
+	'wr1': ('WR',),
+	'wr2': ('WR',),
+	'te': ('TE',),
+	'flex': ('RB', 'WR', 'TE'),
+	'center': ('C',),
+	'lg': ('G',),
+	'rg': ('G',),
+	'punter': ('P',),
+	'de1': ('DE',),
+	'de2': ('DE',),
+	'dt1': ('DT',),
+	'dt2': ('DT',),
+	'lb1': ('LB',),
+	'lb2': ('LB',),
+	'lb3': ('LB',),
+	'cb1': ('CB',),
+	'cb2': ('CB',),
+	's1': ('S',),
+	's2': ('S',),
+	'kicker': ('K',),
+	'all': ('QB', 'RB', 'WR', 'TE', 'C', 'G', 'P', 'DE', 'DT', 'LB', 'CB', 'S', 'K'),
+}
+
+POSITION_TO_ROLES = {
+	'QB': {'qb'},
+	'RB': {'rb', 'flex'},
+	'WR': {'wr1', 'wr2', 'flex'},
+	'TE': {'te', 'flex'},
+	'C': {'center'},
+	'G': {'lg', 'rg'},
+	'P': {'punter'},
+	'DE': {'de1', 'de2'},
+	'DT': {'dt1', 'dt2'},
+	'LB': {'lb1', 'lb2', 'lb3'},
+	'CB': {'cb1', 'cb2'},
+	'S': {'s1', 's2'},
+	'K': {'kicker'},
+}
