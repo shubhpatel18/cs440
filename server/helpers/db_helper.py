@@ -352,6 +352,10 @@ class TauDBHelper:
 				joined_positions = ', '.join(str_positions)
 				positions_str = f'({joined_positions})'
 
+				str_team_player_ids = (f"'{team_player_id}'" for team_player_id in team_player_ids)
+				joined_team_player_ids = ', '.join(str_team_player_ids)
+				team_player_ids_str = f'({joined_team_player_ids})'
+
 				# look up players stats for year and week
 				this_week_year, this_week_week = year, week
 				prev_week_year = year     if week > 0 else year - 1
@@ -374,6 +378,7 @@ class TauDBHelper:
 						WHERE position IN {positions_str} AND year=%s AND week=%s)
 						AS projected_scores
 					ON player_info.player_id=projected_scores.player_id
+					WHERE player_info.player_id NOT IN {team_player_ids_str}
 					ORDER BY projected_score DESC
 					LIMIT {count if count >= 0 else 'ALL'}
 					""",
@@ -384,11 +389,6 @@ class TauDBHelper:
 						prev_week_year, prev_week_week,
 					)
 				)
-				all_available_players = curs.fetchall()
+				players_available_to_team = curs.fetchall()
 
-		# filter players available to team
-		def available_to_team(player_data):
-			player_id = player_data[0]
-			return player_id not in team_player_ids
-		players_available_to_team = list(filter(available_to_team, all_available_players))
 		return players_available_to_team, True, True, True, False
