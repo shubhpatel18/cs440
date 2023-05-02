@@ -14,16 +14,16 @@ class Link(QObject):
         self.server_address, self.server_port, self.server_cert = self.read_config()
 
         # weights
-        self.receptions = 0.0
-        self.tfl = 0.0
-        self.yards = 0.0
-        self.interceptions = 0.0
-        self.touchdowns = 0.0
-        self.fumbles = 0.0
-        self.turnovers = 0.0
-        self.punting_yards = 0.0
-        self.sacks = 0.0
-        self.fg_percentage = 0.0
+        self.receptions = 1.0
+        self.tfl = 0.25
+        self.yards = 0.1
+        self.interceptions = 2.0
+        self.touchdowns = 6.0
+        self.fumbles = 2.0
+        self.turnovers = -2.0
+        self.punting_yards = 0.02
+        self.sacks = 1.0
+        self.fg_percentage = 3.0
 
         self.get_file_weights()
 
