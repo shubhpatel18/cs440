@@ -209,16 +209,24 @@ class AnotherWindow(QMainWindow):
                 btn.clicked.connect(self.remove_player)
                 self.main_window.view_players.setCellWidget(row, 0, btn)
 
+                # fill in team role
+                item = QTableWidgetItem()
+                item.setFlags(item.flags() ^ Qt.ItemIsEditable)
+                item.setText(str(role).upper())
+                self.main_window.view_players.setItem(row, 1, item)
+
                 player_data = data['fantasy_teams'][team_name][role]
                 if len(player_data) > 0:
 
                     for column, stat in enumerate(player_data):
-                        # skip player id, but insert team role
-                        text = str(role).upper() if column == 0 else str(stat)
+                        # skip player id
+                        if column == 0:
+                            continue
+
                         item = QTableWidgetItem()
                         item.setFlags(item.flags() ^ Qt.ItemIsEditable)
-                        item.setText(text)
-                        self.main_window.view_players.setItem(row, column+1, item)  # skip button column
+                        item.setText(str(stat))
+                        self.main_window.view_players.setItem(row, column+1, item)  # skip team role column
 
             self.main_window.view_players.resizeColumnToContents(0)
 
