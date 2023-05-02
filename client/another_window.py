@@ -264,26 +264,28 @@ class AnotherWindow(QMainWindow):
 
         player_info = []
         for column in range(1, self.main_window.view_players.columnCount()):  # skip buttons
-            player_info.append(self.main_window.view_players.item(row, column).text())
+            item = self.main_window.view_players.item(row, column)
+            if item:
+                player_info.append(item.text())
+        
+        if player_info:
+            team_role = player_info[0].lower()
+            team_name = self.main_window.view_players_team_name_dropdown.currentText()
 
-        team_role = player_info[0].lower()
-        player_name = player_info[1]
-        team_name = self.main_window.view_players_team_name_dropdown.currentText()
+            url = f'{self.link.server_address}:{self.link.server_port}/clear_role'
+            post_data = {
+                'team_role': team_role,
+                'team_name': team_name,
+                'username': self.link.username
+            }
 
-        url = f'{self.link.server_address}:{self.link.server_port}/clear_role'
-        post_data = {
-            'team_role': team_role,
-            'team_name': team_name,
-            'username': self.link.username
-        }
+            r = requests.post(url=url, json=post_data, verify=self.link.server_cert)
+            data = r.json()
+            r.close()
 
-        r = requests.post(url=url, json=post_data, verify=self.link.server_cert)
-        data = r.json()
-        r.close()
-
-        if data['clear_role_successful'] == True:
-            self.update_fantasy_teams()
-            self.update_available_players()
+            if data['clear_role_successful'] == True:
+                self.update_fantasy_teams()
+                self.update_available_players()
 
     def record_weights(self):
         self.main_window.settings_success_label.setText("")
