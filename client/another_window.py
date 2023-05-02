@@ -86,7 +86,6 @@ class AnotherWindow(QMainWindow):
     def fantasy_team_changed(self, index: int):
         self.update_fantasy_teams()
         self.update_available_players()
-        self.main_window.view_players_label.setText('')
 
     def init_available_players(self):
         if self.main_window.available_players_team_name_dropdown.currentText():
@@ -270,9 +269,6 @@ class AnotherWindow(QMainWindow):
         if data['clear_role_successful'] == True:
             self.update_fantasy_teams()
             self.update_available_players()
-
-            self.main_window.view_players_label.setText(player_name + " successfully removed from team " + team_name + ".")
-            self.main_window.view_players_label.setStyleSheet("color: rgb(0, 128, 0)")
 
     def record_weights(self):
         self.main_window.settings_success_label.setText("")
