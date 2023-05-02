@@ -30,9 +30,6 @@ class Ui_AnotherWindow(object):
         self.gridLayout_3 = QtWidgets.QGridLayout(self.view_team_tab)
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.view_players = QtWidgets.QTableWidget(self.view_team_tab)
-        self.view_players.setSortingEnabled(False)
-        self.view_players.horizontalHeader().setSortIndicatorShown(False) # hide sort indicator
-        self.view_players.horizontalHeader().setSectionsClickable(False) # allow clicking on header
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -255,9 +252,6 @@ class Ui_AnotherWindow(object):
         self.horizontalLayout_2.addWidget(self.count_spinbox)
         self.gridLayout_2.addLayout(self.horizontalLayout_2, 0, 4, 1, 1)
         self.available_players = QtWidgets.QTableWidget(self.player_stats_tab)
-        self.available_players.setSortingEnabled(False)
-        self.available_players.horizontalHeader().setSortIndicatorShown(False) # hide sort indicator
-        self.available_players.horizontalHeader().setSectionsClickable(False) # allow clicking on header
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -597,7 +591,7 @@ class Ui_AnotherWindow(object):
     def retranslateUi(self, AnotherWindow):
         _translate = QtCore.QCoreApplication.translate
         AnotherWindow.setWindowTitle(_translate("AnotherWindow", "Roster Rookies"))
-        self.view_players.setSortingEnabled(True)
+        self.view_players.setSortingEnabled(False)
         item = self.view_players.horizontalHeaderItem(1)
         item.setText(_translate("AnotherWindow", "Team Role"))
         item = self.view_players.horizontalHeaderItem(2)
@@ -688,7 +682,7 @@ class Ui_AnotherWindow(object):
         self.available_players_week_dropdown.setItemText(12, _translate("AnotherWindow", "Week 2"))
         self.available_players_week_dropdown.setItemText(13, _translate("AnotherWindow", "Week 1"))
         self.label_2.setText(_translate("AnotherWindow", "Display Count:"))
-        self.available_players.setSortingEnabled(True)
+        self.available_players.setSortingEnabled(False)
         item = self.available_players.horizontalHeaderItem(1)
         item.setText(_translate("AnotherWindow", "Player Name"))
         item = self.available_players.horizontalHeaderItem(2)
