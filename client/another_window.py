@@ -388,7 +388,7 @@ class AnotherWindow(QMainWindow):
             return
         
         if edit_team_dialog_box.accepted:
-            self.update_fantasy_teams(self.main_window.view_players_team_name_dropdown.count())
+            self.update_fantasy_teams(self.main_window.profile_fantasy_team_dropdown.count() - 1)
             self.update_available_players()
 
     def remove_team(self, team_name: str):
@@ -400,9 +400,10 @@ class AnotherWindow(QMainWindow):
 
         requests.post(url=url, json=post_data, verify=self.link.server_cert)
 
-        self.update_fantasy_teams(self.main_window.view_players_team_name_dropdown.count())
+        prev_index = self.main_window.profile_fantasy_team_dropdown.currentIndex()
+        self.update_fantasy_teams(prev_index)
         self.update_available_players()
-        
+
     def toggle_fullscreen(self):
         if self.isFullScreen():
             self.showNormal()
