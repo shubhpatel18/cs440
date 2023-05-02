@@ -6,7 +6,7 @@ from typing import Dict, Tuple, List
 
 import psycopg
 
-TEAM_ROLES = ['qb_id', 'rb_id', 'wr1_id', 'wr2_id', 'te_id', 'flex_id', 'center_id', 'lg_id', 'rg_id', 'punter_id', 'de1_id', 'de2_id', 'dt1_id', 'dt2_id', 'lb1_id', 'lb2_id', 'lb3_id', 'cb1_id', 'cb2_id', 's1_id', 's2_id', 'kicker_id']
+TEAM_ROLES = ['qb', 'rb', 'wr1', 'wr2', 'te', 'flex', 'center', 'lg', 'rg', 'punter', 'de1', 'de2', 'dt1', 'dt2', 'lb1', 'lb2', 'lb3', 'cb1', 'cb2', 's1', 's2', 'kicker']
 
 ROLE_TO_POSITIONS = {
 	'qb': ('QB',),
