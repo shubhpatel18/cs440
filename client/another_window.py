@@ -92,7 +92,7 @@ class AnotherWindow(QMainWindow):
         self.main_window.view_players_team_name_dropdown.setCurrentIndex(index)
 
     def fantasy_team_changed(self, index: int):
-        self.update_fantasy_teams()
+        self.update_fantasy_teams(index)
         self.update_available_players()
 
     def init_available_players(self):
@@ -175,7 +175,7 @@ class AnotherWindow(QMainWindow):
         r.close()
 
         # remember current index if one hasnt been set
-        index = index or self.main_window.view_players_team_name_dropdown.currentIndex()
+        index = index if index is not None else self.main_window.view_players_team_name_dropdown.currentIndex()
 
         if data['team_exists'] == True:
 
