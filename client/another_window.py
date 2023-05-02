@@ -55,7 +55,7 @@ class AnotherWindow(QMainWindow):
         self.main_window.create_new_team.clicked.connect(self.create_new_team)
         self.main_window.create_new_team_3.clicked.connect(self.create_new_team)
 
-        self.init_fantasy_team()
+        self.init_fantasy_teams()
         self.init_available_players()
         self.main_window.available_players_team_name_dropdown.setCurrentIndex(0)
         self.main_window.view_players_team_name_dropdown.setCurrentIndex(0)
@@ -75,7 +75,8 @@ class AnotherWindow(QMainWindow):
         self.main_window.view_players_label.setText('')
 
     def init_available_players(self):
-        self.update_available_players()
+        if self.main_window.available_players_team_name_dropdown.currentText():
+            self.update_available_players()
 
     def update_available_players(self):
         url = f'{self.link.server_address}:{self.link.server_port}/available_players'
@@ -124,9 +125,9 @@ class AnotherWindow(QMainWindow):
                 item.setFlags(item.flags() ^ Qt.ItemIsEditable)
                 self.main_window.available_players.setItem(row, column, item)
 
-        self.main_window.available_players.adjustSize()
+        self.main_window.available_players.resizeColumnToContents(0)
 
-    def init_fantasy_team(self):
+    def init_fantasy_teams(self):
         self.update_fantasy_teams()
 
     def update_fantasy_teams(self):
@@ -191,13 +192,14 @@ class AnotherWindow(QMainWindow):
                         item.setText(text)
                         self.main_window.view_players.setItem(row, column+1, item)  # skip button column
 
-            self.main_window.view_players.adjustSize()
+            self.main_window.view_players.resizeColumnToContents(0)
 
     def create_new_team(self):
         create_new_team_dialog = CreateNewTeamDialog(self.link)
         create_new_team_dialog.exec()
         if create_new_team_dialog.accepted:
             self.update_fantasy_teams()
+            self.update_available_players()
 
     def add_player(self):
         btn = self.sender()
