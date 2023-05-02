@@ -275,6 +275,8 @@ class AnotherWindow(QMainWindow):
         with open("client/resources/weights.json", "w") as outfile:
             outfile.write(json_object)
 
+        self.update_available_players()
+
     def open_change_password(self):
         change_password_dialog_box = ChangePasswordDialog(self.link)
 
