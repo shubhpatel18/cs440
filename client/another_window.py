@@ -194,7 +194,7 @@ class AnotherWindow(QMainWindow):
                 self.main_window.available_players_team_name_dropdown.addItem(fantasy_team_name)
                 self.main_window.view_players_team_name_dropdown.addItem(fantasy_team_name)
                 self.main_window.profile_fantasy_team_dropdown.addItem(fantasy_team_name)
-            if index >= 0:
+            if index >= 0 and index < self.main_window.view_players_team_name_dropdown.count():
                 self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
                 self.main_window.view_players_team_name_dropdown.setCurrentIndex(index)
                 self.main_window.profile_fantasy_team_dropdown.setCurrentIndex(index)
