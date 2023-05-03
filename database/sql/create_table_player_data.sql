@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.player_data
 	interceptions integer NOT NULL DEFAULT 0,
 	fumbles_recovered integer NOT NULL DEFAULT 0,
 	punting_yards integer NOT NULL DEFAULT 0,
-	fg_percentage integer NOT NULL DEFAULT 0,
+	fg_percentage float NOT NULL DEFAULT 0,
 	injury_status character varying(12) COLLATE pg_catalog."default" NOT NULL DEFAULT 'Healthy'::character varying,
 	college_id integer NOT NULL,
 	year integer NOT NULL,
