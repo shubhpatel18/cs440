@@ -142,7 +142,7 @@ class TauHTTPRequestHandler(BaseHTTPRequestHandler):
 				'valid_request': False,
 			}
 
-		fantasy_teams, user_exists, team_exists, error = self.db_helper.view_fantasy_teams(
+		fantasy_teams, user_exists, error = self.db_helper.view_fantasy_teams(
 			username, year, week,
 			receptions_multiplier, total_yards_multiplier, touchdowns_multiplier, turnovers_lost_mulitplier, sacks_multiplier, tackles_for_loss_multiplier, interceptions_multiplier, fumbles_recovered_multiplier, punting_yards_multiplier, fg_percentage_multiplier
 		)
