@@ -23,7 +23,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="view_team_tab">
        <attribute name="title">
@@ -372,117 +372,117 @@
          <widget class="QComboBox" name="team_role_combobox">
           <item>
            <property name="text">
-            <string>all</string>
+            <string>ALL</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>qb</string>
+            <string>QB</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>rb</string>
+            <string>RB</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>wr1</string>
+            <string>WR1</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>wr2</string>
+            <string>WR2</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>te</string>
+            <string>TE</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>flex</string>
+            <string>FLEX</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>center</string>
+            <string>CENTER</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>lg</string>
+            <string>LG</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>rg</string>
+            <string>RG</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>punter</string>
+            <string>PUNTER</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>de1</string>
+            <string>DE1</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>de2</string>
+            <string>DE2</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>dt1</string>
+            <string>DT1</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>dt2</string>
+            <string>DT2</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>lb1</string>
+            <string>LB1</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>lb2</string>
+            <string>LB2</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>lb3</string>
+            <string>LB3</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>cb1</string>
+            <string>CB1</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>cb2</string>
+            <string>CB2</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>s1</string>
+            <string>S1</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>s2</string>
+            <string>S2</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>kicker</string>
+            <string>KICKER</string>
            </property>
           </item>
          </widget>
