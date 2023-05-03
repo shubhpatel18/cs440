@@ -1,3 +1,7 @@
+### 0 | Update Sources #######################################################
+
+sudo apt update
+
 ### 1 | Install PostgreSQL ###################################################
 
 # https://www.digitalocean.com/community/tutorials/how-to-install-postgresql-on-ubuntu-20-04-quickstart
