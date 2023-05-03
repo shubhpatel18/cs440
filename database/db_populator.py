@@ -52,6 +52,16 @@ def main():
 	if not os.path.exists(data_logs_folder_path):
 		os.makedirs(data_logs_folder_path)
 
+	# get college data
+	print(f'Collecting {year} team record data for {college_names}')
+	colleges_data = get_conference_data(apikey, year, conference, colleges)
+
+	print(f'Publishing {year} team record data for {college_names}')
+	colleges_log_file_name = colleges_log_file_name_fmt.format(year=year)
+	colleges_log_file_path = os.path.join(data_logs_folder_path, colleges_log_file_name)
+	write_colleges_data(colleges_data, colleges_log_file_path)
+	publish_colleges_data(db_name, db_username, db_password, colleges_data)
+
 	# get data for each week, publish, and log
 	for week in weeks:
 		print(f'Collecting {year} week {week} player data for {college_names}')
@@ -62,16 +72,6 @@ def main():
 		players_log_file_path = os.path.join(data_logs_folder_path, players_log_file_name)
 		write_players_data(players_data, players_log_file_path)
 		publish_players_data(db_name, db_username, db_password, players_data, year, week)
-
-	# get college data
-	print(f'Collecting {year} team record data for {college_names}')
-	colleges_data = get_conference_data(apikey, year, conference, colleges)
-
-	print(f'Publishing {year} team record data for {college_names}')
-	colleges_log_file_name = colleges_log_file_name_fmt.format(year=year)
-	colleges_log_file_path = os.path.join(data_logs_folder_path, colleges_log_file_name)
-	write_colleges_data(colleges_data, colleges_log_file_path)
-	publish_colleges_data(db_name, db_username, db_password, colleges_data)
 
 ### helper functions #########################################################
 
