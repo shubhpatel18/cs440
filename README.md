@@ -1,4 +1,4 @@
-# {Application Name}
+# Roster Rookies
 
 ## About
 
@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 You will be prompted for an email address and password for `pgAdmin4`, save these.
 
-### User Configuration
+### Database User Configuration
 
 1. Access the `postgres` command line.
 
@@ -104,7 +104,7 @@ sudo systemctl restart postgresql.service
 
 ## Server
 
-### Connect to DB
+### Database Credentials
 
 Duplicate `server/resources/config_template.yaml` as `server/resources/config.yaml`,
 and fill in your database password. Do not commit this file to the repo.
@@ -137,4 +137,14 @@ Email Address []:tau@tau.com
 
 ```bash
 python3 server/server.py
+```
+
+## Client
+
+The client has been developed with PyQt.
+
+### Run Client
+
+```bash
+python3 client/main.py
 ```
