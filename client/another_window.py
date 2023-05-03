@@ -181,29 +181,29 @@ class AnotherWindow(QMainWindow):
         # remember current index if one hasnt been set
         index = index if index is not None else self.main_window.view_players_team_name_dropdown.currentIndex()
 
-        if data['fantasy_teams']:
-
-            # update team name dropdowns
-            self.main_window.available_players_team_name_dropdown.blockSignals(True)
-            self.main_window.view_players_team_name_dropdown.blockSignals(True)
-            self.main_window.profile_fantasy_team_dropdown.blockSignals(True)
-            self.main_window.available_players_team_name_dropdown.clear()
-            self.main_window.view_players_team_name_dropdown.clear()
-            self.main_window.profile_fantasy_team_dropdown.clear()
-            for fantasy_team_name in data['fantasy_teams']:
-                self.main_window.available_players_team_name_dropdown.addItem(fantasy_team_name)
-                self.main_window.view_players_team_name_dropdown.addItem(fantasy_team_name)
-                self.main_window.profile_fantasy_team_dropdown.addItem(fantasy_team_name)
-            if index >= 0 and index < self.main_window.view_players_team_name_dropdown.count():
-                self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
-                self.main_window.view_players_team_name_dropdown.setCurrentIndex(index)
-                self.main_window.profile_fantasy_team_dropdown.setCurrentIndex(index)
-            self.main_window.available_players_team_name_dropdown.blockSignals(False)
-            self.main_window.view_players_team_name_dropdown.blockSignals(False)
-            self.main_window.profile_fantasy_team_dropdown.blockSignals(False)
+        # update team name dropdowns
+        self.main_window.available_players_team_name_dropdown.blockSignals(True)
+        self.main_window.view_players_team_name_dropdown.blockSignals(True)
+        self.main_window.profile_fantasy_team_dropdown.blockSignals(True)
+        self.main_window.available_players_team_name_dropdown.clear()
+        self.main_window.view_players_team_name_dropdown.clear()
+        self.main_window.profile_fantasy_team_dropdown.clear()
+        for fantasy_team_name in data['fantasy_teams']:
+            self.main_window.available_players_team_name_dropdown.addItem(fantasy_team_name)
+            self.main_window.view_players_team_name_dropdown.addItem(fantasy_team_name)
+            self.main_window.profile_fantasy_team_dropdown.addItem(fantasy_team_name)
+        if index >= 0 and index < self.main_window.view_players_team_name_dropdown.count():
+            self.main_window.available_players_team_name_dropdown.setCurrentIndex(index)
+            self.main_window.view_players_team_name_dropdown.setCurrentIndex(index)
+            self.main_window.profile_fantasy_team_dropdown.setCurrentIndex(index)
+        self.main_window.available_players_team_name_dropdown.blockSignals(False)
+        self.main_window.view_players_team_name_dropdown.blockSignals(False)
+        self.main_window.profile_fantasy_team_dropdown.blockSignals(False)
+        
+        team_name = self.main_window.view_players_team_name_dropdown.currentText()
+        if data['fantasy_teams'] and team_name:
 
             # populate table with fantasy team data
-            team_name = self.main_window.view_players_team_name_dropdown.currentText()
             fantasy_team_data = data['fantasy_teams'][team_name]
             self.main_window.view_players.clearSelection()
             self.main_window.view_players.clearContents()
