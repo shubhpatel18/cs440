@@ -2,10 +2,8 @@
 
 ### publish player data ######################################################
 
-_players_columns = [
+_player_data_columns = [
 	('player_id', 			'%s'),
-	('player_name', 		'%s'),
-	('position', 			'%s'),
 	('receptions', 			'%s'),
 	('total_yards', 		'%s'),
 	('touchdowns', 			'%s'),
@@ -23,15 +21,13 @@ _players_columns = [
 ]
 
 # unpack _players_columns into the components of the insert statement
-_players_column_names, _players_column_data_types, = zip(*_players_columns)
-_players_column_names_str = ', '.join(_players_column_names)
-_players_data_types_str = ', '.join(_players_column_data_types)
+_player_data_column_names, _player_data_column_data_types, = zip(*_player_data_columns)
+_player_data_column_names_str = ', '.join(_player_data_column_names)
+_player_data_data_types_str = ', '.join(_player_data_column_data_types)
 
 def publish_player_data(cursor, data, year, week):
-	values = [
+	player_data_values = [
 		data['id'],
-		data['name'],
-		data['position'],
 		data['receptions'],
 		data['total_yards'],
 		data['touchdowns'],
@@ -49,7 +45,10 @@ def publish_player_data(cursor, data, year, week):
 	]
 
 	# insert the data into the database
-	cursor.execute(f'INSERT INTO players ({_players_column_names_str}) VALUES ({_players_data_types_str})', values)
+	cursor.execute(f'INSERT INTO players (player_id, player_name, position) VALUES (%s, %s, %s) ON CONFLICT DO NOTHING',
+		(data['id'], data['name'], data['position']))
+	cursor.execute(f'INSERT INTO player_data ({_player_data_column_names_str}) VALUES ({_player_data_data_types_str})',
+		(player_data_values))
 
 ### publish college data #####################################################
 
@@ -76,7 +75,8 @@ def publish_college_data(cursor, data):
 	]
 
 	# insert the data into the database
-	cursor.execute(f'INSERT INTO colleges ({_college_column_names_str}) VALUES ({_college_data_types_str})', values)
+	cursor.execute(f'INSERT INTO colleges ({_college_column_names_str}) VALUES ({_college_data_types_str}) ON CONFLICT DO NOTHING',
+		values)
 
 ### examples #################################################################
 

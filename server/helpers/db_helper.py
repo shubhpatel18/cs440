@@ -211,17 +211,19 @@ class TauDBHelper:
 								SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name, ROUND(actual_score::numeric, 2)::float AS actual_score,
 									COALESCE (ROUND(projected_score::numeric, 2)::float, 0.0) AS projected_score
 								FROM
-									(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+									(SELECT players.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
 									(%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) AS actual_score
-									FROM players join colleges
-										ON players.college_id=colleges.college_id
-									WHERE player_id=%s AND year=%s AND week=%s)
+									FROM players
+										JOIN player_data ON players.player_id=player_data.player_id
+										JOIN colleges ON player_data.college_id=colleges.college_id
+									WHERE players.player_id=%s AND year=%s AND week=%s)
 									AS player_info
 								LEFT JOIN
-									(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (1 + .2 * ( ( wins::float / (wins::float + ties::float + losses::float) ) - 0.5) * 2) AS projected_score
-									FROM players join colleges
-										ON players.college_id=colleges.college_id
-									WHERE player_id=%s AND year=%s AND week=%s)
+									(SELECT players.player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (1 + .2 * ( ( wins::float / (wins::float + ties::float + losses::float) ) - 0.5) * 2) AS projected_score
+									FROM players
+										JOIN player_data ON players.player_id=player_data.player_id
+										JOIN colleges ON player_data.college_id=colleges.college_id
+									WHERE players.player_id=%s AND year=%s AND week=%s)
 									AS projected_scores
 								ON player_info.player_id=projected_scores.player_id
 								""",
@@ -362,16 +364,18 @@ class TauDBHelper:
 					SELECT player_info.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name, ROUND(actual_score::numeric, 2)::float AS actual_score,
 						COALESCE (ROUND(projected_score::numeric, 2)::float, 0.0) AS projected_score
 					FROM
-						(SELECT player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
+						(SELECT players.player_id, player_name, position, receptions, total_yards, touchdowns, turnovers_lost, sacks, tackles_for_loss, interceptions, fumbles_recovered, punting_yards, fg_percentage, injury_status, college_name,
 						(%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) AS actual_score
-						FROM players join colleges
-							ON players.college_id=colleges.college_id
+						FROM players
+							JOIN player_data ON players.player_id=player_data.player_id
+							JOIN colleges ON player_data.college_id=colleges.college_id
 						WHERE position IN {positions_str} AND year=%s AND week=%s)
 						AS player_info
 					LEFT JOIN
-									(SELECT player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (1 + .2 * ( ( wins::float / (wins::float + ties::float + losses::float) ) - 0.5) * 2) AS projected_score
-						FROM players join colleges
-							ON players.college_id=colleges.college_id
+						(SELECT players.player_id, (%s*receptions + %s*total_yards + %s*touchdowns + %s*turnovers_lost + %s*sacks + %s*tackles_for_loss + %s*interceptions + %s*fumbles_recovered + %s*punting_yards + %s*fg_percentage) * (1 + .2 * ( ( wins::float / (wins::float + ties::float + losses::float) ) - 0.5) * 2) AS projected_score
+						FROM players
+							JOIN player_data ON players.player_id=player_data.player_id
+							JOIN colleges ON player_data.college_id=colleges.college_id
 						WHERE position IN {positions_str} AND year=%s AND week=%s)
 						AS projected_scores
 					ON player_info.player_id=projected_scores.player_id

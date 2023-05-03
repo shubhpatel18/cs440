@@ -90,9 +90,10 @@ sudo systemctl restart postgresql.service
 	4. Right click `Databases` and select `Refresh`. The `tau` database should appear.
 	5. Click the `tau` database. Once again, in the menu bar, click `Tools > Query Tool`.
 	6. Copy `databases/sql/create_table_colleges.sql` into the `Query` box, and click the "play" icon.
-	7. Copy `databases/sql/create_table_fantasy_teams.sql` into the `Query` box, and click the "play" icon.
+	7. Copy `databases/sql/create_table_users.sql` into the `Query` box, and click the "play" icon.
 	8. Copy `databases/sql/create_table_players.sql` into the `Query` box, and click the "play" icon.
-	9. Copy `databases/sql/create_table_users.sql` into the `Query` box, and click the "play" icon.
+	9. Copy `databases/sql/create_table_player_data.sql` into the `Query` box, and click the "play" icon.
+	10. Copy `databases/sql/create_table_fantasy_teams.sql` into the `Query` box, and click the "play" icon.
 
 3. Upload the `players` and `colleges` tables' data.
 
