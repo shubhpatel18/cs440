@@ -18,7 +18,9 @@ CREATE TABLE IF NOT EXISTS public.players
 	college_id integer NOT NULL,
 	year integer NOT NULL,
 	week integer NOT NULL,
-	CONSTRAINT players_pkey1 PRIMARY KEY (id)
+	UNIQUE (player_id, year, week),
+	CONSTRAINT players_pkey1 PRIMARY KEY (id),
+	CONSTRAINT fk_college_id FOREIGN KEY (college_id) REFERENCES colleges(college_id)
 ) TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.players OWNER to tau;
