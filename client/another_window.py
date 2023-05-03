@@ -55,6 +55,8 @@ class AnotherWindow(QMainWindow):
         self.main_window.edit_team.clicked.connect(lambda: self.open_team_edit(self.main_window.profile_fantasy_team_dropdown.currentText()))
         self.main_window.remove_team.clicked.connect(lambda: self.remove_team(self.main_window.profile_fantasy_team_dropdown.currentText()))
 
+        self.main_window.signout.clicked.connect(self.showMainWindow)
+
         self.shortcut_fullscreen = QShortcut(QKeySequence('F11'), self)
         self.shortcut_fullscreen.activated.connect(self.toggle_fullscreen)
 
@@ -85,6 +87,7 @@ class AnotherWindow(QMainWindow):
         self.main_window.team_role_combobox.currentIndexChanged.connect(self.update_available_players)
         self.main_window.count_spinbox.valueChanged.connect(self.update_available_players)
 
+        self.main_window.tabWidget.setCurrentIndex(0)
     def update_current_week(self, index: int):
         self.main_window.view_players_week_dropdown.setCurrentIndex(index)
         self.main_window.available_players_week_dropdown.setCurrentIndex(index)
@@ -419,4 +422,5 @@ class AnotherWindow(QMainWindow):
     # for use with signout button
     def showMainWindow(self):
         self.link.username = ""
+
         self.close()
