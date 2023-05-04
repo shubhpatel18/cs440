@@ -10,6 +10,11 @@ This project uses `PostgreSQL` and `pgAdmin4`.
 
 ### Installation
 
+This project requires python 3. To install this on Ubuntu run the following command:
+```bash
+apt install python3-pip
+```
+
 ```bash
 pip install -r requirements.txt
 ```
