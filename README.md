@@ -10,9 +10,10 @@ This project uses `PostgreSQL` and `pgAdmin4`.
 
 ### Installation
 
-This project requires python 3. To install this on Ubuntu run the following command:
+This project requires a few dependecies for installation. To install these dependecies on Ubuntu run the following command:
 ```bash
 apt install python3-pip
+apt install curl
 ```
 
 ```bash
@@ -80,7 +81,7 @@ sudo systemctl restart postgresql.service
 1. Establish an admin server connection.
 
 	1. Navigate to `http://localhost/pgadmin4` in a browser. Login using the credentials
-	you configured earlier.
+	you configured earlier for the postgres user.
 	2. Right click on `servers` in the left pane. Click `Register > Server`.
 	3. Under `General`, set the name to `postgres`.
 	4. Under `Connection`, set `Hostname/address`:`localhost`, `Username`:`postgres`,
@@ -104,7 +105,7 @@ sudo systemctl restart postgresql.service
 
 	1. Go to `https://collegefootballdata.com/key` and get an API key.
 	2. Add your API key to your `database/resources/config.yaml`.
-	3. Run `database/db_populator.py`.
+	3. Run `database/db_populator.py` using python3.
 	4. Check that the data is in your database, or if you got an errors.
 
 ## Server
